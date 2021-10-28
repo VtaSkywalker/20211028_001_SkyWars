@@ -8,10 +8,13 @@ class Player:
             玩家当前所处坐标位置
         velocity : float
             玩家的移动速度
+        crashBox : pygame.Rect
+            玩家的碰撞箱
     """
     def __init__(self, initPos):
         self.pos = initPos
         self.velocity = 5
+        self.crashBox = None
 
     def move(self, direction):
         """

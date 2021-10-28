@@ -13,7 +13,7 @@ class Stage:
     """
 
     def __init__(self) -> None:
-        self.screenSize = (800, 600)
+        self.screenSize = (400, 600)
         self.player = Player([self.screenSize[0] * 0.5, self.screenSize[1] * 0.95])
 
     def playerMove(self, direction) -> None:
