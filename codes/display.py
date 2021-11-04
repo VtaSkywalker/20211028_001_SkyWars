@@ -32,7 +32,8 @@ class Display:
         # 进入主循环
         while(True):
             for event in pygame.event.get():
-                pass
+                if(event.type == pygame.QUIT):
+                    exit(0)
             #     if(event.type == pygame.KEYDOWN):
             #         if(event.key == pygame.K_w):
             #             playerMovingUD = 1
@@ -55,6 +56,7 @@ class Display:
             #     self.stage.playewrMove(0)
             # elif playerMovingUD < 0:
             #     self.stage.playerMove(2)
+            # 玩家移动
             if(pygame.key.get_pressed()[pygame.K_w]):
                 self.stage.playerMove(0)
             if(pygame.key.get_pressed()[pygame.K_a]):
@@ -63,8 +65,12 @@ class Display:
                 self.stage.playerMove(2)
             if(pygame.key.get_pressed()[pygame.K_d]):
                 self.stage.playerMove(3)
+            # 时间流逝，延时，并同时更新时间戳
+            FRAME_INTERV = 17
+            pygame.time.delay(FRAME_INTERV)
+            self.stage.timeStamp += FRAME_INTERV
+            # 绘制并更新图像
             self.draw()
-            pygame.time.delay(17)
             pygame.display.update()
 
     def draw(self) -> None:

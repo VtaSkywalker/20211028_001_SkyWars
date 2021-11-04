@@ -10,11 +10,20 @@ class Player:
             玩家的移动速度
         crashBox : pygame.Rect
             玩家的碰撞箱
+        firePos : float[2]
+            炮口相对于飞机的位置
+        fireInterv : float
+            最小发射间隔时间，单位：ms
+        lastTimeFired : float
+            最近一次发射的时间戳
     """
     def __init__(self, initPos):
         self.pos = initPos
         self.velocity = 5
         self.crashBox = None
+        self.firePos = [0,0]
+        self.fireInterv = 160
+        self.lastTimeFired = 0 # 初始化最近发射时间戳为0
 
     def move(self, direction):
         """
