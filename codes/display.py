@@ -17,20 +17,14 @@ class Display:
         """
             进入游戏的主循环
         """
+        # 整个窗口的初始化
         pygame.init()
         self.screen = pygame.display.set_mode(self.stage.screenSize)
-        # 玩家信息初始化
-        self.playerImg = pygame.image.load("img/player.png")
-        playerScale = 5
-        self.playerImgRect_org = self.playerImg.get_rect()
-        self.playerImg = pygame.transform.scale(self.playerImg, (self.playerImgRect_org.size[0] * playerScale, self.playerImgRect_org.size[1] * playerScale))
-        self.playerImgRect = self.playerImg.get_rect()
-        self.stage.player.crashBox = self.playerImgRect
-        # 子弹信息初始化
-        self.playerBulletImg = pygame.image.load("img/playerBullet.png")
-        playerBulletScale = 1
-        self.playerBulletImgRect_org = self.playerBulletImg.get_rect()
-        self.playerBulletImg = pygame.transform.scale(self.playerBulletImg, (self.playerBulletImgRect_org.size[0] * playerBulletScale, self.playerBulletImgRect_org.size[1] * playerBulletScale))
+
+        # 各图像素材初始化
+        self.playerImg, self.playerImgRect = self.initImgSrc("img/player.png", scale=5) # 玩家信息初始化
+        self.playerBulletImg, self.playerBulletImgRect = self.initImgSrc("img/playerBullet.png", scale=1) # 子弹信息初始化
+
         # 进入主循环
         while(True):
             # 事件判定
@@ -106,6 +100,30 @@ class Display:
         FRAME_INTERV = 17
         pygame.time.delay(FRAME_INTERV)
         self.stage.timeStamp += FRAME_INTERV
+
+    def initImgSrc(self, imgSrc, scale):
+        """
+            显示图形界面
+
+            Parameters
+            ----------
+            imgSrc : string
+                素材图像名
+            scale : float
+                素材拉伸比例
+
+            Returns
+            -------
+            img : Surface
+                素材图像
+            rect : pygame.Rect
+                图像边框
+        """
+        img = pygame.image.load(imgSrc)
+        rect_org = img.get_rect()
+        img = pygame.transform.scale(img, (rect_org.size[0] * scale, rect_org.size[1] * scale))
+        rect = img.get_rect()
+        return [img, rect]
 
 if __name__ == "__main__":
     display = Display()
