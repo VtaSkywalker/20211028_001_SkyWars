@@ -33,29 +33,21 @@ class Display:
         self.playerBulletImg = pygame.transform.scale(self.playerBulletImg, (self.playerBulletImgRect_org.size[0] * playerBulletScale, self.playerBulletImgRect_org.size[1] * playerBulletScale))
         # 进入主循环
         while(True):
+            # 事件判定
             for event in pygame.event.get():
                 if(event.type == pygame.QUIT):
                     exit(0)
-            # 玩家移动
-            if(pygame.key.get_pressed()[pygame.K_w]):
-                self.stage.playerMove(0)
-            if(pygame.key.get_pressed()[pygame.K_a]):
-                self.stage.playerMove(1)
-            if(pygame.key.get_pressed()[pygame.K_s]):
-                self.stage.playerMove(2)
-            if(pygame.key.get_pressed()[pygame.K_d]):
-                self.stage.playerMove(3)
-            # 子弹发射
-            if(pygame.key.get_pressed()[pygame.K_k]):
-                self.stage.playerFire()
-            # 时间流逝，进行每一帧的刷新，并同时更新时间戳
-            # 子弹向前推移
-            for eachBullet in self.stage.bulletContainer:
-                eachBullet.move()
-            # 时间戳更新
-            FRAME_INTERV = 17
-            pygame.time.delay(FRAME_INTERV)
-            self.stage.timeStamp += FRAME_INTERV
+
+            # 根据按键作出响应
+            self.playerMove() # 玩家移动
+            self.playerFire() # 玩家子弹发射判定
+
+            # 随着时间流逝，进行每一帧的刷新
+            self.bulletMove() # 子弹向前推移
+
+            # 更新时间戳
+            self.updateTimeStamp()
+
             # 绘制并更新图像
             self.draw()
             pygame.display.update()
@@ -80,6 +72,40 @@ class Display:
                 eachBulletImgRect.centery = eachBullet.pos[1]
             self.screen.blit(eachBulletImg, eachBulletImgRect)
         return
+
+    def playerMove(self) -> None:
+        """
+            在每一帧的循环中，更新玩家移动信息
+        """
+        if(pygame.key.get_pressed()[pygame.K_w]):
+            self.stage.playerMove(0)
+        if(pygame.key.get_pressed()[pygame.K_a]):
+            self.stage.playerMove(1)
+        if(pygame.key.get_pressed()[pygame.K_s]):
+            self.stage.playerMove(2)
+        if(pygame.key.get_pressed()[pygame.K_d]):
+            self.stage.playerMove(3)
+
+    def playerFire(self) -> None:
+        """
+            在每一帧的循环中，判断玩家是否发射子弹
+        """
+        if(pygame.key.get_pressed()[pygame.K_k]):
+            self.stage.playerFire()
+
+    def bulletMove(self) -> None:
+        """
+            随着每一帧的更新，刷新子弹的位置
+        """
+        self.stage.updateFire()
+
+    def updateTimeStamp(self) -> None:
+        """
+            更新时间戳
+        """
+        FRAME_INTERV = 17
+        pygame.time.delay(FRAME_INTERV)
+        self.stage.timeStamp += FRAME_INTERV
 
 if __name__ == "__main__":
     display = Display()
