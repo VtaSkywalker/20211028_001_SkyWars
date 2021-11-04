@@ -6,7 +6,7 @@ class BaseBullet:
         ----------
         pos : float[2]
             子弹当前位置
-        velocity : float
+        velocity : float[2]
             子弹发射速度
     """
     def __init__(self, pos, velocity):
@@ -31,4 +31,4 @@ class PlayerBullet(BaseBullet):
     """
     def __init__(self, pos, velocity):
         BaseBullet.__init__(self, pos, velocity)
-        self.srcImg = "xxx.png"
+        self.srcImg = "playerBullet.png"

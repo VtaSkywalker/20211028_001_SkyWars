@@ -26,36 +26,16 @@ class Display:
         self.playerImg = pygame.transform.scale(self.playerImg, (self.playerImgRect_org.size[0] * playerScale, self.playerImgRect_org.size[1] * playerScale))
         self.playerImgRect = self.playerImg.get_rect()
         self.stage.player.crashBox = self.playerImgRect
-        # isMoving = False
-        # playerMovingLR = 0
-        # playerMovingUD = 0
+        # 子弹信息初始化
+        self.playerBulletImg = pygame.image.load("img/playerBullet.png")
+        playerBulletScale = 1
+        self.playerBulletImgRect_org = self.playerBulletImg.get_rect()
+        self.playerBulletImg = pygame.transform.scale(self.playerBulletImg, (self.playerBulletImgRect_org.size[0] * playerBulletScale, self.playerBulletImgRect_org.size[1] * playerBulletScale))
         # 进入主循环
         while(True):
             for event in pygame.event.get():
                 if(event.type == pygame.QUIT):
                     exit(0)
-            #     if(event.type == pygame.KEYDOWN):
-            #         if(event.key == pygame.K_w):
-            #             playerMovingUD = 1
-            #         if(event.key == pygame.K_a):
-            #             playerMovingLR = -1
-            #         if(event.key == pygame.K_s):
-            #             playerMovingUD = -1
-            #         if(event.key == pygame.K_d):
-            #             playerMovingLR = 1
-            #     elif(event.type == pygame.KEYUP):
-            #         if event.key == pygame.K_w or event.key == pygame.K_s:
-            #             playerMovingUD = 0
-            #         if event.key == pygame.K_a or event.key == pygame.K_d:
-            #             playerMovingLR = 0
-            # if playerMovingLR > 0:
-            #     self.stage.playerMove(3)
-            # elif playerMovingLR < 0:
-            #     self.stage.playerMove(1)
-            # if playerMovingUD > 0:
-            #     self.stage.playewrMove(0)
-            # elif playerMovingUD < 0:
-            #     self.stage.playerMove(2)
             # 玩家移动
             if(pygame.key.get_pressed()[pygame.K_w]):
                 self.stage.playerMove(0)
@@ -65,7 +45,14 @@ class Display:
                 self.stage.playerMove(2)
             if(pygame.key.get_pressed()[pygame.K_d]):
                 self.stage.playerMove(3)
-            # 时间流逝，延时，并同时更新时间戳
+            # 子弹发射
+            if(pygame.key.get_pressed()[pygame.K_k]):
+                self.stage.playerFire()
+            # 时间流逝，进行每一帧的刷新，并同时更新时间戳
+            # 子弹向前推移
+            for eachBullet in self.stage.bulletContainer:
+                eachBullet.move()
+            # 时间戳更新
             FRAME_INTERV = 17
             pygame.time.delay(FRAME_INTERV)
             self.stage.timeStamp += FRAME_INTERV
@@ -77,10 +64,21 @@ class Display:
         """
             绘制图像
         """
+        # 初始化-黑屏
         self.screen.fill((0,0,0))
+        # 玩家飞机显示
         self.playerImgRect.centerx = self.stage.player.pos[0]
         self.playerImgRect.centery = self.stage.player.pos[1]
         self.screen.blit(self.playerImg, self.playerImgRect)
+        # 子弹显示
+        for eachBullet in self.stage.bulletContainer:
+            # 玩家子弹情形
+            if(eachBullet.__class__.__name__ == "PlayerBullet"):
+                eachBulletImg = self.playerBulletImg
+                eachBulletImgRect = eachBulletImg.get_rect()
+                eachBulletImgRect.centerx = eachBullet.pos[0]
+                eachBulletImgRect.centery = eachBullet.pos[1]
+            self.screen.blit(eachBulletImg, eachBulletImgRect)
         return
 
 if __name__ == "__main__":

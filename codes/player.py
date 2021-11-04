@@ -21,7 +21,7 @@ class Player:
         self.pos = initPos
         self.velocity = 5
         self.crashBox = None
-        self.firePos = [0,0]
+        self.firePos = [0,-35]
         self.fireInterv = 160
         self.lastTimeFired = 0 # 初始化最近发射时间戳为0
 

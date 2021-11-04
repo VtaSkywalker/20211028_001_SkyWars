@@ -63,8 +63,10 @@ class Stage:
             return
         # 生成子弹后，将其加入到子弹容器中
         newBulletPos = [self.player.pos[0]+self.player.firePos[0],self.player.pos[1]+self.player.firePos[1]]
-        newBullet = PlayerBullet(newBulletPos, 10)
+        newBullet = PlayerBullet(newBulletPos, [0, -10])
         self.bulletContainer.append(newBullet)
+        # 发射子弹后，更新玩家最近发射时间
+        self.player.lastTimeFired = self.timeStamp
 
     def updateFire(self):
         """
