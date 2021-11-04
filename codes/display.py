@@ -26,34 +26,43 @@ class Display:
         self.playerImg = pygame.transform.scale(self.playerImg, (self.playerImgRect_org.size[0] * playerScale, self.playerImgRect_org.size[1] * playerScale))
         self.playerImgRect = self.playerImg.get_rect()
         self.stage.player.crashBox = self.playerImgRect
-        isMoving = False
-        playerMovingLR = 0
-        playerMovingUD = 0
+        # isMoving = False
+        # playerMovingLR = 0
+        # playerMovingUD = 0
         # 进入主循环
         while(True):
             for event in pygame.event.get():
-                if(event.type == pygame.KEYDOWN):
-                    if(event.key == pygame.K_w):
-                        playerMovingUD = 1
-                    if(event.key == pygame.K_a):
-                        playerMovingLR = -1
-                    if(event.key == pygame.K_s):
-                        playerMovingUD = -1
-                    if(event.key == pygame.K_d):
-                        playerMovingLR = 1
-                elif(event.type == pygame.KEYUP):
-                    if event.key == pygame.K_w or event.key == pygame.K_s:
-                        playerMovingUD = 0
-                    if event.key == pygame.K_a or event.key == pygame.K_d:
-                        playerMovingLR = 0
-            if playerMovingLR > 0:
-                self.stage.playerMove(3)
-            elif playerMovingLR < 0:
-                self.stage.playerMove(1)
-            if playerMovingUD > 0:
+                pass
+            #     if(event.type == pygame.KEYDOWN):
+            #         if(event.key == pygame.K_w):
+            #             playerMovingUD = 1
+            #         if(event.key == pygame.K_a):
+            #             playerMovingLR = -1
+            #         if(event.key == pygame.K_s):
+            #             playerMovingUD = -1
+            #         if(event.key == pygame.K_d):
+            #             playerMovingLR = 1
+            #     elif(event.type == pygame.KEYUP):
+            #         if event.key == pygame.K_w or event.key == pygame.K_s:
+            #             playerMovingUD = 0
+            #         if event.key == pygame.K_a or event.key == pygame.K_d:
+            #             playerMovingLR = 0
+            # if playerMovingLR > 0:
+            #     self.stage.playerMove(3)
+            # elif playerMovingLR < 0:
+            #     self.stage.playerMove(1)
+            # if playerMovingUD > 0:
+            #     self.stage.playewrMove(0)
+            # elif playerMovingUD < 0:
+            #     self.stage.playerMove(2)
+            if(pygame.key.get_pressed()[pygame.K_w]):
                 self.stage.playerMove(0)
-            elif playerMovingUD < 0:
+            if(pygame.key.get_pressed()[pygame.K_a]):
+                self.stage.playerMove(1)
+            if(pygame.key.get_pressed()[pygame.K_s]):
                 self.stage.playerMove(2)
+            if(pygame.key.get_pressed()[pygame.K_d]):
+                self.stage.playerMove(3)
             self.draw()
             pygame.time.delay(17)
             pygame.display.update()
