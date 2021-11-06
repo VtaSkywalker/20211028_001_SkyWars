@@ -1,1 +1,1 @@
-SkyWars by pygame
+SkyWars
