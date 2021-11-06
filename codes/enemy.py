@@ -49,3 +49,15 @@ class BaseEnemy:
         """
         self.crashBox[0] *= scale
         self.crashBox[1] *= scale
+
+class OneHpEnemy(BaseEnemy):
+    """
+        1血敌人类，被打一下就没了
+    """
+    def __init__(self, pos, velocity):
+        hp = 1
+        atk = 5
+        defen = 0
+        srcImg = "..."
+        crashBox = [-1, -1]
+        BaseEnemy.__init__(self, hp, atk, defen, srcImg, crashBox, pos=pos, velocity=velocity)
