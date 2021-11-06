@@ -8,10 +8,13 @@ class BaseBullet:
             子弹当前位置
         velocity : float[2]
             子弹发射速度
+        srcImg : string
+            图像素材所在路径
     """
-    def __init__(self, pos, velocity):
+    def __init__(self, pos, velocity, srcImg):
         self.pos = pos
         self.velocity = velocity
+        self.srcImg = None
 
     def move(self):
         """
@@ -26,9 +29,6 @@ class PlayerBullet(BaseBullet):
 
         Attributes
         ----------
-        srcImg : string
-            图像素材所在路径
     """
     def __init__(self, pos, velocity):
-        BaseBullet.__init__(self, pos, velocity)
-        self.srcImg = "playerBullet.png"
+        BaseBullet.__init__(self, pos, velocity, "playerBullet.png")
