@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<XMI xmi.version="1.2" timestamp="2021-11-06T22:48:37" verified="false" xmlns:UML="http://schema.omg.org/spec/UML/1.4">
+<XMI xmi.version="1.2" timestamp="2021-11-06T23:15:39" verified="false" xmlns:UML="http://schema.omg.org/spec/UML/1.4">
  <XMI.header>
   <XMI.documentation>
    <XMI.exporter>umbrello uml modeller 2.32.3 http://umbrello.kde.org</XMI.exporter>
@@ -37,6 +37,7 @@
         <UML:DataType isSpecification="false" isLeaf="false" isRoot="false" isAbstract="false" xmi.id="ukgMOlXBsov0I" name="int[2]" namespace="Datatypes" visibility="public" elementReference="udO493WFs8CGq"/>
         <UML:DataType isSpecification="false" isLeaf="false" isRoot="false" isAbstract="false" xmi.id="uM0D0dCvfwkoW" name="float[2]" namespace="Datatypes" visibility="public" elementReference="u8wrz4J1pCgHg"/>
         <UML:DataType isSpecification="false" isLeaf="false" isRoot="false" isAbstract="false" xmi.id="uI4I3ow8HgdUn" name="BaseBullet[]" namespace="Datatypes" visibility="public" elementReference="uKAcBwxAw9iK0"/>
+        <UML:DataType isSpecification="false" isLeaf="false" isRoot="false" isAbstract="false" xmi.id="udf8zDgp9jhfv" name="BaseEnemy[]" namespace="Datatypes" visibility="public" elementReference="uRjKoyhtpw9we"/>
        </UML:Namespace.ownedElement>
       </UML:Package>
       <UML:Class isSpecification="false" isLeaf="false" isRoot="false" isAbstract="false" xmi.id="uJdX7FUnO3dXD" name="Stage Class" namespace="Logical_View" visibility="public">
@@ -45,6 +46,7 @@
         <UML:Attribute isSpecification="false" xmi.id="uDNFaQHKiz3co" name="player" comment="玩家变量" visibility="private" type="uVuUqvOu1pODU"/>
         <UML:Attribute isSpecification="false" xmi.id="uFde3C3CiuZZI" name="bulletContainer" comment="使用列表存储场景中的所有子弹" visibility="private" type="uI4I3ow8HgdUn"/>
         <UML:Attribute isSpecification="false" xmi.id="ubApeHVq7Zf2A" name="timeStamp" comment="时间戳" visibility="private" type="u8wrz4J1pCgHg"/>
+        <UML:Attribute isSpecification="false" xmi.id="uL1rtNIhgQGTr" name="enemyContainer" comment="敌人容器，包含所有在场的敌人" visibility="private" type="udf8zDgp9jhfv"/>
         <UML:Operation isSpecification="false" isLeaf="false" isRoot="false" isAbstract="false" xmi.id="u4HqrEbpHVEUB" name="playerMove" comment="玩家移动" visibility="public" isQuery="false" isOverride="false" isVirtual="false" isInline="false">
          <UML:BehavioralFeature.parameter>
           <UML:Parameter xmi.id="uzYKoMJI50qnW" type="uW5NDJiYxjQ15" kind="return"/>
@@ -65,6 +67,15 @@
           <UML:Parameter isSpecification="false" xmi.id="uoPOFDajnncs0" name="pos" comment="待判断的坐标" visibility="private" type="uM0D0dCvfwkoW" value=""/>
          </UML:BehavioralFeature.parameter>
         </UML:Operation>
+        <UML:Operation isSpecification="false" isLeaf="false" isRoot="false" isAbstract="false" xmi.id="uwRAEA0ziUdxp" name="enemyMove" comment="敌人移动" visibility="public" isQuery="false" isOverride="false" isVirtual="false" isInline="false"/>
+        <UML:Operation isSpecification="false" isLeaf="false" isRoot="false" isAbstract="false" xmi.id="uhKYKNbH7B9Wu" name="enemyEliminate" comment="逐个判断敌人的状态，并删除场外或已被消灭的敌人" visibility="public" isQuery="false" isOverride="false" isVirtual="false" isInline="false"/>
+        <UML:Operation isSpecification="false" isLeaf="false" isRoot="false" isAbstract="false" xmi.id="uu0kXGhHFJmLk" name="checkBulletCrash" comment="检查敌人是否被某个子弹命中" visibility="public" isQuery="false" isOverride="false" isVirtual="false" isInline="false">
+         <UML:BehavioralFeature.parameter>
+          <UML:Parameter xmi.id="uPtZTVRTBVAuJ" type="uW5NDJiYxjQ15" kind="return"/>
+          <UML:Parameter isSpecification="false" xmi.id="uARomjwICyQGm" name="enemyPos" comment="敌人的位置" visibility="private" type="uM0D0dCvfwkoW" value=""/>
+          <UML:Parameter isSpecification="false" xmi.id="ufWlW2LBCFNR3" name="bulletPos" comment="子弹的位置" visibility="private" type="uM0D0dCvfwkoW" value=""/>
+         </UML:BehavioralFeature.parameter>
+        </UML:Operation>
        </UML:Classifier.feature>
       </UML:Class>
       <UML:Class isSpecification="false" isLeaf="false" isRoot="false" isAbstract="false" xmi.id="u2oAJzq7QVPRE" name="Player Class" namespace="Logical_View" visibility="public">
@@ -76,7 +87,7 @@
         <UML:Attribute isSpecification="false" xmi.id="uOA6q6DGpvkl3" name="fireInterv" comment="最小发射间隔时间，单位：ms" visibility="private" type="u8wrz4J1pCgHg"/>
         <UML:Attribute isSpecification="false" xmi.id="ugwF5aJVho9py" name="lastTimeFired" comment="最近一次发射的时间戳" visibility="private" type="u8wrz4J1pCgHg"/>
         <UML:Attribute isSpecification="false" xmi.id="uFpRmJFuH43X9" name="atk" comment="攻击力" visibility="private" type="u8wrz4J1pCgHg"/>
-        <UML:Attribute isSpecification="false" xmi.id="u8vNtIdY7ynua" name="def" comment="防御力" visibility="private" type="u8wrz4J1pCgHg"/>
+        <UML:Attribute isSpecification="false" xmi.id="u8vNtIdY7ynua" name="defen" comment="防御力" visibility="private" type="u8wrz4J1pCgHg"/>
         <UML:Operation isSpecification="false" isLeaf="false" isRoot="false" isAbstract="false" xmi.id="uXFFjqqmk1duX" name="move" comment="按指定方向移动&#10;0: up&#10;1: left&#10;2: down&#10;3: right" visibility="public" isQuery="false" isOverride="false" isVirtual="false" isInline="false">
          <UML:BehavioralFeature.parameter>
           <UML:Parameter isSpecification="false" xmi.id="u20aUGGoL8haL" name="direction" comment="0: up&#10;1: left&#10;2: down&#10;3: right" visibility="private" type="udO493WFs8CGq" value=""/>
@@ -146,46 +157,61 @@
        </UML:Association.connection>
       </UML:Association>
       <UML:Class isSpecification="false" isLeaf="false" isRoot="false" isAbstract="false" xmi.id="ueBR0cVkhvAwg" name="BaseEnemy Class" namespace="Logical_View" comment="敌人基类" visibility="public">
+       <UML:GeneralizableElement.generalization/>
        <UML:Classifier.feature>
         <UML:Attribute isSpecification="false" xmi.id="uDxEfPR47GzBA" name="hp" comment="血量" visibility="private" type="u8wrz4J1pCgHg"/>
         <UML:Attribute isSpecification="false" xmi.id="uSzvZyQtYt9Tl" name="atk" comment="攻击力" visibility="private" type="u8wrz4J1pCgHg"/>
-        <UML:Attribute isSpecification="false" xmi.id="ufxTVHsJni3IK" name="def" comment="防御力" visibility="private" type="u8wrz4J1pCgHg"/>
+        <UML:Attribute isSpecification="false" xmi.id="ufxTVHsJni3IK" name="defen" comment="防御力" visibility="private" type="u8wrz4J1pCgHg"/>
         <UML:Attribute isSpecification="false" xmi.id="u6R5oUYrJDboo" name="srcImg" comment="素材图片路径" visibility="private" type="uAwjkOd2rRXjS"/>
+        <UML:Attribute isSpecification="false" xmi.id="uqvZXe08gBtsJ" name="crashBox" comment="敌人的碰撞箱，数组两个元素分别代表在x/y方向上距中心的距离" visibility="private" type="uM0D0dCvfwkoW"/>
+        <UML:Attribute isSpecification="false" xmi.id="uqfK75KoJHrCS" name="pos" comment="当前所处位置" visibility="private" type="uM0D0dCvfwkoW"/>
+        <UML:Attribute isSpecification="false" xmi.id="uVHOTGPFC9QG7" name="velocity" comment="移动速度" visibility="private" type="uM0D0dCvfwkoW"/>
         <UML:Operation isSpecification="false" isLeaf="false" isRoot="false" isAbstract="false" xmi.id="uaV9uiaNqeXnx" name="move" comment="敌人最基本的移动方式，左右来回，稳步前进" visibility="public" isQuery="false" isOverride="false" isVirtual="false" isInline="false"/>
+        <UML:Operation isSpecification="false" isLeaf="false" isRoot="false" isAbstract="false" xmi.id="upkBzk32Mzg8n" name="crashBoxRescale" comment="碰撞箱随着图像尺寸放大而放大" visibility="public" isQuery="false" isOverride="false" isVirtual="false" isInline="false">
+         <UML:BehavioralFeature.parameter>
+          <UML:Parameter isSpecification="false" xmi.id="uviMT54SNw5yT" name="scale" comment="放大倍率" visibility="private" type="u8wrz4J1pCgHg" value=""/>
+         </UML:BehavioralFeature.parameter>
+        </UML:Operation>
        </UML:Classifier.feature>
       </UML:Class>
-      <UML:Class isSpecification="false" isLeaf="false" isRoot="false" isAbstract="false" xmi.id="uzBzM2t9z3jmv" name="OneHpEnemy Class" namespace="Logical_View" comment="1血敌人类，被打一下就没了" visibility="public"/>
+      <UML:Class isSpecification="false" isLeaf="false" isRoot="false" isAbstract="false" xmi.id="uzBzM2t9z3jmv" name="OneHpEnemy Class" namespace="Logical_View" comment="1血敌人类，被打一下就没了" visibility="public">
+       <UML:GeneralizableElement.generalization>
+        <UML:Generalization xmi.idref="uwdOvLeWomCqN"/>
+       </UML:GeneralizableElement.generalization>
+      </UML:Class>
+      <UML:Generalization isSpecification="false" xmi.id="uwdOvLeWomCqN" name="" namespace="Logical_View" visibility="public" discriminator="" child="uzBzM2t9z3jmv" parent="ueBR0cVkhvAwg"/>
+      <UML:Class isSpecification="false" isLeaf="false" isRoot="false" isAbstract="false" xmi.id="uRjKoyhtpw9we" name="BaseEnemy" namespace="Logical_View" visibility="public"/>
+      <UML:Association isSpecification="false" xmi.id="upy1UakdSXQdy" name="" namespace="Logical_View" visibility="public">
+       <UML:Association.connection>
+        <UML:AssociationEnd isSpecification="false" xmi.id="uMcdzgtAJstAg" name="" visibility="public" type="uJdX7FUnO3dXD" aggregation="none" isNavigable="false" visibility="public" changeability="changeable"/>
+        <UML:AssociationEnd isSpecification="false" xmi.id="uuJnERdD15XPC" name="" visibility="public" type="ueBR0cVkhvAwg" aggregation="none" isNavigable="true" visibility="public" changeability="changeable"/>
+       </UML:Association.connection>
+      </UML:Association>
      </UML:Namespace.ownedElement>
      <XMI.extension xmi.extender="umbrello">
       <diagrams resolution="96">
-       <diagram xmi.id="uHzCT3D9Iy5oR" name="类图" type="1" documentation="" backgroundcolor="#ffffff" fillcolor="#ffff00" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0" griddotcolor="#d3d3d3" linecolor="#ff0000" linewidth="0" textcolor="#000000" usefillcolor="1" showattribassocs="1" showatts="1" showattsig="1" showops="1" showopsig="1" showpackage="1" showpubliconly="0" showscope="1" showstereotype="2" localid="-1" showgrid="0" snapgrid="0" snapcsgrid="0" snapx="25" snapy="25" zoom="107.613" canvasheight="486.568" canvaswidth="687.276" isopen="1">
+       <diagram xmi.id="uHzCT3D9Iy5oR" name="类图" type="1" documentation="" backgroundcolor="#ffffff" fillcolor="#ffff00" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0" griddotcolor="#d3d3d3" linecolor="#ff0000" linewidth="0" textcolor="#000000" usefillcolor="1" showattribassocs="1" showatts="1" showattsig="1" showops="1" showopsig="1" showpackage="1" showpubliconly="0" showscope="1" showstereotype="2" localid="-1" showgrid="0" snapgrid="0" snapcsgrid="0" snapx="25" snapy="25" zoom="107.613" canvasheight="606.738" canvaswidth="906.731" isopen="1">
         <widgets>
-         <classwidget xmi.id="uJdX7FUnO3dXD" localid="uTd0xxUmBdsth" textcolor="#000000" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="0" usesdiagramusefillcolor="0" fillcolor="#ffff00" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0,Regular" autoresize="0" x="-242.682" y="-149.964" width="261" height="164.053" isinstance="0" showstereotype="2" showoperations="1" showpubliconly="0" showopsigs="601" showpackage="1" showscope="1" showattributes="1" showattsigs="601" showstereotype="2"/>
-         <classwidget xmi.id="uSoWDDhLE8OXE" localid="u5jQ1uvAYza3l" textcolor="#000000" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="0" usesdiagramusefillcolor="0" fillcolor="#ffff00" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0,Regular" autoresize="0" x="-226.012" y="-344.894" width="245.405" height="142.936" isinstance="0" showstereotype="2" showoperations="1" showpubliconly="0" showopsigs="601" showpackage="1" showscope="1" showattributes="1" showattsigs="601" showstereotype="2"/>
-         <classwidget xmi.id="u2oAJzq7QVPRE" localid="ukmlyyZvbkkim" textcolor="#000000" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="0" usesdiagramusefillcolor="0" fillcolor="#ffff00" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0,Regular" autoresize="0" x="181.184" y="-159.108" width="139" height="150" isinstance="0" showstereotype="2" showoperations="1" showpubliconly="0" showopsigs="601" showpackage="1" showscope="1" showattributes="1" showattsigs="601" showstereotype="2"/>
          <classwidget xmi.id="uoAlix3IIL4vr" localid="ukgbatPoiJ96r" textcolor="#000000" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="0" usesdiagramusefillcolor="0" fillcolor="#ffff00" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0,Regular" autoresize="0" x="321.265" y="-314.391" width="114" height="65.7171" isinstance="0" showstereotype="2" showoperations="1" showpubliconly="0" showopsigs="601" showpackage="1" showscope="1" showattributes="1" showattsigs="601" showstereotype="2"/>
+         <classwidget xmi.id="uSoWDDhLE8OXE" localid="u5jQ1uvAYza3l" textcolor="#000000" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="0" usesdiagramusefillcolor="0" fillcolor="#ffff00" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0,Regular" autoresize="0" x="-345.886" y="-343.035" width="245.405" height="142.936" isinstance="0" showstereotype="2" showoperations="1" showpubliconly="0" showopsigs="601" showpackage="1" showscope="1" showattributes="1" showattsigs="601" showstereotype="2"/>
+         <classwidget xmi.id="uJdX7FUnO3dXD" localid="uTd0xxUmBdsth" textcolor="#000000" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="0" usesdiagramusefillcolor="0" fillcolor="#ffff00" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0,Regular" autoresize="0" x="-401.585" y="-137.884" width="390" height="214.233" isinstance="0" showstereotype="2" showoperations="1" showpubliconly="0" showopsigs="601" showpackage="1" showscope="1" showattributes="1" showattsigs="601" showstereotype="2"/>
+         <classwidget xmi.id="u2oAJzq7QVPRE" localid="ukmlyyZvbkkim" textcolor="#000000" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="0" usesdiagramusefillcolor="0" fillcolor="#ffff00" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0,Regular" autoresize="0" x="181.184" y="-159.108" width="139" height="150" isinstance="0" showstereotype="2" showoperations="1" showpubliconly="0" showopsigs="601" showpackage="1" showscope="1" showattributes="1" showattsigs="601" showstereotype="2"/>
          <classwidget xmi.id="unrU7OWVqGMRD" localid="uFfDqaSIIxMdo" textcolor="#000000" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="0" usesdiagramusefillcolor="0" fillcolor="#ffff00" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0,Regular" autoresize="0" x="111.888" y="-333.516" width="114" height="125.124" isinstance="0" showstereotype="2" showoperations="1" showpubliconly="0" showopsigs="601" showpackage="1" showscope="1" showattributes="1" showattsigs="601" showstereotype="2"/>
-         <classwidget xmi.id="ueBR0cVkhvAwg" localid="uiMEmswhPwEhS" textcolor="#000000" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="0" usesdiagramusefillcolor="0" fillcolor="#ffff00" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0,Regular" autoresize="0" x="110.421" y="35.6446" width="111" height="106.029" isinstance="0" showstereotype="2" showoperations="1" showpubliconly="0" showopsigs="601" showpackage="1" showscope="1" showattributes="1" showattsigs="601" showstereotype="2"/>
-         <classwidget xmi.id="uzBzM2t9z3jmv" localid="u0peByAazBxCN" textcolor="#000000" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="0" usesdiagramusefillcolor="0" fillcolor="#ffff00" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0,Regular" autoresize="0" x="320.594" y="47.3922" width="124" height="51.3022" isinstance="0" showstereotype="2" showoperations="1" showpubliconly="0" showopsigs="601" showpackage="1" showscope="1" showattributes="1" showattsigs="601" showstereotype="2"/>
+         <classwidget xmi.id="ueBR0cVkhvAwg" localid="uiMEmswhPwEhS" textcolor="#000000" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="0" usesdiagramusefillcolor="0" fillcolor="#ffff00" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0,Regular" autoresize="0" x="91.8363" y="113.702" width="192" height="150" isinstance="0" showstereotype="2" showoperations="1" showpubliconly="0" showopsigs="601" showpackage="1" showscope="1" showattributes="1" showattsigs="601" showstereotype="2"/>
+         <classwidget xmi.id="uzBzM2t9z3jmv" localid="u0peByAazBxCN" textcolor="#000000" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="0" usesdiagramusefillcolor="0" fillcolor="#ffff00" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0,Regular" autoresize="0" x="381.145" y="125.134" width="124" height="51.3022" isinstance="0" showstereotype="2" showoperations="1" showpubliconly="0" showopsigs="601" showpackage="1" showscope="1" showattributes="1" showattsigs="601" showstereotype="2"/>
         </widgets>
         <messages/>
         <associations>
          <assocwidget xmi.id="urnCwHoWU8DON" localid="ujkiiaMhJZw3N" textcolor="none" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="1" usesdiagramusefillcolor="1" fillcolor="none" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0" autoresize="1" seqnum="" xmi.id="urnCwHoWU8DON" type="512" widgetaid="uJdX7FUnO3dXD" widgetbid="u2oAJzq7QVPRE" indexa="1" totalcounta="2" indexb="1" totalcountb="2">
           <linepath layout="Direct">
-           <startpoint startx="18.318" starty="-56"/>
+           <startpoint startx="-11.5853" starty="-56"/>
            <endpoint endx="181.184" endy="-56"/>
           </linepath>
          </assocwidget>
          <assocwidget xmi.id="uKAvn1H7DGIsk" localid="u9yQYGMUqrgx3" textcolor="none" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="1" usesdiagramusefillcolor="1" fillcolor="none" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0" autoresize="1" seqnum="" xmi.id="uKAvn1H7DGIsk" type="512" widgetaid="uSoWDDhLE8OXE" widgetbid="uJdX7FUnO3dXD" indexa="1" totalcounta="2" indexb="1" totalcountb="2">
           <linepath layout="Direct">
-           <startpoint startx="-109.552" starty="-201.958"/>
-           <endpoint endx="-109.552" endy="-149.964"/>
-          </linepath>
-         </assocwidget>
-         <assocwidget xmi.id="ufQ6h6U5JqSeD" localid="upLPx43HMOjFw" textcolor="none" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="1" usesdiagramusefillcolor="1" fillcolor="none" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0" autoresize="1" seqnum="" xmi.id="ufQ6h6U5JqSeD" type="512" widgetaid="uSoWDDhLE8OXE" widgetbid="unrU7OWVqGMRD" indexa="1" totalcounta="2" indexb="1" totalcountb="2">
-          <linepath layout="Direct">
-           <startpoint startx="19.393" starty="-209.199"/>
-           <endpoint endx="111.888" endy="-209.199"/>
+           <startpoint startx="-186.902" starty="-200.099"/>
+           <endpoint endx="-186.902" endy="-137.884"/>
           </linepath>
          </assocwidget>
          <assocwidget xmi.id="ugrhB9J14Vn4r" localid="ulheaGNfRNa5n" textcolor="none" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="1" usesdiagramusefillcolor="1" fillcolor="none" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0" autoresize="1" seqnum="" xmi.id="ugrhB9J14Vn4r" type="500" widgetaid="uoAlix3IIL4vr" widgetbid="unrU7OWVqGMRD" indexa="1" totalcounta="2" indexb="1" totalcountb="2">
@@ -196,8 +222,20 @@
          </assocwidget>
          <assocwidget xmi.id="uO94ZUKKpZSL5" localid="urWMF0JWAlxlS" textcolor="none" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="1" usesdiagramusefillcolor="1" fillcolor="none" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0" autoresize="1" seqnum="" xmi.id="uO94ZUKKpZSL5" type="512" widgetaid="uJdX7FUnO3dXD" widgetbid="unrU7OWVqGMRD" indexa="1" totalcounta="2" indexb="1" totalcountb="2">
           <linepath layout="Direct">
-           <startpoint startx="18.318" starty="-149.964"/>
+           <startpoint startx="-11.5853" starty="-137.884"/>
            <endpoint endx="111.888" endy="-208.392"/>
+          </linepath>
+         </assocwidget>
+         <assocwidget xmi.id="uwdOvLeWomCqN" localid="uvcOBZ7uV32hX" textcolor="none" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="1" usesdiagramusefillcolor="1" fillcolor="none" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0" autoresize="1" seqnum="" xmi.id="uwdOvLeWomCqN" type="500" widgetaid="uzBzM2t9z3jmv" widgetbid="ueBR0cVkhvAwg" indexa="1" totalcounta="2" indexb="1" totalcountb="2">
+          <linepath layout="Direct">
+           <startpoint startx="381.145" starty="147.413"/>
+           <endpoint endx="283.836" endy="147.413"/>
+          </linepath>
+         </assocwidget>
+         <assocwidget xmi.id="upy1UakdSXQdy" localid="ucx5RzNm3epzI" textcolor="none" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="1" usesdiagramusefillcolor="1" fillcolor="none" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0" autoresize="1" seqnum="" xmi.id="upy1UakdSXQdy" type="512" widgetaid="uJdX7FUnO3dXD" widgetbid="ueBR0cVkhvAwg" indexa="1" totalcounta="2" indexb="1" totalcountb="2">
+          <linepath layout="Direct">
+           <startpoint startx="-11.5853" starty="76.3493"/>
+           <endpoint endx="91.8363" endy="113.702"/>
           </linepath>
          </assocwidget>
         </associations>
@@ -221,14 +259,15 @@
   </UML:Model>
  </XMI.content>
  <XMI.extensions xmi.extender="umbrello">
-  <docsettings viewid="uHzCT3D9Iy5oR" documentation="" uniqueid="uQvFTqh6Hjsy0"/>
+  <docsettings viewid="uHzCT3D9Iy5oR" documentation="" uniqueid="uqfK75KoJHrCS"/>
   <listview>
    <listitem id="Views" type="800" open="1">
     <listitem id="Deployment_View" type="827" open="1"/>
     <listitem id="Logical_View" type="801" open="1">
      <listitem id="uHzCT3D9Iy5oR" type="807" label="类图" open="0"/>
-     <listitem id="Datatypes" type="830" open="0">
+     <listitem id="Datatypes" type="830" open="1">
       <listitem id="uI4I3ow8HgdUn" type="829" open="1"/>
+      <listitem id="udf8zDgp9jhfv" type="829" open="1"/>
       <listitem id="uW5NDJiYxjQ15" type="829" open="0"/>
       <listitem id="uOWG8algPGrLV" type="829" open="0"/>
       <listitem id="upHlyiqViflb3" type="829" open="0"/>
@@ -257,12 +296,17 @@
       <listitem id="uQvFTqh6Hjsy0" type="814" open="1"/>
       <listitem id="ugcqsTxcZ2IQX" type="814" open="0"/>
      </listitem>
+     <listitem id="uRjKoyhtpw9we" type="813" open="1"/>
      <listitem id="ueBR0cVkhvAwg" type="813" open="1">
       <listitem id="uSzvZyQtYt9Tl" type="814" open="0"/>
+      <listitem id="uqvZXe08gBtsJ" type="814" open="0"/>
+      <listitem id="upkBzk32Mzg8n" type="815" open="0"/>
       <listitem id="ufxTVHsJni3IK" type="814" open="0"/>
       <listitem id="uDxEfPR47GzBA" type="814" open="0"/>
       <listitem id="uaV9uiaNqeXnx" type="815" open="0"/>
+      <listitem id="uqfK75KoJHrCS" type="814" open="0"/>
       <listitem id="u6R5oUYrJDboo" type="814" open="0"/>
+      <listitem id="uVHOTGPFC9QG7" type="814" open="0"/>
      </listitem>
      <listitem id="uSoWDDhLE8OXE" type="813" open="1">
       <listitem id="uXJHtwjA7Ztzq" type="815" open="0"/>
@@ -293,7 +337,11 @@
      <listitem id="uiG8ZLcb9GVne" type="813" open="1"/>
      <listitem id="uJdX7FUnO3dXD" type="813" open="1">
       <listitem id="uFde3C3CiuZZI" type="814" open="0"/>
+      <listitem id="uu0kXGhHFJmLk" type="815" open="0"/>
       <listitem id="uwYeFrXyTqmOo" type="815" open="1"/>
+      <listitem id="uL1rtNIhgQGTr" type="814" open="0"/>
+      <listitem id="uhKYKNbH7B9Wu" type="815" open="0"/>
+      <listitem id="uwRAEA0ziUdxp" type="815" open="0"/>
       <listitem id="um7wKOHiOVSpC" type="815" open="0"/>
       <listitem id="uDNFaQHKiz3co" type="814" open="0"/>
       <listitem id="uNH9cSP1iywmo" type="815" open="0"/>
