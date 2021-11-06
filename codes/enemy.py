@@ -14,19 +14,19 @@ class BaseEnemy:
             素材图片路径
         crashBox : float[2]
             敌人的碰撞箱，数组两个元素分别代表在x/y方向上距中心的距离
-        pos : float[2]
-            当前所处位置
         velocity : float[2]
             x和y方向移动速度，速度可以被stage修改
+        pos : float[2]
+            当前所处位置
     """
-    def __init__(self, hp, atk, defen, srcImg, crashBox, pos, velocity):
+    def __init__(self, hp, atk, defen, srcImg, crashBox, velocity, pos):
         self.hp = hp
         self.atk = atk
         self.defen = defen
         self.srcImg = srcImg
         self.crashBox = crashBox
-        self.pos = pos
         self.velocity = velocity
+        self.pos = pos
 
     def move(self):
         """
@@ -54,10 +54,11 @@ class OneHpEnemy(BaseEnemy):
     """
         1血敌人类，被打一下就没了
     """
-    def __init__(self, pos, velocity):
+    def __init__(self, pos):
         hp = 1
         atk = 5
         defen = 0
         srcImg = "..."
         crashBox = [-1, -1]
-        BaseEnemy.__init__(self, hp, atk, defen, srcImg, crashBox, pos=pos, velocity=velocity)
+        velocity = [7.5, 3]
+        BaseEnemy.__init__(self, hp, atk, defen, srcImg, crashBox, velocity, pos=pos)

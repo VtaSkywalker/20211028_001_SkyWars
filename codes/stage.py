@@ -1,5 +1,6 @@
 from player import Player
 from bullet import *
+from enemy import *
 
 class Stage:
     """
@@ -15,11 +16,14 @@ class Stage:
             使用列表存储场景中的所有子弹
         timeStamp : float
             时间戳
+        enemyContainer : BaseEnemy[]
+            敌人容器，包含所有在场的敌人
     """
     def __init__(self) -> None:
         self.screenSize = (400, 600)
         self.player = Player([self.screenSize[0] * 0.5, self.screenSize[1] * 0.95])
         self.bulletContainer = []
+        self.enemyContainer = []
         self.timeStamp = 0 # 初始化游戏时间戳为零
 
     def playerMove(self, direction) -> None:
@@ -90,3 +94,23 @@ class Stage:
         if(pos[0] < 0 or pos[0] >= self.screenSize[0] or pos[1] < 0 or pos[1] >= self.screenSize[1]):
             return True
         return False
+
+    def enemyMove(self):
+        """
+            敌人移动
+        """
+        for eachEnemy in self.enemyContainer:
+            # 如果即将越界，则立刻切换方向，切换后再移动
+            newPos = [eachEnemy.pos[0]+eachEnemy.velocity[0], eachEnemy.pos[1]+eachEnemy.velocity[1]]
+            if(self.isOutside(newPos)):
+                if(newPos[0] < 0 or newPos[0] > self.screenSize[0]): # 横向出界
+                    eachEnemy.velocity[0] = -eachEnemy.velocity[0]
+                if(newPos[1] < 0 or newPos[1] > self.screenSize[1]): # 纵向出界
+                    eachEnemy.velocity[1] = -eachEnemy.velocity[1]
+            # 移动
+            eachEnemy.move()
+
+    def checkBulletCrash(self, enemyPos, bulletPos) -> bool:
+        """
+            检查敌人是否被某个子弹命中
+        """

@@ -16,6 +16,8 @@ class Player:
             最小发射间隔时间，单位：ms
         lastTimeFired : float
             最近一次发射的时间戳
+        atk : float
+            攻击力
     """
     def __init__(self, initPos):
         self.pos = initPos
@@ -24,6 +26,7 @@ class Player:
         self.firePos = [0,-35]
         self.fireInterv = 160
         self.lastTimeFired = 0 # 初始化最近发射时间戳为0
+        self.atk = 10 # 攻击力初始化
 
     def move(self, direction):
         """

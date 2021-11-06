@@ -10,6 +10,8 @@ class BaseBullet:
             子弹发射速度
         srcImg : string
             图像素材所在路径
+        atk : float
+            攻击力
     """
     def __init__(self, pos, velocity, srcImg):
         self.pos = pos

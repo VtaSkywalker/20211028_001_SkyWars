@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<XMI xmi.version="1.2" timestamp="2021-11-06T23:20:38" verified="false" xmlns:UML="http://schema.omg.org/spec/UML/1.4">
+<XMI xmi.version="1.2" timestamp="2021-11-06T23:47:19" verified="false" xmlns:UML="http://schema.omg.org/spec/UML/1.4">
  <XMI.header>
   <XMI.documentation>
    <XMI.exporter>umbrello uml modeller 2.32.3 http://umbrello.kde.org</XMI.exporter>
@@ -86,8 +86,7 @@
         <UML:Attribute isSpecification="false" xmi.id="uMerLrxTK4Iu6" name="firePos" comment="炮口相对于飞机的位置" visibility="private" type="uM0D0dCvfwkoW"/>
         <UML:Attribute isSpecification="false" xmi.id="uOA6q6DGpvkl3" name="fireInterv" comment="最小发射间隔时间，单位：ms" visibility="private" type="u8wrz4J1pCgHg"/>
         <UML:Attribute isSpecification="false" xmi.id="ugwF5aJVho9py" name="lastTimeFired" comment="最近一次发射的时间戳" visibility="private" type="u8wrz4J1pCgHg"/>
-        <UML:Attribute isSpecification="false" xmi.id="uFpRmJFuH43X9" name="atk" comment="攻击力" visibility="private" type="u8wrz4J1pCgHg"/>
-        <UML:Attribute isSpecification="false" xmi.id="u8vNtIdY7ynua" name="defen" comment="防御力" visibility="private" type="u8wrz4J1pCgHg"/>
+        <UML:Attribute isSpecification="false" xmi.id="uCcMEfuBP7LZh" name="atk" comment="攻击力" visibility="private" type="u8wrz4J1pCgHg"/>
         <UML:Operation isSpecification="false" isLeaf="false" isRoot="false" isAbstract="false" xmi.id="uXFFjqqmk1duX" name="move" comment="按指定方向移动&#10;0: up&#10;1: left&#10;2: down&#10;3: right" visibility="public" isQuery="false" isOverride="false" isVirtual="false" isInline="false">
          <UML:BehavioralFeature.parameter>
           <UML:Parameter isSpecification="false" xmi.id="u20aUGGoL8haL" name="direction" comment="0: up&#10;1: left&#10;2: down&#10;3: right" visibility="private" type="udO493WFs8CGq" value=""/>
@@ -133,6 +132,7 @@
         <UML:Attribute isSpecification="false" xmi.id="uxno1oAhBlVkA" name="pos" comment="子弹当前位置" visibility="private" type="uM0D0dCvfwkoW"/>
         <UML:Attribute isSpecification="false" xmi.id="ugcqsTxcZ2IQX" name="velocity" comment="子弹发射速度" visibility="private" type="uM0D0dCvfwkoW"/>
         <UML:Attribute isSpecification="false" xmi.id="uQvFTqh6Hjsy0" name="srcImg" comment="图像素材所在路径" visibility="private" type="uAwjkOd2rRXjS"/>
+        <UML:Attribute isSpecification="false" xmi.id="uAPPdCqwFV3fX" name="atk" comment="攻击力" visibility="private" type="u8wrz4J1pCgHg"/>
         <UML:Operation isSpecification="false" isLeaf="false" isRoot="false" isAbstract="false" xmi.id="uLs0gwqlG0k04" name="move" comment="子弹移动" visibility="public" isQuery="false" isOverride="false" isVirtual="false" isInline="false"/>
        </UML:Classifier.feature>
       </UML:Class>
@@ -164,8 +164,8 @@
         <UML:Attribute isSpecification="false" xmi.id="ufxTVHsJni3IK" name="defen" comment="防御力" visibility="private" type="u8wrz4J1pCgHg"/>
         <UML:Attribute isSpecification="false" xmi.id="u6R5oUYrJDboo" name="srcImg" comment="素材图片路径" visibility="private" type="uAwjkOd2rRXjS"/>
         <UML:Attribute isSpecification="false" xmi.id="uqvZXe08gBtsJ" name="crashBox" comment="敌人的碰撞箱，数组两个元素分别代表在x/y方向上距中心的距离" visibility="private" type="uM0D0dCvfwkoW"/>
-        <UML:Attribute isSpecification="false" xmi.id="uqfK75KoJHrCS" name="pos" comment="当前所处位置" visibility="private" type="uM0D0dCvfwkoW"/>
         <UML:Attribute isSpecification="false" xmi.id="uVHOTGPFC9QG7" name="velocity" comment="移动速度" visibility="private" type="uM0D0dCvfwkoW"/>
+        <UML:Attribute isSpecification="false" xmi.id="uqfK75KoJHrCS" name="pos" comment="当前所处位置" visibility="private" type="uM0D0dCvfwkoW"/>
         <UML:Operation isSpecification="false" isLeaf="false" isRoot="false" isAbstract="false" xmi.id="uaV9uiaNqeXnx" name="move" comment="敌人最基本的移动方式，左右来回，稳步前进" visibility="public" isQuery="false" isOverride="false" isVirtual="false" isInline="false"/>
         <UML:Operation isSpecification="false" isLeaf="false" isRoot="false" isAbstract="false" xmi.id="upkBzk32Mzg8n" name="crashBoxRescale" comment="碰撞箱随着图像尺寸放大而放大" visibility="public" isQuery="false" isOverride="false" isVirtual="false" isInline="false">
          <UML:BehavioralFeature.parameter>
@@ -190,11 +190,11 @@
      </UML:Namespace.ownedElement>
      <XMI.extension xmi.extender="umbrello">
       <diagrams resolution="96">
-       <diagram xmi.id="uHzCT3D9Iy5oR" name="类图" type="1" documentation="" backgroundcolor="#ffffff" fillcolor="#ffff00" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0" griddotcolor="#d3d3d3" linecolor="#ff0000" linewidth="0" textcolor="#000000" usefillcolor="1" showattribassocs="1" showatts="1" showattsig="1" showops="1" showopsig="1" showpackage="1" showpubliconly="0" showscope="1" showstereotype="2" localid="-1" showgrid="0" snapgrid="0" snapcsgrid="0" snapx="25" snapy="25" zoom="107.613" canvasheight="606.738" canvaswidth="906.731" isopen="1">
+       <diagram xmi.id="uHzCT3D9Iy5oR" name="类图" type="1" documentation="" backgroundcolor="#ffffff" fillcolor="#ffff00" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0" griddotcolor="#d3d3d3" linecolor="#ff0000" linewidth="0" textcolor="#000000" usefillcolor="1" showattribassocs="1" showatts="1" showattsig="1" showops="1" showopsig="1" showpackage="1" showpubliconly="0" showscope="1" showstereotype="2" localid="-1" showgrid="0" snapgrid="0" snapcsgrid="0" snapx="25" snapy="25" zoom="107.613" canvasheight="606.738" canvaswidth="905.923" isopen="1">
         <widgets>
          <classwidget xmi.id="uoAlix3IIL4vr" localid="ukgbatPoiJ96r" textcolor="#000000" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="0" usesdiagramusefillcolor="0" fillcolor="#ffff00" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0,Regular" autoresize="0" x="321.265" y="-314.391" width="114" height="65.7171" isinstance="0" showstereotype="2" showoperations="1" showpubliconly="0" showopsigs="601" showpackage="1" showscope="1" showattributes="1" showattsigs="601" showstereotype="2"/>
          <classwidget xmi.id="uSoWDDhLE8OXE" localid="u5jQ1uvAYza3l" textcolor="#000000" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="0" usesdiagramusefillcolor="0" fillcolor="#ffff00" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0,Regular" autoresize="0" x="-345.886" y="-343.035" width="245.405" height="142.936" isinstance="0" showstereotype="2" showoperations="1" showpubliconly="0" showopsigs="601" showpackage="1" showscope="1" showattributes="1" showattsigs="601" showstereotype="2"/>
-         <classwidget xmi.id="uJdX7FUnO3dXD" localid="uTd0xxUmBdsth" textcolor="#000000" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="0" usesdiagramusefillcolor="0" fillcolor="#ffff00" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0,Regular" autoresize="0" x="-401.585" y="-137.884" width="390" height="214.233" isinstance="0" showstereotype="2" showoperations="1" showpubliconly="0" showopsigs="601" showpackage="1" showscope="1" showattributes="1" showattsigs="601" showstereotype="2"/>
+         <classwidget xmi.id="uJdX7FUnO3dXD" localid="uTd0xxUmBdsth" textcolor="#000000" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="0" usesdiagramusefillcolor="0" fillcolor="#ffff00" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0,Regular" autoresize="0" x="-400.777" y="-137.884" width="390" height="214.233" isinstance="0" showstereotype="2" showoperations="1" showpubliconly="0" showopsigs="601" showpackage="1" showscope="1" showattributes="1" showattsigs="601" showstereotype="2"/>
          <classwidget xmi.id="u2oAJzq7QVPRE" localid="ukmlyyZvbkkim" textcolor="#000000" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="0" usesdiagramusefillcolor="0" fillcolor="#ffff00" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0,Regular" autoresize="0" x="181.184" y="-159.108" width="139" height="150" isinstance="0" showstereotype="2" showoperations="1" showpubliconly="0" showopsigs="601" showpackage="1" showscope="1" showattributes="1" showattsigs="601" showstereotype="2"/>
          <classwidget xmi.id="unrU7OWVqGMRD" localid="uFfDqaSIIxMdo" textcolor="#000000" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="0" usesdiagramusefillcolor="0" fillcolor="#ffff00" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0,Regular" autoresize="0" x="111.888" y="-333.516" width="114" height="125.124" isinstance="0" showstereotype="2" showoperations="1" showpubliconly="0" showopsigs="601" showpackage="1" showscope="1" showattributes="1" showattsigs="601" showstereotype="2"/>
          <classwidget xmi.id="ueBR0cVkhvAwg" localid="uiMEmswhPwEhS" textcolor="#000000" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="0" usesdiagramusefillcolor="0" fillcolor="#ffff00" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0,Regular" autoresize="0" x="92.7656" y="113.702" width="192" height="150" isinstance="0" showstereotype="2" showoperations="1" showpubliconly="0" showopsigs="601" showpackage="1" showscope="1" showattributes="1" showattsigs="601" showstereotype="2"/>
@@ -204,7 +204,7 @@
         <associations>
          <assocwidget xmi.id="urnCwHoWU8DON" localid="ujkiiaMhJZw3N" textcolor="none" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="1" usesdiagramusefillcolor="1" fillcolor="none" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0" autoresize="1" seqnum="" xmi.id="urnCwHoWU8DON" type="512" widgetaid="uJdX7FUnO3dXD" widgetbid="u2oAJzq7QVPRE" indexa="1" totalcounta="2" indexb="1" totalcountb="2">
           <linepath layout="Direct">
-           <startpoint startx="-11.5853" starty="-56"/>
+           <startpoint startx="-10.7772" starty="-56"/>
            <endpoint endx="181.184" endy="-56"/>
           </linepath>
          </assocwidget>
@@ -222,7 +222,7 @@
          </assocwidget>
          <assocwidget xmi.id="uO94ZUKKpZSL5" localid="urWMF0JWAlxlS" textcolor="none" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="1" usesdiagramusefillcolor="1" fillcolor="none" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0" autoresize="1" seqnum="" xmi.id="uO94ZUKKpZSL5" type="512" widgetaid="uJdX7FUnO3dXD" widgetbid="unrU7OWVqGMRD" indexa="1" totalcounta="2" indexb="1" totalcountb="2">
           <linepath layout="Direct">
-           <startpoint startx="-11.5853" starty="-137.884"/>
+           <startpoint startx="-10.7772" starty="-137.884"/>
            <endpoint endx="111.888" endy="-208.392"/>
           </linepath>
          </assocwidget>
@@ -234,7 +234,7 @@
          </assocwidget>
          <assocwidget xmi.id="upy1UakdSXQdy" localid="ucx5RzNm3epzI" textcolor="none" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="1" usesdiagramusefillcolor="1" fillcolor="none" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0" autoresize="1" seqnum="" xmi.id="upy1UakdSXQdy" type="512" widgetaid="uJdX7FUnO3dXD" widgetbid="ueBR0cVkhvAwg" indexa="1" totalcounta="2" indexb="1" totalcountb="2">
           <linepath layout="Direct">
-           <startpoint startx="-11.5853" starty="76.3493"/>
+           <startpoint startx="-10.7772" starty="76.3493"/>
            <endpoint endx="92.7656" endy="113.702"/>
           </linepath>
          </assocwidget>
@@ -259,7 +259,7 @@
   </UML:Model>
  </XMI.content>
  <XMI.extensions xmi.extender="umbrello">
-  <docsettings viewid="uHzCT3D9Iy5oR" documentation="" uniqueid="uZUEIhpLpi2JM"/>
+  <docsettings viewid="uHzCT3D9Iy5oR" documentation="" uniqueid="uAPPdCqwFV3fX"/>
   <listview>
    <listitem id="Views" type="800" open="1">
     <listitem id="Deployment_View" type="827" open="1"/>
@@ -291,6 +291,7 @@
      </listitem>
      <listitem id="uKAcBwxAw9iK0" type="813" open="1"/>
      <listitem id="unrU7OWVqGMRD" type="813" open="1">
+      <listitem id="uAPPdCqwFV3fX" type="814" open="0"/>
       <listitem id="uLs0gwqlG0k04" type="815" open="0"/>
       <listitem id="uxno1oAhBlVkA" type="814" open="0"/>
       <listitem id="uQvFTqh6Hjsy0" type="814" open="1"/>
@@ -322,9 +323,8 @@
      <listitem id="uzBzM2t9z3jmv" type="813" open="1"/>
      <listitem id="uVuUqvOu1pODU" type="813" open="1"/>
      <listitem id="u2oAJzq7QVPRE" type="813" open="1">
-      <listitem id="uFpRmJFuH43X9" type="814" open="0"/>
+      <listitem id="uCcMEfuBP7LZh" type="814" open="0"/>
       <listitem id="uGy5foodwinwS" type="814" open="0"/>
-      <listitem id="u8vNtIdY7ynua" type="814" open="0"/>
       <listitem id="uOA6q6DGpvkl3" type="814" open="0"/>
       <listitem id="uMerLrxTK4Iu6" type="814" open="0"/>
       <listitem id="ugwF5aJVho9py" type="814" open="0"/>
