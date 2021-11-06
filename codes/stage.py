@@ -95,6 +95,15 @@ class Stage:
             return True
         return False
 
+    def enemyStateUpdate(self):
+        """
+            逐个判断敌人的状态，并删除场外或已被消灭的敌人
+        """
+        self.enemyMove() # 敌人移动
+        # 判断敌人与子弹的碰撞
+        for eachEnemy in self.enemyContainer:
+            pass
+
     def enemyMove(self):
         """
             敌人移动
