@@ -1,5 +1,6 @@
 from stage import Stage
 import pygame
+from enemy import *
 
 class Display:
     """
@@ -24,6 +25,7 @@ class Display:
         # 各图像素材初始化
         self.playerImg, self.playerImgRect = self.initImgSrc("img/player.png", scale=5) # 玩家信息初始化
         self.playerBulletImg, self.playerBulletImgRect = self.initImgSrc("img/playerBullet.png", scale=1) # 子弹信息初始化
+        self.oneHpEnemyImg, self.oneHpEnemyImgRect = self.initImgSrc(OneHpEnemy.srcImg, scale=OneHpEnemy.scale) # 1血敌人初始化
 
         # 进入主循环
         while(True):
@@ -38,7 +40,7 @@ class Display:
 
             # 随着时间流逝，进行每一帧的刷新
             self.bulletMove() # 子弹向前推移
-            self.enemyStateUpdate() # 敌人状态更新
+            self.enemyUpdate() # 敌人更新
 
             # 更新时间戳
             self.updateTimeStamp()
@@ -57,6 +59,15 @@ class Display:
         self.playerImgRect.centerx = self.stage.player.pos[0]
         self.playerImgRect.centery = self.stage.player.pos[1]
         self.screen.blit(self.playerImg, self.playerImgRect)
+        # 敌人飞机显示
+        for eachEnemy in self.stage.enemyContainer:
+            # 1血敌人情形
+            if(eachEnemy.__class__.__name__ == "OneHpEnemy"):
+                eachEnemyImg = self.oneHpEnemyImg
+                eachEnemyImgRect = eachEnemyImg.get_rect()
+                eachEnemyImgRect.centerx = eachEnemy.pos[0]
+                eachEnemyImgRect.centery = eachEnemy.pos[1]
+            self.screen.blit(eachEnemyImg, eachEnemyImgRect)
         # 子弹显示
         for eachBullet in self.stage.bulletContainer:
             # 玩家子弹情形
@@ -104,7 +115,7 @@ class Display:
 
     def initImgSrc(self, imgSrc, scale):
         """
-            显示图形界面
+            初始化图像素材
 
             Parameters
             ----------
@@ -126,11 +137,12 @@ class Display:
         rect = img.get_rect()
         return [img, rect]
 
-    def enemyStateUpdate(self):
+    def enemyUpdate(self):
         """
-            更新敌人的状态
+            更新敌人
         """
-        self.stage.enemyStateUpdate()
+        self.stage.enemySpan() # 敌人生成
+        self.stage.enemyStateUpdate() # 敌人状态更新
 
 if __name__ == "__main__":
     display = Display()

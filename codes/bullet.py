@@ -17,6 +17,7 @@ class BaseBullet:
         self.pos = pos
         self.velocity = velocity
         self.srcImg = None
+        self.atk = 0
 
     def move(self):
         """

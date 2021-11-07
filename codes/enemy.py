@@ -16,10 +16,12 @@ class BaseEnemy:
             敌人的碰撞箱，数组两个元素分别代表在x/y方向上距中心的距离
         velocity : float[2]
             x和y方向移动速度，速度可以被stage修改
+        scale : float
+            图像拉伸比例
         pos : float[2]
             当前所处位置
     """
-    def __init__(self, hp, atk, defen, srcImg, crashBox, velocity, pos):
+    def __init__(self, hp, atk, defen, srcImg, crashBox, velocity, scale, pos):
         self.hp = hp
         self.atk = atk
         self.defen = defen
@@ -27,6 +29,7 @@ class BaseEnemy:
         self.crashBox = crashBox
         self.velocity = velocity
         self.pos = pos
+        self.scale = scale
 
     def move(self):
         """
@@ -38,17 +41,15 @@ class BaseEnemy:
         self.pos[0] += vx
         self.pos[1] += vy
 
-    def crashBoxRescale(self, scale):
+    def crashBoxRescale(self):
         """
             碰撞箱随着图像尺寸放大而放大
 
             Parameters
             ----------
-            scale : float
-                放大倍率
         """
-        self.crashBox[0] *= scale
-        self.crashBox[1] *= scale
+        self.crashBox[0] *= self.scale
+        self.crashBox[1] *= self.scale
 
     def death(self):
         """
@@ -60,11 +61,15 @@ class OneHpEnemy(BaseEnemy):
     """
         1血敌人类，被打一下就没了
     """
+    
+    hp = 1
+    atk = 5
+    defen = 0
+    srcImg = "img/oneHpEnemy.png"
+    scale = 5
+
     def __init__(self, pos):
-        hp = 1
-        atk = 5
-        defen = 0
-        srcImg = "..."
-        crashBox = [-1, -1]
-        velocity = [7.5, 3]
-        BaseEnemy.__init__(self, hp, atk, defen, srcImg, crashBox, velocity, pos=pos)
+        crashBox = [4, 3]
+        velocity = [3, 1]
+        BaseEnemy.__init__(self, OneHpEnemy.hp, OneHpEnemy.atk, OneHpEnemy.defen, OneHpEnemy.srcImg, crashBox, velocity, OneHpEnemy.scale, pos=pos)
+        self.crashBoxRescale()

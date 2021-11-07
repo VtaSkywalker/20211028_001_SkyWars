@@ -72,6 +72,7 @@ class Stage:
         # 生成子弹后，将其加入到子弹容器中
         newBulletPos = [self.player.pos[0]+self.player.firePos[0],self.player.pos[1]+self.player.firePos[1]]
         newBullet = PlayerBullet(newBulletPos, [0, -10])
+        newBullet.atk = self.player.atk
         self.bulletContainer.append(newBullet)
         # 发射子弹后，更新玩家最近发射时间
         self.player.lastTimeFired = self.timeStamp
@@ -113,7 +114,8 @@ class Stage:
                     eachEnemy.hp -= ((eachBullet.atk - eachEnemy.defen) if (eachBullet.atk >= eachEnemy.defen) else 0)
                     # 血量为0时，敌人死亡
                     if(eachEnemy.hp <= 0):
-                        self.enemyContainer.remove(eachEnemy)
+                        if(eachEnemy in self.enemyContainer): # 这里不知道为什么会出现删除时不在列表中的错误，先加上if保险
+                            self.enemyContainer.remove(eachEnemy)
                     # 命中后子弹消失
                     self.bulletContainer.remove(eachBullet)
             # 出界一定范围后移除敌人
@@ -150,7 +152,7 @@ class Stage:
             True / False
                 被命中 / 未被命中
         """
-        if(enemy.pos[0]-enemy.crashBox[0] <= bulletPos[0] <= enemy.pos[0]+enemy.crashBox[0] or enemy.pos[1]-enemy.crashBox[1] <= bulletPos[1] <= enemy.pos[1]+enemy.crashBox[1]):
+        if(enemy.pos[0]-enemy.crashBox[0] <= bulletPos[0] <= enemy.pos[0]+enemy.crashBox[0] and enemy.pos[1]-enemy.crashBox[1] <= bulletPos[1] <= enemy.pos[1]+enemy.crashBox[1]):
             return True
         return False
 
