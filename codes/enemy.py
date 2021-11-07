@@ -50,6 +50,12 @@ class BaseEnemy:
         self.crashBox[0] *= scale
         self.crashBox[1] *= scale
 
+    def death(self):
+        """
+            敌人死亡时执行
+        """
+        pass
+
 class OneHpEnemy(BaseEnemy):
     """
         1血敌人类，被打一下就没了

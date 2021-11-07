@@ -1,6 +1,7 @@
 from player import Player
 from bullet import *
 from enemy import *
+import random
 
 class Stage:
     """
@@ -16,6 +17,8 @@ class Stage:
             使用列表存储场景中的所有子弹
         timeStamp : float
             时间戳
+        lastTimeStamp : float
+            最近一次时间戳
         enemyContainer : BaseEnemy[]
             敌人容器，包含所有在场的敌人
     """
@@ -25,6 +28,7 @@ class Stage:
         self.bulletContainer = []
         self.enemyContainer = []
         self.timeStamp = 0 # 初始化游戏时间戳为零
+        self.lastTimeStamp = 0 # 最近一次时间戳
 
     def playerMove(self, direction) -> None:
         """
@@ -100,9 +104,22 @@ class Stage:
             逐个判断敌人的状态，并删除场外或已被消灭的敌人
         """
         self.enemyMove() # 敌人移动
-        # 判断敌人与子弹的碰撞
+        # 判断敌人与子弹的碰撞以及是否出界
         for eachEnemy in self.enemyContainer:
-            pass
+            # 与子弹的碰撞
+            for eachBullet in self.bulletContainer:
+                # 命中扣血
+                if(self.isBulletCrashEnemy(eachEnemy, eachBullet.pos)):
+                    eachEnemy.hp -= ((eachBullet.atk - eachEnemy.defen) if (eachBullet.atk >= eachEnemy.defen) else 0)
+                    # 血量为0时，敌人死亡
+                    if(eachEnemy.hp <= 0):
+                        self.enemyContainer.remove(eachEnemy)
+                    # 命中后子弹消失
+                    self.bulletContainer.remove(eachBullet)
+            # 出界一定范围后移除敌人
+            effPos = [eachEnemy.pos[0], eachEnemy.pos[1] * 0.8]
+            if(self.isOutside(effPos)):
+                self.enemyContainer.remove(eachEnemy)
 
     def enemyMove(self):
         """
@@ -114,12 +131,43 @@ class Stage:
             if(self.isOutside(newPos)):
                 if(newPos[0] < 0 or newPos[0] > self.screenSize[0]): # 横向出界
                     eachEnemy.velocity[0] = -eachEnemy.velocity[0]
-                if(newPos[1] < 0 or newPos[1] > self.screenSize[1]): # 纵向出界
-                    eachEnemy.velocity[1] = -eachEnemy.velocity[1]
             # 移动
             eachEnemy.move()
 
-    def checkBulletCrash(self, enemyPos, bulletPos) -> bool:
+    def isBulletCrashEnemy(self, enemy, bulletPos) -> bool:
         """
             检查敌人是否被某个子弹命中
+
+            Parameters
+            ----------
+            enemy : BaseEnemy
+                敌人
+            bulletPos : float[2]
+                子弹的位置
+
+            Return
+            ------
+            True / False
+                被命中 / 未被命中
         """
+        if(enemy.pos[0]-enemy.crashBox[0] <= bulletPos[0] <= enemy.pos[0]+enemy.crashBox[0] or enemy.pos[1]-enemy.crashBox[1] <= bulletPos[1] <= enemy.pos[1]+enemy.crashBox[1]):
+            return True
+        return False
+
+    def enemyDeath(self):
+        """
+            敌人死亡时执行
+        """
+        pass
+
+    def enemySpan(self):
+        """
+            敌人生成机制
+        """
+        # 1秒生成一个1血敌人
+        dtOneHpEnemy = 1000
+        if(self.lastTimeStamp % 1000 > self.timeStamp % 1000):
+            newEnemy = OneHpEnemy([random.random()*self.screenSize[0], 0])
+            self.enemyContainer.append(newEnemy)
+        # 为了方便下一次的判断
+        self.lastTimeStamp = self.timeStamp

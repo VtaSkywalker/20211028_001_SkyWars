@@ -38,6 +38,7 @@ class Display:
 
             # 随着时间流逝，进行每一帧的刷新
             self.bulletMove() # 子弹向前推移
+            self.enemyStateUpdate() # 敌人状态更新
 
             # 更新时间戳
             self.updateTimeStamp()
@@ -124,6 +125,12 @@ class Display:
         img = pygame.transform.scale(img, (rect_org.size[0] * scale, rect_org.size[1] * scale))
         rect = img.get_rect()
         return [img, rect]
+
+    def enemyStateUpdate(self):
+        """
+            更新敌人的状态
+        """
+        self.stage.enemyStateUpdate()
 
 if __name__ == "__main__":
     display = Display()
