@@ -2,6 +2,12 @@ from stage import Stage
 import pygame
 from enemy import *
 
+class DisplayConfig:
+    """
+        关于显示的一些选项
+    """
+    doShowCrashBox = True # 是否显示碰撞箱
+
 class Display:
     """
         将图形界面展示出来
@@ -68,6 +74,8 @@ class Display:
                 eachEnemyImgRect.centerx = eachEnemy.pos[0]
                 eachEnemyImgRect.centery = eachEnemy.pos[1]
             self.screen.blit(eachEnemyImg, eachEnemyImgRect)
+            if(DisplayConfig.doShowCrashBox):
+                self.showCrashBox()
         # 子弹显示
         for eachBullet in self.stage.bulletContainer:
             # 玩家子弹情形
@@ -143,6 +151,14 @@ class Display:
         """
         self.stage.enemySpan() # 敌人生成
         self.stage.enemyStateUpdate() # 敌人状态更新
+
+    def showCrashBox(self):
+        """
+            显示碰撞箱
+        """
+        # 显示敌人的碰撞箱
+        for eachEnemy in self.stage.enemyContainer:
+            pygame.draw.rect(self.screen, (255, 255, 255), pygame.Rect(eachEnemy.pos[0]-eachEnemy.crashBox[0], eachEnemy.pos[1]-eachEnemy.crashBox[1], 2*eachEnemy.crashBox[0]+1, 2*eachEnemy.crashBox[1]+1), width=1)
 
 if __name__ == "__main__":
     display = Display()
