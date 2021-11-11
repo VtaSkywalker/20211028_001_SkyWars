@@ -24,6 +24,8 @@ class Player:
             攻击力
         hp : float
             玩家血量
+        hpMax : float
+            血量上限
         defen : float
             玩家防御力
     """
@@ -42,6 +44,7 @@ class Player:
         self.lastTimeFired = 0 # 初始化最近发射时间戳为0
         self.atk = 10 # 攻击力初始化
         self.hp = 100 # 血量初始化
+        self.hpMax = 100 # 血量上限初始化
         self.defen = 0 # 防御力初始化
 
     def move(self, direction):

@@ -176,6 +176,24 @@ class Display:
         pygame.draw.rect(self.screen, (0, 0, 0), pygame.Rect(0, self.stage.screenSize[1], self.stage.screenSize[0], self.hpInfoHeight))
         # 边框绘制
         pygame.draw.rect(self.screen, (255, 255, 255), pygame.Rect(0, self.stage.screenSize[1], self.stage.screenSize[0], self.hpInfoHeight), width=1)
+        # 血条贴出
+        scaleX = 1.2
+        scaleY = 1
+        hpBarImg = pygame.image.load("img/hpBar.png")
+        hpBarImgRect = hpBarImg.get_rect()
+        hpBarImg = pygame.transform.scale(hpBarImg, (round(hpBarImgRect.size[0] * scaleX), round(hpBarImgRect.size[1] * scaleY)))
+        hpBarImgRect = hpBarImg.get_rect()
+        hpBarImgRect.centerx = self.stage.screenSize[0] / 2 + 36
+        hpBarImgRect.centery = self.stage.screenSize[1] + self.hpInfoHeight / 2
+        self.screen.blit(hpBarImg, hpBarImgRect)
+        # 按扣血量百分比遮住血条的相应部分
+        imgX = [hpBarImgRect.centerx - hpBarImgRect.size[0] / 2, hpBarImgRect.centerx + hpBarImgRect.size[0] / 2]
+        imgY = [hpBarImgRect.centery - hpBarImgRect.size[1] / 2, hpBarImgRect.centery + hpBarImgRect.size[1] / 2]
+        hpRemainRatio = self.stage.player.hp / self.stage.player.hpMax
+        maskX = [imgX[0] + (imgX[1] - imgX[0]) * hpRemainRatio, imgX[1]]
+        maskY = [imgY[0], imgY[1]]
+        maskRect = pygame.Rect(maskX[0], maskY[0], maskX[1]-maskX[0], maskY[1]-maskY[0])
+        pygame.draw.rect(self.screen, (0, 0, 0), maskRect)
 
     def showCrashBox(self):
         """
