@@ -1,3 +1,5 @@
+from bullet import PlayerBullet
+from player import Player
 from stage import Stage
 import pygame
 from enemy import *
@@ -29,8 +31,8 @@ class Display:
         self.screen = pygame.display.set_mode(self.stage.screenSize)
 
         # 各图像素材初始化
-        self.playerImg, self.playerImgRect = self.initImgSrc("img/player.png", scale=5) # 玩家信息初始化
-        self.playerBulletImg, self.playerBulletImgRect = self.initImgSrc("img/playerBullet.png", scale=1) # 子弹信息初始化
+        self.playerImg, self.playerImgRect = self.initImgSrc(Player.srcImg, scale=Player.scale) # 玩家信息初始化
+        self.playerBulletImg, self.playerBulletImgRect = self.initImgSrc(PlayerBullet.srcImg, scale=PlayerBullet.scale) # 子弹信息初始化
         self.oneHpEnemyImg, self.oneHpEnemyImgRect = self.initImgSrc(OneHpEnemy.srcImg, scale=OneHpEnemy.scale) # 1血敌人初始化
 
         # 进入主循环

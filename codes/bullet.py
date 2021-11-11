@@ -10,6 +10,8 @@ class BaseBullet:
             子弹发射速度
         srcImg : string
             图像素材所在路径
+        scale : float
+            拉伸比例
         atk : float
             攻击力
     """
@@ -33,5 +35,9 @@ class PlayerBullet(BaseBullet):
         Attributes
         ----------
     """
+
+    srcImg = "img/playerBullet.png"
+    scale = 1
+
     def __init__(self, pos, velocity):
-        BaseBullet.__init__(self, pos, velocity, "playerBullet.png")
+        BaseBullet.__init__(self, pos, velocity, PlayerBullet.srcImg)

@@ -62,14 +62,14 @@ class OneHpEnemy(BaseEnemy):
         1血敌人类，被打一下就没了
     """
     
-    hp = 1
-    atk = 5
-    defen = 0
     srcImg = "img/oneHpEnemy.png"
     scale = 5
 
     def __init__(self, pos):
+        hp = 1
+        atk = 5
+        defen = 0
         crashBox = [4, 3]
         velocity = [3, 1]
-        BaseEnemy.__init__(self, OneHpEnemy.hp, OneHpEnemy.atk, OneHpEnemy.defen, OneHpEnemy.srcImg, crashBox, velocity, OneHpEnemy.scale, pos=pos)
+        BaseEnemy.__init__(self, hp, atk, defen, OneHpEnemy.srcImg, crashBox, velocity, OneHpEnemy.scale, pos=pos)
         self.crashBoxRescale()

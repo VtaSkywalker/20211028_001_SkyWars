@@ -4,11 +4,15 @@ class Player:
 
         Attributes
         ----------
+        srcImg : string
+            玩家的素材图像所在路径
+        scale : float
+            拉伸比例
         pos : float[2]
             玩家当前所处坐标位置
         velocity : float
             玩家的移动速度
-        crashBox : pygame.Rect
+        crashBox : float[2]
             玩家的碰撞箱
         firePos : float[2]
             炮口相对于飞机的位置
@@ -19,7 +23,12 @@ class Player:
         atk : float
             攻击力
     """
+
+    srcImg = "img/player.png"
+    scale = 5
+
     def __init__(self, initPos):
+        
         self.pos = initPos
         self.velocity = 5
         self.crashBox = None
