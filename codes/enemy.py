@@ -89,7 +89,7 @@ class OneHpEnemy(BaseEnemy):
         self.crashBoxRescale()
         self.firePos = [0,35] # 炮口位置
         # 开火间隔，加上一定的高斯误差，看起来更多样
-        mu = 1000
+        mu = 500
         std = 33
         self.fireInterv = random.gauss(mu, std)
         while(self.fireInterv <= 0):

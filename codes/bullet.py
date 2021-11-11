@@ -14,12 +14,15 @@ class BaseBullet:
             拉伸比例
         atk : float
             攻击力
+        bulletOwner : char
+            子弹发射人。P：玩家，E：敌人
     """
     def __init__(self, pos, velocity, srcImg):
         self.pos = pos
         self.velocity = velocity
         self.srcImg = None
         self.atk = 0
+        self.bulletOwner = None
 
     def move(self):
         """
@@ -41,6 +44,7 @@ class PlayerBullet(BaseBullet):
 
     def __init__(self, pos, velocity):
         BaseBullet.__init__(self, pos, velocity, PlayerBullet.srcImg)
+        self.bulletOwner = 'P'
 
 class NormalEnemyBullet(BaseBullet):
     """
@@ -55,3 +59,4 @@ class NormalEnemyBullet(BaseBullet):
 
     def __init__(self, pos, velocity):
         BaseBullet.__init__(self, pos, velocity, PlayerBullet.srcImg)
+        self.bulletOwner = 'E'

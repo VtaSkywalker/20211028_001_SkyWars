@@ -93,7 +93,7 @@ class Stage:
                 return
             # 生成子弹后，将其加入到子弹容器中
             newBulletPos = [eachEnemy.pos[0]+eachEnemy.firePos[0],eachEnemy.pos[1]+eachEnemy.firePos[1]]
-            newBullet = NormalEnemyBullet(newBulletPos, [0, 10])
+            newBullet = NormalEnemyBullet(newBulletPos, [0, 5])
             newBullet.atk = eachEnemy.atk
             self.bulletContainer.append(newBullet)
             # 发射子弹后，更新敌人最近发射时间
@@ -131,8 +131,8 @@ class Stage:
         for eachEnemy in self.enemyContainer:
             # 与子弹的碰撞
             for eachBullet in self.bulletContainer:
-                # 命中扣血
-                if(self.isBulletCrashObj(eachEnemy, eachBullet.pos)):
+                # 被玩家子弹命中扣血
+                if(eachBullet.bulletOwner == 'P' and self.isBulletCrashObj(eachEnemy, eachBullet.pos)):
                     eachEnemy.hp -= ((eachBullet.atk - eachEnemy.defen) if (eachBullet.atk >= eachEnemy.defen) else 0)
                     # 血量为0时，敌人死亡
                     if(eachEnemy.hp <= 0):
@@ -220,4 +220,5 @@ class Stage:
             游戏结束触发事件
         """
         print("Game Over!")
+        self.player.hp = 0
         pass

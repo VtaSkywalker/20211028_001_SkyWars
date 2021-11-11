@@ -28,7 +28,9 @@ class Display:
         """
         # 整个窗口的初始化
         pygame.init()
-        self.screen = pygame.display.set_mode(self.stage.screenSize)
+        self.hpInfoHeight = 50 # 血条信息所占的高度
+        screenSize = (self.stage.screenSize[0], self.stage.screenSize[1]+self.hpInfoHeight)
+        self.screen = pygame.display.set_mode(screenSize)
 
         # 各图像素材初始化
         self.playerImg, self.playerImgRect = self.initImgSrc(Player.srcImg, scale=Player.scale) # 玩家信息初始化
@@ -95,6 +97,8 @@ class Display:
                 eachBulletImgRect.centerx = eachBullet.pos[0]
                 eachBulletImgRect.centery = eachBullet.pos[1]
             self.screen.blit(eachBulletImg, eachBulletImgRect)
+        # 血条显示
+        self.showPlayerHp()
         return
 
     def playerMove(self) -> None:
@@ -163,6 +167,15 @@ class Display:
         self.stage.enemyFire() # 敌人发射子弹
         self.stage.enemyStateUpdate() # 敌人状态更新
         self.stage.playerStateUpdate() # 玩家状态更新
+
+    def showPlayerHp(self):
+        """
+            显示玩家血条
+        """
+        # 底板绘制
+        pygame.draw.rect(self.screen, (0, 0, 0), pygame.Rect(0, self.stage.screenSize[1], self.stage.screenSize[0], self.hpInfoHeight))
+        # 边框绘制
+        pygame.draw.rect(self.screen, (255, 255, 255), pygame.Rect(0, self.stage.screenSize[1], self.stage.screenSize[0], self.hpInfoHeight), width=1)
 
     def showCrashBox(self):
         """
