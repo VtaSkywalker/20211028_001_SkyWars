@@ -41,3 +41,17 @@ class PlayerBullet(BaseBullet):
 
     def __init__(self, pos, velocity):
         BaseBullet.__init__(self, pos, velocity, PlayerBullet.srcImg)
+
+class NormalEnemyBullet(BaseBullet):
+    """
+        普通敌人发射的子弹
+
+        Attributes
+        ----------
+    """
+
+    srcImg = "img/normalEnemyBullet.png"
+    scale = 1
+
+    def __init__(self, pos, velocity):
+        BaseBullet.__init__(self, pos, velocity, PlayerBullet.srcImg)

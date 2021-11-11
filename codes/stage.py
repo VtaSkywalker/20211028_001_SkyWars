@@ -82,6 +82,23 @@ class Stage:
         # 发射子弹后，更新玩家最近发射时间
         self.player.lastTimeFired = self.timeStamp
 
+    def enemyFire(self) -> None:
+        """
+            敌人发射子弹
+        """
+        # 对于每个敌人
+        for eachEnemy in self.enemyContainer:
+            # 如果间隔时间不够，则不发射子弹
+            if(self.timeStamp - eachEnemy.lastTimeFired < eachEnemy.fireInterv):
+                return
+            # 生成子弹后，将其加入到子弹容器中
+            newBulletPos = [eachEnemy.pos[0]+eachEnemy.firePos[0],eachEnemy.pos[1]+eachEnemy.firePos[1]]
+            newBullet = NormalEnemyBullet(newBulletPos, [0, 10])
+            newBullet.atk = eachEnemy.atk
+            self.bulletContainer.append(newBullet)
+            # 发射子弹后，更新敌人最近发射时间
+            eachEnemy.lastTimeFired = self.timeStamp
+
     def updateFire(self):
         """
             更新子弹位置，并删除已经到达界外的子弹
@@ -115,7 +132,7 @@ class Stage:
             # 与子弹的碰撞
             for eachBullet in self.bulletContainer:
                 # 命中扣血
-                if(self.isBulletCrashEnemy(eachEnemy, eachBullet.pos)):
+                if(self.isBulletCrashObj(eachEnemy, eachBullet.pos)):
                     eachEnemy.hp -= ((eachBullet.atk - eachEnemy.defen) if (eachBullet.atk >= eachEnemy.defen) else 0)
                     # 血量为0时，敌人死亡
                     if(eachEnemy.hp <= 0):
@@ -127,6 +144,21 @@ class Stage:
             effPos = [eachEnemy.pos[0], eachEnemy.pos[1] * 0.8]
             if(self.isOutside(effPos)):
                 self.enemyContainer.remove(eachEnemy)
+
+    def playerStateUpdate(self):
+        """
+            更新玩家状态，包括被子弹命中扣血，血量为零触发事件
+        """
+        # 与子弹的碰撞
+        for eachBullet in self.bulletContainer:
+            # 命中扣血
+            if(self.isBulletCrashObj(self.player, eachBullet.pos)):
+                self.player.hp -= (eachBullet.atk - self.player.defen)
+                # 死亡时触发事件
+                if(self.player.hp <= 0):
+                    self.gameover()
+                # 命中后子弹消失
+                self.bulletContainer.remove(eachBullet)
 
     def enemyMove(self):
         """
@@ -141,14 +173,14 @@ class Stage:
             # 移动
             eachEnemy.move()
 
-    def isBulletCrashEnemy(self, enemy, bulletPos) -> bool:
+    def isBulletCrashObj(self, obj, bulletPos) -> bool:
         """
-            检查敌人是否被某个子弹命中
+            检查实体是否被某个子弹命中
 
             Parameters
             ----------
-            enemy : BaseEnemy
-                敌人
+            obj : BaseEnemy
+                实体
             bulletPos : float[2]
                 子弹的位置
 
@@ -157,7 +189,7 @@ class Stage:
             True / False
                 被命中 / 未被命中
         """
-        if(enemy.pos[0]-enemy.crashBox[0] <= bulletPos[0] <= enemy.pos[0]+enemy.crashBox[0] and enemy.pos[1]-enemy.crashBox[1] <= bulletPos[1] <= enemy.pos[1]+enemy.crashBox[1]):
+        if(obj.pos[0]-obj.crashBox[0] <= bulletPos[0] <= obj.pos[0]+obj.crashBox[0] and obj.pos[1]-obj.crashBox[1] <= bulletPos[1] <= obj.pos[1]+obj.crashBox[1]):
             return True
         return False
 
@@ -171,10 +203,21 @@ class Stage:
         """
             敌人生成机制
         """
-        # 1秒生成一个1血敌人
-        dtOneHpEnemy = 1000
-        if(self.lastTimeStamp % 1000 > self.timeStamp % 1000):
+        # 大约1秒生成一个1血敌人
+        mu = 1000
+        std = 33
+        dtOneHpEnemy = random.gauss(mu, std)
+        while(dtOneHpEnemy < 0):
+            dtOneHpEnemy = random.gauss(mu, std)
+        if(self.lastTimeStamp % dtOneHpEnemy > self.timeStamp % dtOneHpEnemy):
             newEnemy = OneHpEnemy([random.random()*self.screenSize[0], 0])
             self.enemyContainer.append(newEnemy)
         # 为了方便下一次的判断
         self.lastTimeStamp = self.timeStamp
+
+    def gameover(self):
+        """
+            游戏结束触发事件
+        """
+        print("Game Over!")
+        pass

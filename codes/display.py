@@ -1,4 +1,4 @@
-from bullet import PlayerBullet
+from bullet import NormalEnemyBullet, PlayerBullet
 from player import Player
 from stage import Stage
 import pygame
@@ -32,7 +32,8 @@ class Display:
 
         # 各图像素材初始化
         self.playerImg, self.playerImgRect = self.initImgSrc(Player.srcImg, scale=Player.scale) # 玩家信息初始化
-        self.playerBulletImg, self.playerBulletImgRect = self.initImgSrc(PlayerBullet.srcImg, scale=PlayerBullet.scale) # 子弹信息初始化
+        self.playerBulletImg, self.playerBulletImgRect = self.initImgSrc(PlayerBullet.srcImg, scale=PlayerBullet.scale) # 玩家子弹信息初始化
+        self.normalEnemyBulletImg, self.normalEnemyBulletImgRect = self.initImgSrc(NormalEnemyBullet.srcImg, scale=NormalEnemyBullet.scale) # 普通敌人子弹初始化
         self.oneHpEnemyImg, self.oneHpEnemyImgRect = self.initImgSrc(OneHpEnemy.srcImg, scale=OneHpEnemy.scale) # 1血敌人初始化
 
         # 进入主循环
@@ -48,7 +49,7 @@ class Display:
 
             # 随着时间流逝，进行每一帧的刷新
             self.bulletMove() # 子弹向前推移
-            self.enemyUpdate() # 敌人更新
+            self.epUpdate() # 敌人和玩家更新
 
             # 更新时间戳
             self.updateTimeStamp()
@@ -84,6 +85,12 @@ class Display:
             # 玩家子弹情形
             if(eachBullet.__class__.__name__ == "PlayerBullet"):
                 eachBulletImg = self.playerBulletImg
+                eachBulletImgRect = eachBulletImg.get_rect()
+                eachBulletImgRect.centerx = eachBullet.pos[0]
+                eachBulletImgRect.centery = eachBullet.pos[1]
+            # 普通敌人子弹情形
+            if(eachBullet.__class__.__name__ == "NormalEnemyBullet"):
+                eachBulletImg = self.normalEnemyBulletImg
                 eachBulletImgRect = eachBulletImg.get_rect()
                 eachBulletImgRect.centerx = eachBullet.pos[0]
                 eachBulletImgRect.centery = eachBullet.pos[1]
@@ -148,12 +155,14 @@ class Display:
         rect = img.get_rect()
         return [img, rect]
 
-    def enemyUpdate(self):
+    def epUpdate(self):
         """
-            更新敌人
+            更新敌人和玩家状态
         """
         self.stage.enemySpan() # 敌人生成
+        self.stage.enemyFire() # 敌人发射子弹
         self.stage.enemyStateUpdate() # 敌人状态更新
+        self.stage.playerStateUpdate() # 玩家状态更新
 
     def showCrashBox(self):
         """

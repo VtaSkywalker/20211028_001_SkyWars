@@ -1,3 +1,8 @@
+from random import random
+
+
+import random
+
 class BaseEnemy:
     """
         敌人基类
@@ -20,6 +25,12 @@ class BaseEnemy:
             图像拉伸比例
         pos : float[2]
             当前所处位置
+        firePos : float[2]
+            炮口相对于飞机的位置
+        fireInterv : float
+            最小发射间隔时间，单位：ms
+        lastTimeFired : float
+            最近一次发射的时间戳
     """
     def __init__(self, hp, atk, defen, srcImg, crashBox, velocity, scale, pos):
         self.hp = hp
@@ -30,6 +41,9 @@ class BaseEnemy:
         self.velocity = velocity
         self.pos = pos
         self.scale = scale
+        self.lastTimeFired = 0 # 初始化最近发射时间戳
+        self.firePos = None
+        self.fireInterv = None
 
     def move(self):
         """
@@ -73,3 +87,10 @@ class OneHpEnemy(BaseEnemy):
         velocity = [3, 1]
         BaseEnemy.__init__(self, hp, atk, defen, OneHpEnemy.srcImg, crashBox, velocity, OneHpEnemy.scale, pos=pos)
         self.crashBoxRescale()
+        self.firePos = [0,35] # 炮口位置
+        # 开火间隔，加上一定的高斯误差，看起来更多样
+        mu = 1000
+        std = 33
+        self.fireInterv = random.gauss(mu, std)
+        while(self.fireInterv <= 0):
+            self.fireInterv = random.gauss(mu, std)
