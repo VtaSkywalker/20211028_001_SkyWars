@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<XMI xmi.version="1.2" timestamp="2021-11-11T14:29:38" verified="false" xmlns:UML="http://schema.omg.org/spec/UML/1.4">
+<XMI xmi.version="1.2" timestamp="2021-11-11T14:41:07" verified="false" xmlns:UML="http://schema.omg.org/spec/UML/1.4">
  <XMI.header>
   <XMI.documentation>
    <XMI.exporter>umbrello uml modeller 2.32.3 http://umbrello.kde.org</XMI.exporter>
@@ -98,6 +98,7 @@
           <UML:Parameter isSpecification="false" xmi.id="u20aUGGoL8haL" name="direction" comment="0: up&#10;1: left&#10;2: down&#10;3: right" visibility="private" type="udO493WFs8CGq" value=""/>
          </UML:BehavioralFeature.parameter>
         </UML:Operation>
+        <UML:Operation isSpecification="false" isLeaf="false" isRoot="false" isAbstract="false" xmi.id="ui3wovhu7jdao" name="crashBoxRescale" comment="碰撞箱随着图像尺寸放大而放大" visibility="public" isQuery="false" isOverride="false" isVirtual="false" isInline="false"/>
        </UML:Classifier.feature>
       </UML:Class>
       <UML:Class isSpecification="false" isLeaf="false" isRoot="false" isAbstract="false" xmi.id="uSoWDDhLE8OXE" name="Display Class" namespace="Logical_View" comment="显示图形界面" visibility="public">
@@ -265,7 +266,7 @@
   </UML:Model>
  </XMI.content>
  <XMI.extensions xmi.extender="umbrello">
-  <docsettings viewid="uHzCT3D9Iy5oR" documentation="" uniqueid="uAXHvn2nhTeR8"/>
+  <docsettings viewid="uHzCT3D9Iy5oR" documentation="" uniqueid="ui3wovhu7jdao"/>
   <listview>
    <listitem id="Views" type="800" open="1">
     <listitem id="Deployment_View" type="827" open="1"/>
@@ -335,6 +336,7 @@
      <listitem id="u2oAJzq7QVPRE" type="813" open="1">
       <listitem id="uCcMEfuBP7LZh" type="814" open="0"/>
       <listitem id="uGy5foodwinwS" type="814" open="0"/>
+      <listitem id="ui3wovhu7jdao" type="815" open="1"/>
       <listitem id="uQK9vP947oBLE" type="814" open="0"/>
       <listitem id="uOA6q6DGpvkl3" type="814" open="0"/>
       <listitem id="uMerLrxTK4Iu6" type="814" open="0"/>

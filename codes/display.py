@@ -76,8 +76,9 @@ class Display:
                 eachEnemyImgRect.centerx = eachEnemy.pos[0]
                 eachEnemyImgRect.centery = eachEnemy.pos[1]
             self.screen.blit(eachEnemyImg, eachEnemyImgRect)
-            if(DisplayConfig.doShowCrashBox):
-                self.showCrashBox()
+        # 碰撞箱显示
+        if(DisplayConfig.doShowCrashBox):
+            self.showCrashBox()
         # 子弹显示
         for eachBullet in self.stage.bulletContainer:
             # 玩家子弹情形
@@ -161,6 +162,8 @@ class Display:
         # 显示敌人的碰撞箱
         for eachEnemy in self.stage.enemyContainer:
             pygame.draw.rect(self.screen, (255, 255, 255), pygame.Rect(eachEnemy.pos[0]-eachEnemy.crashBox[0], eachEnemy.pos[1]-eachEnemy.crashBox[1], 2*eachEnemy.crashBox[0]+1, 2*eachEnemy.crashBox[1]+1), width=1)
+        # 显示玩家的碰撞箱
+        pygame.draw.rect(self.screen, (255, 255, 255), pygame.Rect(self.stage.player.pos[0]-self.stage.player.crashBox[0], self.stage.player.pos[1]-self.stage.player.crashBox[1], 2*self.stage.player.crashBox[0]+1, 2*self.stage.player.crashBox[1]+1), width=1)
 
 if __name__ == "__main__":
     display = Display()

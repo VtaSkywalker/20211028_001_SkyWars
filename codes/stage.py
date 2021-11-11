@@ -23,8 +23,13 @@ class Stage:
             敌人容器，包含所有在场的敌人
     """
     def __init__(self) -> None:
+        # 初始化屏幕
         self.screenSize = (400, 600)
+        
+        # 初始化玩家
         self.player = Player([self.screenSize[0] * 0.5, self.screenSize[1] * 0.95])
+        self.player.crashBoxRescale()
+        
         self.bulletContainer = []
         self.enemyContainer = []
         self.timeStamp = 0 # 初始化游戏时间戳为零

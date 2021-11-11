@@ -22,6 +22,10 @@ class Player:
             最近一次发射的时间戳
         atk : float
             攻击力
+        hp : float
+            玩家血量
+        defen : float
+            玩家防御力
     """
 
     srcImg = "img/player.png"
@@ -31,11 +35,14 @@ class Player:
         
         self.pos = initPos
         self.velocity = 5
-        self.crashBox = None
+        self.crashBox = [4, 3]
+        self.scale = Player.scale
         self.firePos = [0,-35]
         self.fireInterv = 160
         self.lastTimeFired = 0 # 初始化最近发射时间戳为0
         self.atk = 10 # 攻击力初始化
+        self.hp = 100 # 血量初始化
+        self.defen = 0 # 防御力初始化
 
     def move(self, direction):
         """
@@ -54,3 +61,10 @@ class Player:
             self.pos[1] += self.velocity
         elif(direction == 3):
             self.pos[0] += self.velocity
+
+    def crashBoxRescale(self):
+        """
+            碰撞箱随着图像尺寸放大而放大
+        """
+        self.crashBox[0] *= self.scale
+        self.crashBox[1] *= self.scale
