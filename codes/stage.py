@@ -93,10 +93,19 @@ class Stage:
                 return
             # 对于每个炮口，生成子弹后，将其加入到子弹容器中
             for eachFirePos in eachEnemy.firePos:
-                newBulletPos = [eachEnemy.pos[0]+eachFirePos[0],eachEnemy.pos[1]+eachFirePos[1]]
-                newBullet = NormalEnemyBullet(newBulletPos, [0, 5])
-                newBullet.atk = eachEnemy.atk
-                self.bulletContainer.append(newBullet)
+                # 特殊情形：三线射手：
+                if(eachEnemy.__class__.__name__ == "TripleShooter"):
+                    for eachVelocity in [[0, 5], [-1, 5], [1, 5]]:
+                        newBulletPos = [eachEnemy.pos[0]+eachFirePos[0],eachEnemy.pos[1]+eachFirePos[1]]
+                        newBullet = NormalEnemyBullet(newBulletPos, eachVelocity)
+                        newBullet.atk = eachEnemy.atk
+                        self.bulletContainer.append(newBullet)
+                # 普通情形
+                else:
+                    newBulletPos = [eachEnemy.pos[0]+eachFirePos[0],eachEnemy.pos[1]+eachFirePos[1]]
+                    newBullet = NormalEnemyBullet(newBulletPos, [0, 5])
+                    newBullet.atk = eachEnemy.atk
+                    self.bulletContainer.append(newBullet)
             # 发射子弹后，更新敌人最近发射时间
             eachEnemy.lastTimeFired = self.timeStamp
 
@@ -230,6 +239,15 @@ class Stage:
             dtDoubleWarrior = random.gauss(mu, std)
         if(self.lastTimeStamp % dtDoubleWarrior > self.timeStamp % dtDoubleWarrior):
             newEnemy = DoubleWarrior([random.random()*self.screenSize[0], 0])
+            self.enemyContainer.append(newEnemy)
+        # 大约3秒生成一个三线敌人
+        mu = 3000
+        std = 99
+        dtTripleWarrior = random.gauss(mu, std)
+        while(dtTripleWarrior < 0):
+            dtTripleWarrior = random.gauss(mu, std)
+        if(self.lastTimeStamp % dtTripleWarrior > self.timeStamp % dtTripleWarrior):
+            newEnemy = TripleShooter([random.random()*self.screenSize[0], 0])
             self.enemyContainer.append(newEnemy)
         # 为了方便下一次的判断
         self.lastTimeStamp = self.timeStamp

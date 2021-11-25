@@ -113,3 +113,22 @@ class DoubleWarrior(BaseEnemy):
         self.crashBoxRescale()
         self.firePos = [[-28,9], [28,9]] # 炮口位置
         self.fireInterv = 1000
+
+class TripleShooter(BaseEnemy):
+    """
+        三线射手，血量低，一次向三个方向发射子弹，径直纵向移动，移动速度中等，射击速度低
+    """
+
+    srcImg = "img/TripleShooter.png"
+    scale = 5
+
+    def __init__(self, pos):
+        hp = 30
+        atk = 8
+        defen = 0
+        crashBox = [4, 3]
+        velocity = [0, 2]
+        BaseEnemy.__init__(self, hp, atk, defen, OneHpEnemy.srcImg, crashBox, velocity, OneHpEnemy.scale, pos=pos)
+        self.crashBoxRescale()
+        self.firePos = [[0,30]] # 炮口位置
+        self.fireInterv = 1200
