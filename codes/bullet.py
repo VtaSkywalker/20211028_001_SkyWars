@@ -1,3 +1,6 @@
+import os.path
+import os
+
 class BaseBullet:
     """
         子弹基类
@@ -16,6 +19,10 @@ class BaseBullet:
             攻击力
         bulletOwner : char
             子弹发射人。P：玩家，E：敌人
+        isExplosion : bool = False
+            是否爆炸
+        explosionImgSeq : string[]
+            子弹爆炸的动画序列
     """
     def __init__(self, pos, velocity, srcImg):
         self.pos = pos
@@ -23,6 +30,8 @@ class BaseBullet:
         self.srcImg = None
         self.atk = 0
         self.bulletOwner = None
+        self.isExplosion = False
+        self.explosionImgSeq = None
 
     def move(self):
         """
@@ -30,6 +39,18 @@ class BaseBullet:
         """
         self.pos[0] += self.velocity[0]
         self.pos[1] += self.velocity[1]
+
+    def nextExplosion(self) -> bool:
+        """
+            切换子弹爆炸的动画到下一个帧，如果未播放完，返回True，否则返回False
+        """
+        imgIndex = self.explosionImgSeq.index(self.srcImg)
+        imgIndex += 1
+        if(imgIndex == len(self.explosionImgSeq)):
+            return False
+        # 如果未播放完，则切换到下一帧
+        self.srcImg = self.explosionImgSeq[imgIndex]
+        return True
 
 class PlayerBullet(BaseBullet):
     """
@@ -41,10 +62,18 @@ class PlayerBullet(BaseBullet):
 
     srcImg = "img/playerBullet.png"
     scale = 1
+    explosionImgSeqRoot = "img/playerBulletExplosionSeq"
 
     def __init__(self, pos, velocity):
         BaseBullet.__init__(self, pos, velocity, PlayerBullet.srcImg)
         self.bulletOwner = 'P'
+        # 初始化子弹爆炸动画序列
+        self.explosionImgSeq = [self.srcImg]
+        explosionImgSeqList = os.listdir(PlayerBullet.explosionImgSeqRoot)
+        explosionImgSeqList.sort()
+        for eachImgName in explosionImgSeqList:
+            eachImgPath = os.path.join(PlayerBullet.explosionImgSeqRoot, eachImgName)
+            self.explosionImgSeq.append(eachImgPath)
 
 class NormalEnemyBullet(BaseBullet):
     """

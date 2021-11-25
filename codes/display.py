@@ -86,10 +86,17 @@ class Display:
         for eachBullet in self.stage.bulletContainer:
             # 玩家子弹情形
             if(eachBullet.__class__.__name__ == "PlayerBullet"):
-                eachBulletImg = self.playerBulletImg
-                eachBulletImgRect = eachBulletImg.get_rect()
-                eachBulletImgRect.centerx = eachBullet.pos[0]
-                eachBulletImgRect.centery = eachBullet.pos[1]
+                # 未爆炸时，显示正常图像
+                if(not eachBullet.isExplosion):
+                    eachBulletImg = self.playerBulletImg
+                    eachBulletImgRect = eachBulletImg.get_rect()
+                    eachBulletImgRect.centerx = eachBullet.pos[0]
+                    eachBulletImgRect.centery = eachBullet.pos[1]
+                # 爆炸时，每帧都要单独考虑显示爆炸图像
+                else:
+                    eachBulletImg, eachBulletImgRect = self.initImgSrc(eachBullet.srcImg, scale=PlayerBullet.scale)
+                    eachBulletImgRect.centerx = eachBullet.pos[0]
+                    eachBulletImgRect.centery = eachBullet.pos[1]
             # 普通敌人子弹情形
             if(eachBullet.__class__.__name__ == "NormalEnemyBullet"):
                 eachBulletImg = self.normalEnemyBulletImg
