@@ -91,17 +91,18 @@ class Stage:
             # 如果间隔时间不够，则不发射子弹
             if(self.timeStamp - eachEnemy.lastTimeFired < eachEnemy.fireInterv):
                 return
-            # 生成子弹后，将其加入到子弹容器中
-            newBulletPos = [eachEnemy.pos[0]+eachEnemy.firePos[0],eachEnemy.pos[1]+eachEnemy.firePos[1]]
-            newBullet = NormalEnemyBullet(newBulletPos, [0, 5])
-            newBullet.atk = eachEnemy.atk
-            self.bulletContainer.append(newBullet)
+            # 对于每个炮口，生成子弹后，将其加入到子弹容器中
+            for eachFirePos in eachEnemy.firePos:
+                newBulletPos = [eachEnemy.pos[0]+eachFirePos[0],eachEnemy.pos[1]+eachFirePos[1]]
+                newBullet = NormalEnemyBullet(newBulletPos, [0, 5])
+                newBullet.atk = eachEnemy.atk
+                self.bulletContainer.append(newBullet)
             # 发射子弹后，更新敌人最近发射时间
             eachEnemy.lastTimeFired = self.timeStamp
 
     def updateFire(self):
         """
-            更新子弹位置，并删除已经到达界外的子弹
+            更新子弹位置，并删除已经到达界外或爆炸结束的子弹
         """
         for eachBullet in self.bulletContainer:
             eachBullet.move()
@@ -159,15 +160,15 @@ class Stage:
         # 与子弹的碰撞
         for eachBullet in self.bulletContainer:
             # 命中扣血
-            if(self.isBulletCrashObj(self.player, eachBullet.pos)):
+            if(self.isBulletCrashObj(self.player, eachBullet.pos) and eachBullet.isExplosion == False):
                 self.player.hp -= (eachBullet.atk - self.player.defen)
                 # 死亡时触发事件
                 if(self.player.hp <= 0):
                     self.gameover()
                 # 命中后设置爆炸状态
-                    eachBullet.isExplosion = True
-                    eachBullet.velocity = [0,0]
-                    eachBullet.nextExplosion()
+                eachBullet.isExplosion = True
+                eachBullet.velocity = [0,0]
+                eachBullet.nextExplosion()
 
     def enemyMove(self):
         """
@@ -220,6 +221,15 @@ class Stage:
             dtOneHpEnemy = random.gauss(mu, std)
         if(self.lastTimeStamp % dtOneHpEnemy > self.timeStamp % dtOneHpEnemy):
             newEnemy = OneHpEnemy([random.random()*self.screenSize[0], 0])
+            self.enemyContainer.append(newEnemy)
+        # 大约3秒生成一个双排敌人
+        mu = 3000
+        std = 99
+        dtDoubleWarrior = random.gauss(mu, std)
+        while(dtDoubleWarrior < 0):
+            dtDoubleWarrior = random.gauss(mu, std)
+        if(self.lastTimeStamp % dtDoubleWarrior > self.timeStamp % dtDoubleWarrior):
+            newEnemy = DoubleWarrior([random.random()*self.screenSize[0], 0])
             self.enemyContainer.append(newEnemy)
         # 为了方便下一次的判断
         self.lastTimeStamp = self.timeStamp

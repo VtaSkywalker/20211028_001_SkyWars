@@ -25,8 +25,8 @@ class BaseEnemy:
             图像拉伸比例
         pos : float[2]
             当前所处位置
-        firePos : float[2]
-            炮口相对于飞机的位置
+        firePos : float[2][]
+            炮口相对于飞机的位置，允许拥有多个炮口
         fireInterv : float
             最小发射间隔时间，单位：ms
         lastTimeFired : float
@@ -87,10 +87,29 @@ class OneHpEnemy(BaseEnemy):
         velocity = [3, 1]
         BaseEnemy.__init__(self, hp, atk, defen, OneHpEnemy.srcImg, crashBox, velocity, OneHpEnemy.scale, pos=pos)
         self.crashBoxRescale()
-        self.firePos = [0,35] # 炮口位置
+        self.firePos = [[0,35]] # 炮口位置
         # 开火间隔，加上一定的高斯误差，看起来更多样
-        mu = 500
+        mu = 800
         std = 33
         self.fireInterv = random.gauss(mu, std)
         while(self.fireInterv <= 0):
             self.fireInterv = random.gauss(mu, std)
+
+class DoubleWarrior(BaseEnemy):
+    """
+        双排战士，血量中，一次连排发射两个子弹，径直纵向移动，移动速度低，射击速度中等，防御力中
+    """
+
+    srcImg = "img/DoubleWarrior.png"
+    scale = 5
+
+    def __init__(self, pos):
+        hp = 50
+        atk = 10
+        defen = 5
+        crashBox = [4, 3]
+        velocity = [0, 1.5]
+        BaseEnemy.__init__(self, hp, atk, defen, OneHpEnemy.srcImg, crashBox, velocity, OneHpEnemy.scale, pos=pos)
+        self.crashBoxRescale()
+        self.firePos = [[-28,9], [28,9]] # 炮口位置
+        self.fireInterv = 1000
