@@ -84,7 +84,7 @@ class OneHpEnemy(BaseEnemy):
         atk = 5
         defen = 0
         crashBox = [4, 3]
-        velocity = [3, 1]
+        velocity = [0, 3]
         BaseEnemy.__init__(self, hp, atk, defen, OneHpEnemy.srcImg, crashBox, velocity, OneHpEnemy.scale, pos=pos)
         self.crashBoxRescale()
         self.firePos = [[0,35]] # 炮口位置
@@ -106,7 +106,7 @@ class DoubleWarrior(BaseEnemy):
     def __init__(self, pos):
         hp = 50
         atk = 10
-        defen = 5
+        defen = 0
         crashBox = [4, 3]
         velocity = [0, 1.5]
         BaseEnemy.__init__(self, hp, atk, defen, OneHpEnemy.srcImg, crashBox, velocity, OneHpEnemy.scale, pos=pos)

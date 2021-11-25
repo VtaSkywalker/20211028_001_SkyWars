@@ -56,6 +56,7 @@ class Display:
 
             # 更新时间戳
             self.updateTimeStamp()
+            print(self.stage.bulletContainer)
 
             # 绘制并更新图像
             self.draw()
@@ -76,15 +77,12 @@ class Display:
             # 1血敌人情形
             if(eachEnemy.__class__.__name__ == "OneHpEnemy"):
                 eachEnemyImg = self.oneHpEnemyImg
-                eachEnemyImgRect = eachEnemyImg.get_rect()
-                eachEnemyImgRect.centerx = eachEnemy.pos[0]
-                eachEnemyImgRect.centery = eachEnemy.pos[1]
             # 双排战士情形
             elif(eachEnemy.__class__.__name__ == "DoubleWarrior"):
                 eachEnemyImg = self.doubleWarriorImg
-                eachEnemyImgRect = eachEnemyImg.get_rect()
-                eachEnemyImgRect.centerx = eachEnemy.pos[0]
-                eachEnemyImgRect.centery = eachEnemy.pos[1]
+            eachEnemyImgRect = eachEnemyImg.get_rect()
+            eachEnemyImgRect.centerx = eachEnemy.pos[0]
+            eachEnemyImgRect.centery = eachEnemy.pos[1]
             self.screen.blit(eachEnemyImg, eachEnemyImgRect)
         # 碰撞箱显示
         if(DisplayConfig.doShowCrashBox):
