@@ -85,7 +85,15 @@ class NormalEnemyBullet(BaseBullet):
 
     srcImg = "img/normalEnemyBullet.png"
     scale = 1
+    explosionImgSeqRoot = "img/enemyBulletExplosionSeq"
 
     def __init__(self, pos, velocity):
-        BaseBullet.__init__(self, pos, velocity, PlayerBullet.srcImg)
+        BaseBullet.__init__(self, pos, velocity, NormalEnemyBullet.srcImg)
         self.bulletOwner = 'E'
+        # 初始化子弹爆炸动画序列
+        self.explosionImgSeq = [self.srcImg]
+        explosionImgSeqList = os.listdir(NormalEnemyBullet.explosionImgSeqRoot)
+        explosionImgSeqList.sort()
+        for eachImgName in explosionImgSeqList:
+            eachImgPath = os.path.join(NormalEnemyBullet.explosionImgSeqRoot, eachImgName)
+            self.explosionImgSeq.append(eachImgPath)

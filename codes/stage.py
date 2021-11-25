@@ -164,8 +164,10 @@ class Stage:
                 # 死亡时触发事件
                 if(self.player.hp <= 0):
                     self.gameover()
-                # 命中后子弹消失
-                self.bulletContainer.remove(eachBullet)
+                # 命中后设置爆炸状态
+                    eachBullet.isExplosion = True
+                    eachBullet.velocity = [0,0]
+                    eachBullet.nextExplosion()
 
     def enemyMove(self):
         """

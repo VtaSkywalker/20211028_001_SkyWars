@@ -99,10 +99,17 @@ class Display:
                     eachBulletImgRect.centery = eachBullet.pos[1]
             # 普通敌人子弹情形
             if(eachBullet.__class__.__name__ == "NormalEnemyBullet"):
-                eachBulletImg = self.normalEnemyBulletImg
-                eachBulletImgRect = eachBulletImg.get_rect()
-                eachBulletImgRect.centerx = eachBullet.pos[0]
-                eachBulletImgRect.centery = eachBullet.pos[1]
+                # 未爆炸时，显示正常图像
+                if(not eachBullet.isExplosion):
+                    eachBulletImg = self.normalEnemyBulletImg
+                    eachBulletImgRect = eachBulletImg.get_rect()
+                    eachBulletImgRect.centerx = eachBullet.pos[0]
+                    eachBulletImgRect.centery = eachBullet.pos[1]
+                # 爆炸时，每帧都要单独考虑显示爆炸图像
+                else:
+                    eachBulletImg, eachBulletImgRect = self.initImgSrc(eachBullet.srcImg, scale=NormalEnemyBullet.scale)
+                    eachBulletImgRect.centerx = eachBullet.pos[0]
+                    eachBulletImgRect.centery = eachBullet.pos[1]
             self.screen.blit(eachBulletImg, eachBulletImgRect)
         # 血条显示
         self.showPlayerHp()
