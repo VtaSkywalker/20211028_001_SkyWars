@@ -1,0 +1,28 @@
+{
+    "enemies" : [
+        {
+            "className" : "OneHpEnemy",
+            "appearBy" : "time",
+            "appearMode" : "random",
+            "mu" : 1000,
+            "std" : 33,
+            "posX" : -1
+        },
+        {
+            "className" : "DoubleWarrior",
+            "appearBy" : "time",
+            "appearMode" : "random",
+            "mu" : 3000,
+            "std" : 99,
+            "posX" : -1
+        },
+        {
+            "className" : "TripleShooter",
+            "appearBy" : "time",
+            "appearMode" : "random",
+            "mu" : 3000,
+            "std" : 99,
+            "posX" : -1
+        }
+    ]
+}

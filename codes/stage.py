@@ -2,6 +2,7 @@ from player import Player
 from bullet import *
 from enemy import *
 import random
+import json
 
 class Stage:
     """
@@ -222,34 +223,21 @@ class Stage:
         """
             敌人生成机制
         """
-        # 大约1秒生成一个1血敌人
-        mu = 1000
-        std = 33
-        dtOneHpEnemy = random.gauss(mu, std)
-        while(dtOneHpEnemy < 0):
-            dtOneHpEnemy = random.gauss(mu, std)
-        if(self.lastTimeStamp % dtOneHpEnemy > self.timeStamp % dtOneHpEnemy):
-            newEnemy = OneHpEnemy([random.random()*self.screenSize[0], 0])
-            self.enemyContainer.append(newEnemy)
-        # 大约3秒生成一个双排敌人
-        mu = 3000
-        std = 99
-        dtDoubleWarrior = random.gauss(mu, std)
-        while(dtDoubleWarrior < 0):
-            dtDoubleWarrior = random.gauss(mu, std)
-        if(self.lastTimeStamp % dtDoubleWarrior > self.timeStamp % dtDoubleWarrior):
-            newEnemy = DoubleWarrior([random.random()*self.screenSize[0], 0])
-            self.enemyContainer.append(newEnemy)
-        # 大约3秒生成一个三线敌人
-        mu = 3000
-        std = 99
-        dtTripleWarrior = random.gauss(mu, std)
-        while(dtTripleWarrior < 0):
-            dtTripleWarrior = random.gauss(mu, std)
-        if(self.lastTimeStamp % dtTripleWarrior > self.timeStamp % dtTripleWarrior):
-            newEnemy = TripleShooter([random.random()*self.screenSize[0], 0])
-            self.enemyContainer.append(newEnemy)
-        # 为了方便下一次的判断
+        enemySpanConfigFile = open("./config/enemySpanConfig.json", "r")
+        enemySpanConfig = json.load(enemySpanConfigFile)
+        enemyList = enemySpanConfig["enemies"]
+        for eachEnemy in enemyList:
+            className = eachEnemy["className"]
+            if(eachEnemy["appearMode"] == "random"):
+                mu = eachEnemy["mu"]
+                std = eachEnemy["std"]
+                dtEnemy = random.gauss(mu, std)
+                while(dtEnemy < 0):
+                    dtEnemy = random.gauss(mu, std)
+                if(self.lastTimeStamp % dtEnemy > self.timeStamp % dtEnemy):
+                    newEnemy = globals()[className]([random.random()*self.screenSize[0], 0])
+                    self.enemyContainer.append(newEnemy)
+        # 用于下一次的判断
         self.lastTimeStamp = self.timeStamp
 
     def gameover(self):
