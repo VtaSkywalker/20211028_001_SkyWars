@@ -97,7 +97,7 @@ class Stage:
         for eachEnemy in self.enemyContainer:
             # 如果间隔时间不够，则不发射子弹
             if(self.timeStamp - eachEnemy.lastTimeFired < eachEnemy.fireInterv):
-                return
+                continue
             # 对于每个炮口，生成子弹后，将其加入到子弹容器中
             for eachFirePos in eachEnemy.firePos:
                 # 特殊情形：三线射手：
@@ -108,7 +108,7 @@ class Stage:
                         newBullet.atk = eachEnemy.atk
                         self.bulletContainer.append(newBullet)
                 # 特殊情形：弹幕敌人：
-                if(eachEnemy.__class__.__name__ == "BulletRainShooter"):
+                elif(eachEnemy.__class__.__name__ == "BulletRainShooter"):
                     for eachVelocity in [[5, 0], [3.5355, 3.5355], [0, 5], [-3.5355, 3.5355], [-5, 0], [-3.5355, -3.5355], [0, -5], [3.5355, -3.5355]]:
                         newBulletPos = [eachEnemy.pos[0]+eachFirePos[0],eachEnemy.pos[1]+eachFirePos[1]]
                         newBullet = NormalEnemyBullet(newBulletPos, eachVelocity)
@@ -127,16 +127,19 @@ class Stage:
         """
             更新子弹位置，并删除已经到达界外或爆炸结束的子弹
         """
+        removeList = []
         for eachBullet in self.bulletContainer:
             eachBullet.move()
             # 如果已经移动到了场外，则删除这个子弹
             if(self.isOutside(eachBullet.pos)):
-                self.bulletContainer.remove(eachBullet)
+                removeList.append(eachBullet)
             # 如果子弹已爆炸，则更新子弹爆炸状态
             if(eachBullet.isExplosion):
                 if(not eachBullet.nextExplosion()):
                     # 若播放已结束，则移除子弹
-                    self.bulletContainer.remove(eachBullet)
+                    removeList.append(eachBullet)
+        for eachRemoveBullet in removeList:
+            self.bulletContainer.remove(eachRemoveBullet)
 
     def isOutside(self, pos) -> bool:
         """
@@ -155,6 +158,7 @@ class Stage:
         """
             逐个判断敌人的状态，并删除场外或已被消灭的敌人
         """
+        removeList = []
         self.enemyMove() # 敌人移动
         # 判断敌人与子弹的碰撞以及是否出界
         for eachEnemy in self.enemyContainer:
@@ -166,7 +170,7 @@ class Stage:
                     # 血量为0时，敌人死亡
                     if(eachEnemy.hp <= 0):
                         if(eachEnemy in self.enemyContainer): # 这里不知道为什么会出现删除时不在列表中的错误，先加上if保险
-                            self.enemyContainer.remove(eachEnemy)
+                            removeList.append(eachEnemy)
                     # 命中后设置爆炸状态
                     eachBullet.isExplosion = True
                     eachBullet.velocity = [0,0]
@@ -174,7 +178,9 @@ class Stage:
             # 出界一定范围后移除敌人
             effPos = [eachEnemy.pos[0], eachEnemy.pos[1] * 0.8]
             if(self.isOutside(effPos)):
-                self.enemyContainer.remove(eachEnemy)
+                removeList.append(eachEnemy)
+        for eachRemoveEnemy in removeList:
+            self.enemyContainer.remove(eachRemoveEnemy)
 
     def playerStateUpdate(self):
         """
