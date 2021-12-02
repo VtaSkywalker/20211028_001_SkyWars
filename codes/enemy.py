@@ -146,16 +146,16 @@ class BulletRainShooter(BaseEnemy):
         弹幕敌人，会往一圈方向发射多个子弹，形成环状区域的弹幕攻击，属于小BOSS级别
     """
 
-    srcImg = "img/TripleShooter.png"
+    srcImg = "img/BulletRainShooter.png"
     scale = 5
 
     def __init__(self, pos):
         hp = 250
         atk = 15
         defen = 5
-        crashBox = [4, 3]
+        crashBox = [8, 2]
         velocity = [1, 0]
         BaseEnemy.__init__(self, hp, atk, defen, OneHpEnemy.srcImg, crashBox, velocity, OneHpEnemy.scale, pos=pos)
         self.crashBoxRescale()
-        self.firePos = [[0,30]] # 炮口位置
+        self.firePos = [[0,40]] # 炮口位置
         self.fireInterv = 300

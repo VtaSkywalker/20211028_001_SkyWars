@@ -1,3 +1,4 @@
+from hashlib import new
 from player import Player
 from bullet import *
 from enemy import *
@@ -22,6 +23,8 @@ class Stage:
             最近一次时间戳
         enemyContainer : BaseEnemy[]
             敌人容器，包含所有在场的敌人
+        bossName : string[]
+            BOSS的类名
     """
     def __init__(self) -> None:
         # 初始化屏幕
@@ -35,6 +38,9 @@ class Stage:
         self.enemyContainer = []
         self.timeStamp = 0 # 初始化游戏时间戳为零
         self.lastTimeStamp = 0 # 最近一次时间戳
+
+        # BOSS名单
+        self.bossName = ["BulletRainShooter"]
 
     def playerMove(self, direction) -> None:
         """
@@ -230,24 +236,39 @@ class Stage:
         """
             敌人生成机制
         """
-        enemySpanConfigFile = open("./config/enemySpanConfig.json", "r")
-        enemySpanConfig = json.load(enemySpanConfigFile)
-        enemyList = enemySpanConfig["enemies"]
-        for eachEnemy in enemyList:
-            className = eachEnemy["className"]
-            if(eachEnemy["appearBy"] == "time"):
-                mu = eachEnemy["mu"]
-                std = eachEnemy["std"]
-                dtEnemy = random.gauss(mu, std)
-                while(dtEnemy < 0):
+        # 如果BOSS在场，则不生成新的敌人
+        if(not self.isBossOnstage()):
+            enemySpanConfigFile = open("./config/enemySpanConfig.json", "r")
+            enemySpanConfig = json.load(enemySpanConfigFile)
+            enemyList = enemySpanConfig["enemies"]
+            for eachEnemy in enemyList:
+                newEnemy = None
+                className = eachEnemy["className"]
+                # 间隔固定时间出现的敌人
+                if(eachEnemy["appearBy"] == "time"):
+                    mu = eachEnemy["mu"]
+                    std = eachEnemy["std"]
                     dtEnemy = random.gauss(mu, std)
-                if(self.lastTimeStamp % dtEnemy > self.timeStamp % dtEnemy):
-                    # 随机位置生成的敌人
-                    if(eachEnemy["appearMode"] == "random"):
-                        newEnemy = globals()[className]([random.random()*self.screenSize[0], 0])
-                    # 固定位置生成的敌人
-                    if(eachEnemy["appearMode"] == "fix"):
-                        newEnemy = globals()[className]([eachEnemy["posX"], eachEnemy["posY"]])
+                    while(dtEnemy < 0):
+                        dtEnemy = random.gauss(mu, std)
+                    if(self.lastTimeStamp % dtEnemy > self.timeStamp % dtEnemy):
+                        # 随机位置生成的敌人
+                        if(eachEnemy["appearMode"] == "random"):
+                            newEnemy = globals()[className]([random.random()*self.screenSize[0], 0])
+                        # 固定位置生成的敌人
+                        if(eachEnemy["appearMode"] == "fix"):
+                            newEnemy = globals()[className]([eachEnemy["posX"], eachEnemy["posY"]])
+                # 在指定时间点立刻生成的敌人
+                elif(eachEnemy["appearBy"] == "immediately"):
+                    for eachTimeStamp in eachEnemy["spawnAt"]:
+                        if(self.lastTimeStamp < eachTimeStamp and self.timeStamp >= eachTimeStamp):
+                            # 随机位置生成的敌人
+                            if(eachEnemy["appearMode"] == "random"):
+                                newEnemy = globals()[className]([random.random()*self.screenSize[0], 0])
+                            # 固定位置生成的敌人
+                            if(eachEnemy["appearMode"] == "fix"):
+                                newEnemy = globals()[className]([eachEnemy["posX"], eachEnemy["posY"]])
+                if(newEnemy):
                     self.enemyContainer.append(newEnemy)
         # 用于下一次的判断
         self.lastTimeStamp = self.timeStamp
@@ -259,3 +280,12 @@ class Stage:
         print("Game Over!")
         self.player.hp = 0
         pass
+
+    def isBossOnstage(self) -> bool:
+        """
+            判断BOSS是否在场上
+        """
+        for eachEnemy in self.enemyContainer:
+            if(eachEnemy.__class__.__name__ in self.bossName):
+                return True
+        return False

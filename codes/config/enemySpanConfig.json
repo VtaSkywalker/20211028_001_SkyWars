@@ -30,9 +30,10 @@
         {
             "className" : "BulletRainShooter",
             "appearBy" : "time",
-            "appearMode" : "fix",
+            "spawnAt" : [10e3],
             "mu" : 30e3,
             "std" : 0,
+            "appearMode" : "fix",
             "posX" : 200,
             "posY" : 50
         }
