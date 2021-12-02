@@ -4,25 +4,37 @@
             "className" : "OneHpEnemy",
             "appearBy" : "time",
             "appearMode" : "random",
-            "mu" : 1000,
+            "mu" : 1e3,
             "std" : 33,
-            "posX" : -1
+            "posX" : -1,
+            "posY" : -1
         },
         {
             "className" : "DoubleWarrior",
             "appearBy" : "time",
             "appearMode" : "random",
-            "mu" : 3000,
+            "mu" : 3e3,
             "std" : 99,
-            "posX" : -1
+            "posX" : -1,
+            "posY" : -1
         },
         {
             "className" : "TripleShooter",
             "appearBy" : "time",
             "appearMode" : "random",
-            "mu" : 3000,
+            "mu" : 3e3,
             "std" : 99,
-            "posX" : -1
+            "posX" : -1,
+            "posY" : -1
+        },
+        {
+            "className" : "BulletRainShooter",
+            "appearBy" : "time",
+            "appearMode" : "fix",
+            "mu" : 30e3,
+            "std" : 0,
+            "posX" : 200,
+            "posY" : 50
         }
     ]
 }

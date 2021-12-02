@@ -101,6 +101,13 @@ class Stage:
                         newBullet = NormalEnemyBullet(newBulletPos, eachVelocity)
                         newBullet.atk = eachEnemy.atk
                         self.bulletContainer.append(newBullet)
+                # 特殊情形：弹幕敌人：
+                if(eachEnemy.__class__.__name__ == "BulletRainShooter"):
+                    for eachVelocity in [[5, 0], [3.5355, 3.5355], [0, 5], [-3.5355, 3.5355], [-5, 0], [-3.5355, -3.5355], [0, -5], [3.5355, -3.5355]]:
+                        newBulletPos = [eachEnemy.pos[0]+eachFirePos[0],eachEnemy.pos[1]+eachFirePos[1]]
+                        newBullet = NormalEnemyBullet(newBulletPos, eachVelocity)
+                        newBullet.atk = eachEnemy.atk
+                        self.bulletContainer.append(newBullet)
                 # 普通情形
                 else:
                     newBulletPos = [eachEnemy.pos[0]+eachFirePos[0],eachEnemy.pos[1]+eachFirePos[1]]
@@ -188,7 +195,7 @@ class Stage:
             # 如果即将越界，则立刻切换方向，切换后再移动
             newPos = [eachEnemy.pos[0]+eachEnemy.velocity[0], eachEnemy.pos[1]+eachEnemy.velocity[1]]
             if(self.isOutside(newPos)):
-                if(newPos[0] < 0 or newPos[0] > self.screenSize[0]): # 横向出界
+                if(newPos[0] < 0 or newPos[0] >= self.screenSize[0]): # 横向出界
                     eachEnemy.velocity[0] = -eachEnemy.velocity[0]
             # 移动
             eachEnemy.move()
@@ -228,14 +235,19 @@ class Stage:
         enemyList = enemySpanConfig["enemies"]
         for eachEnemy in enemyList:
             className = eachEnemy["className"]
-            if(eachEnemy["appearMode"] == "random"):
+            if(eachEnemy["appearBy"] == "time"):
                 mu = eachEnemy["mu"]
                 std = eachEnemy["std"]
                 dtEnemy = random.gauss(mu, std)
                 while(dtEnemy < 0):
                     dtEnemy = random.gauss(mu, std)
                 if(self.lastTimeStamp % dtEnemy > self.timeStamp % dtEnemy):
-                    newEnemy = globals()[className]([random.random()*self.screenSize[0], 0])
+                    # 随机位置生成的敌人
+                    if(eachEnemy["appearMode"] == "random"):
+                        newEnemy = globals()[className]([random.random()*self.screenSize[0], 0])
+                    # 固定位置生成的敌人
+                    if(eachEnemy["appearMode"] == "fix"):
+                        newEnemy = globals()[className]([eachEnemy["posX"], eachEnemy["posY"]])
                     self.enemyContainer.append(newEnemy)
         # 用于下一次的判断
         self.lastTimeStamp = self.timeStamp

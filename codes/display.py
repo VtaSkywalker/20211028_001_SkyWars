@@ -36,9 +36,10 @@ class Display:
         self.playerImg, self.playerImgRect = self.initImgSrc(Player.srcImg, scale=Player.scale) # 玩家信息初始化
         self.playerBulletImg, self.playerBulletImgRect = self.initImgSrc(PlayerBullet.srcImg, scale=PlayerBullet.scale) # 玩家子弹信息初始化
         self.normalEnemyBulletImg, self.normalEnemyBulletImgRect = self.initImgSrc(NormalEnemyBullet.srcImg, scale=NormalEnemyBullet.scale) # 普通敌人子弹初始化
-        self.oneHpEnemyImg, self.oneHpEnemyImgRect = self.initImgSrc(OneHpEnemy.srcImg, scale=OneHpEnemy.scale) # 1血敌人初始化
-        self.doubleWarriorImg, self.doubleWarriorImgRect = self.initImgSrc(DoubleWarrior.srcImg, scale=DoubleWarrior.scale) # 双排敌人初始化
-        self.tripleShooterImg, self.dtripleShooterImgRect = self.initImgSrc(TripleShooter.srcImg, scale=TripleShooter.scale) # 三线敌人初始化
+        OneHpEnemy.img, OneHpEnemy.imgRect = self.initImgSrc(OneHpEnemy.srcImg, scale=OneHpEnemy.scale) # 1血敌人初始化
+        DoubleWarrior.img, DoubleWarrior.imgRect = self.initImgSrc(DoubleWarrior.srcImg, scale=DoubleWarrior.scale) # 双排敌人初始化
+        TripleShooter.img, TripleShooter.imgRect = self.initImgSrc(TripleShooter.srcImg, scale=TripleShooter.scale) # 三线敌人初始化
+        BulletRainShooter.img, BulletRainShooter.imgRect = self.initImgSrc(BulletRainShooter.srcImg, scale=BulletRainShooter.scale) # 弹幕敌人初始化
         # 进入主循环
         while(True):
             # 事件判定
@@ -73,15 +74,7 @@ class Display:
         self.screen.blit(self.playerImg, self.playerImgRect)
         # 敌人飞机显示
         for eachEnemy in self.stage.enemyContainer:
-            # 1血敌人情形
-            if(eachEnemy.__class__.__name__ == "OneHpEnemy"):
-                eachEnemyImg = self.oneHpEnemyImg
-            # 双排战士情形
-            elif(eachEnemy.__class__.__name__ == "DoubleWarrior"):
-                eachEnemyImg = self.doubleWarriorImg
-            # 三线射手情形
-            elif(eachEnemy.__class__.__name__ == "TripleShooter"):
-                eachEnemyImg = self.tripleShooterImg
+            eachEnemyImg = eachEnemy.img
             eachEnemyImgRect = eachEnemyImg.get_rect()
             eachEnemyImgRect.centerx = eachEnemy.pos[0]
             eachEnemyImgRect.centery = eachEnemy.pos[1]

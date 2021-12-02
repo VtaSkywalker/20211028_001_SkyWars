@@ -4,6 +4,10 @@ from random import random
 import random
 
 class BaseEnemy:
+
+    img = None
+    imgRect = None
+
     """
         敌人基类
 
@@ -31,6 +35,10 @@ class BaseEnemy:
             最小发射间隔时间，单位：ms
         lastTimeFired : float
             最近一次发射的时间戳
+        img : string
+            贴图
+        imgRect : Rect
+            贴图的矩形
     """
     def __init__(self, hp, atk, defen, srcImg, crashBox, velocity, scale, pos):
         self.hp = hp
@@ -44,7 +52,7 @@ class BaseEnemy:
         self.lastTimeFired = 0 # 初始化最近发射时间戳
         self.firePos = None
         self.fireInterv = None
-
+        
     def move(self):
         """
             敌人最基本的移动方式，左右来回，稳步前进
@@ -132,3 +140,22 @@ class TripleShooter(BaseEnemy):
         self.crashBoxRescale()
         self.firePos = [[0,30]] # 炮口位置
         self.fireInterv = 1200
+
+class BulletRainShooter(BaseEnemy):
+    """
+        弹幕敌人，会往一圈方向发射多个子弹，形成环状区域的弹幕攻击，属于小BOSS级别
+    """
+
+    srcImg = "img/TripleShooter.png"
+    scale = 5
+
+    def __init__(self, pos):
+        hp = 250
+        atk = 15
+        defen = 5
+        crashBox = [4, 3]
+        velocity = [1, 0]
+        BaseEnemy.__init__(self, hp, atk, defen, OneHpEnemy.srcImg, crashBox, velocity, OneHpEnemy.scale, pos=pos)
+        self.crashBoxRescale()
+        self.firePos = [[0,30]] # 炮口位置
+        self.fireInterv = 300
