@@ -1,7 +1,10 @@
 from hashlib import new
+from os import remove
 from player import Player
 from bullet import *
 from enemy import *
+from item import *
+import pygame
 import random
 import json
 
@@ -25,6 +28,13 @@ class Stage:
             敌人容器，包含所有在场的敌人
         bossName : string[]
             BOSS的类名
+        itemDict : dict[]
+            所有可能出现的道具（类名）及其权重
+            {'itemName' : power}
+        itemContainer : BaseItem[]
+            道具容器，当前在屏幕范围内的道具
+        itemSpawnTable : int[]
+            物品生成表，用于后续随机生成物品
     """
     def __init__(self) -> None:
         # 初始化屏幕
@@ -41,6 +51,16 @@ class Stage:
 
         # BOSS名单
         self.bossName = ["BulletRainShooter"]
+
+        # 所有可能出现的道具（类名）及其权重
+        self.itemDict = {"RecoverItem" : RecoverItem.appearPower, "AddHpLimitItem" : AddHpLimitItem.appearPower, "EnhanceFireItem" : EnhanceFireItem.appearPower, "EnhanceAtkItem" : EnhanceAtkItem.appearPower, "EnhanceDefenItem" : EnhanceDefenItem.appearPower}
+
+        # 道具容器
+        self.itemContainer = []
+
+        # 物品生成表
+        self.itemSpawnTable = None
+        self.createItemSpawnTable()
 
     def playerMove(self, direction) -> None:
         """
@@ -169,8 +189,10 @@ class Stage:
                     eachEnemy.hp -= ((eachBullet.atk - eachEnemy.defen) if (eachBullet.atk >= eachEnemy.defen) else 0)
                     # 血量为0时，敌人死亡
                     if(eachEnemy.hp <= 0):
-                        if(eachEnemy in self.enemyContainer): # 这里不知道为什么会出现删除时不在列表中的错误，先加上if保险
+                        if(eachEnemy in self.enemyContainer): # 这里不知道为什么会出现删除时不在列表中的错误，先加上if保险（现在知道了，去掉这句话应该没事）
                             removeList.append(eachEnemy)
+                            # 敌人死亡时，道具掉落
+                            self.spawnItem(1, eachEnemy.pos)
                     # 命中后设置爆炸状态
                     eachBullet.isExplosion = True
                     eachBullet.velocity = [0,0]
@@ -180,7 +202,8 @@ class Stage:
             if(self.isOutside(effPos)):
                 removeList.append(eachEnemy)
         for eachRemoveEnemy in removeList:
-            self.enemyContainer.remove(eachRemoveEnemy)
+            if(eachRemoveEnemy):
+                self.enemyContainer.remove(eachRemoveEnemy)
 
     def playerStateUpdate(self):
         """
@@ -190,7 +213,7 @@ class Stage:
         for eachBullet in self.bulletContainer:
             # 命中扣血
             if(self.isBulletCrashObj(self.player, eachBullet.pos) and eachBullet.isExplosion == False):
-                self.player.hp -= (eachBullet.atk - self.player.defen)
+                self.player.hp -= (eachBullet.atk - self.player.defen) if (eachBullet.atk - self.player.defen) >= 1 else 1
                 # 死亡时触发事件
                 if(self.player.hp <= 0):
                     self.gameover()
@@ -198,6 +221,30 @@ class Stage:
                 eachBullet.isExplosion = True
                 eachBullet.velocity = [0,0]
                 eachBullet.nextExplosion()
+        # 与物品的碰撞
+        removeList = []
+        for eachItem in self.itemContainer:
+            eachItem.img = pygame.image.load(eachItem.srcImg)
+            if(self.isItemPickUp(eachItem)):
+                # 根据物品的不同，获得不同的效果
+                itemName = eachItem.__class__.__name__
+                if(itemName == "RecoverItem"):
+                    self.player.hp = self.player.hp + eachItem.addHp if(self.player.hp + eachItem.addHp) <= 100 else 100
+                elif(itemName == "AddHpLimitItem"):
+                    self.player.hpMax += eachItem.addHpLimit
+                elif(itemName == "EnhanceFireItem"):
+                    currentFireFreq = 1000 / self.player.fireInterv
+                    if(currentFireFreq < 20):
+                        newFireFreq = currentFireFreq + eachItem.addFireFreq
+                        self.player.fireInterv = 1000 / newFireFreq
+                elif(itemName == "EnhanceAtkItem"):
+                    self.player.atk += eachItem.addAtk
+                elif(itemName == "EnhanceDefenItem"):
+                    self.player.defen += eachItem.addDefen
+                # 吃完道具后，道具消失
+                removeList.append(eachItem)
+        for eachRemoveItem in removeList:
+            self.itemContainer.remove(eachRemoveItem)
 
     def enemyMove(self):
         """
@@ -295,3 +342,61 @@ class Stage:
             if(eachEnemy.__class__.__name__ in self.bossName):
                 return True
         return False
+
+    def spawnItem(self, dropProb, pos):
+        """
+            击杀敌人时调用，尝试生成道具
+
+            Parameters
+            ----------
+            dropProb : float
+                爆率
+            pos : float[2]
+                爆点
+        """
+        # 如果没有生成道具，则直接返回
+        if(random.random() >= dropProb):
+            return
+        # 生成道具
+        spawnItemName = list(self.itemDict.keys())[self.itemSpawnTable[int(random.random() * len(self.itemSpawnTable))]]
+        newItem = globals()[spawnItemName](pos)
+        self.itemContainer.append(newItem)
+
+    def itemMove(self):
+        """
+            物品在场景中移动，其中移出场景的物品被移除
+        """
+        removeList = []
+        for eachItem in self.itemContainer:
+            eachItem.move()
+            # 出界后移除物品
+            effPos = [eachItem.pos[0], eachItem.pos[1] * 0.8]
+            if(self.isOutside(effPos)):
+                removeList.append(eachItem)
+        for eachRemoveItem in removeList:
+            self.itemContainer.remove(eachRemoveItem)
+
+    def isItemPickUp(self, item) -> bool:
+        """
+            检查玩家是否捡到道具
+
+            Parameters
+            ----------
+            item : BaseItem
+                物品
+        """
+        itemImgRect = item.img.get_rect()
+        itemImgRect.centerx = item.pos[0]
+        itemImgRect.centery = item.pos[1]
+        if(abs(self.player.pos[0] - item.pos[0]) <= (self.player.crashBox[0] + itemImgRect.size[0] / 2) and abs(self.player.pos[1] - item.pos[1]) <= (self.player.crashBox[1] + itemImgRect.size[1] / 2)):
+            return True
+        return False
+
+    def createItemSpawnTable(self):
+        """
+            创建物品生成表，用于后续随机生成物品
+        """
+        self.itemSpawnTable = []
+        for (idx, spawnPower) in zip(range(len(self.itemDict.values())), self.itemDict.values()):
+            for i in range(spawnPower):
+                self.itemSpawnTable.append(idx)

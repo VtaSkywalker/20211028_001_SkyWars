@@ -111,6 +111,12 @@ class Display:
                     eachBulletImgRect.centerx = eachBullet.pos[0]
                     eachBulletImgRect.centery = eachBullet.pos[1]
             self.screen.blit(eachBulletImg, eachBulletImgRect)
+        # 道具显示
+        for eachItem in self.stage.itemContainer:
+            eachItemImg, eachItemImgRect = self.initImgSrc(eachItem.srcImg, scale=1)
+            eachItemImgRect.centerx = eachItem.pos[0]
+            eachItemImgRect.centery = eachItem.pos[1]
+            self.screen.blit(eachItemImg, eachItemImgRect)
         # 血条显示
         self.showPlayerHp()
         return
@@ -175,12 +181,13 @@ class Display:
 
     def epUpdate(self):
         """
-            更新敌人和玩家状态
+            更新敌人和玩家状态（包括物品，物品实在是不想再单独搞个方法了……）
         """
         self.stage.enemySpan() # 敌人生成
         self.stage.enemyFire() # 敌人发射子弹
         self.stage.enemyStateUpdate() # 敌人状态更新
         self.stage.playerStateUpdate() # 玩家状态更新
+        self.stage.itemMove() # 物品移动
 
     def showPlayerHp(self):
         """
