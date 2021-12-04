@@ -7,6 +7,7 @@ from item import *
 import pygame
 import random
 import json
+import numpy as np
 
 class Stage:
     """
@@ -192,7 +193,21 @@ class Stage:
                         if(eachEnemy in self.enemyContainer): # 这里不知道为什么会出现删除时不在列表中的错误，先加上if保险（现在知道了，去掉这句话应该没事）
                             removeList.append(eachEnemy)
                             # 敌人死亡时，道具掉落
-                            self.spawnItem(1, eachEnemy.pos)
+                            itemXStd = 17
+                            itemYStd = 10
+                            # 特殊型，多次掉落
+                            if(eachEnemy.__class__.__name__ == "BulletRainShooter"):
+                                for i in range(3):
+                                    self.spawnItem(1, np.array(eachEnemy.pos) + np.array([random.gauss(0, itemXStd), random.gauss(0, itemYStd)]))
+                            # 非特殊型，仅一次掉落
+                            else:
+                                if(eachEnemy.__class__.__name__ == "OneHpEnemy"):
+                                    prob = 0.05
+                                elif(eachEnemy.__class__.__name__ == "DoubleWarrior"):
+                                    prob = 0.1
+                                elif(eachEnemy.__class__.__name__ == "TripleShooter"):
+                                    prob = 0.12
+                                self.spawnItem(prob, np.array(eachEnemy.pos) + np.array([random.gauss(0, itemXStd), random.gauss(0, itemYStd)]))
                     # 命中后设置爆炸状态
                     eachBullet.isExplosion = True
                     eachBullet.velocity = [0,0]
@@ -202,8 +217,10 @@ class Stage:
             if(self.isOutside(effPos)):
                 removeList.append(eachEnemy)
         for eachRemoveEnemy in removeList:
-            if(eachRemoveEnemy):
+            try:
                 self.enemyContainer.remove(eachRemoveEnemy)
+            except:
+                continue
 
     def playerStateUpdate(self):
         """

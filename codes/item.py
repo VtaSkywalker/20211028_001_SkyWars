@@ -61,14 +61,15 @@ class AddHpLimitItem(BaseItem):
             增加血量上限的数量
     """
 
-    srcImg = "./img/recoverItem.png"
+    srcImg = "./img/addHpLimitItem.png"
     appearPower = 2
-
+    
     def __init__(self, pos) -> None:
         BaseItem.__init__(self, pos)
         self.itemName = "AddHpLimitItem"
         self.appearPower = 2
         self.addHpLimit = 25
+        self.velocity = [0, 4.5]
 
 class EnhanceFireItem(BaseItem):
     """
@@ -80,7 +81,7 @@ class EnhanceFireItem(BaseItem):
             每秒的次数提升量
     """
 
-    srcImg = "./img/recoverItem.png"
+    srcImg = "./img/enhanceFireItem.png"
     appearPower = 5
 
     def __init__(self, pos) -> None:
@@ -88,6 +89,7 @@ class EnhanceFireItem(BaseItem):
         self.itemName = "EnhanceFireItem"
         self.appearPower = 5
         self.addFireFreq = 1
+        self.velocity = [0, 4.5]
 
 class EnhanceAtkItem(BaseItem):
     """
@@ -98,7 +100,7 @@ class EnhanceAtkItem(BaseItem):
         addAtk : float = 2
     """
 
-    srcImg = "./img/recoverItem.png"
+    srcImg = "./img/enhanceAtkItem.png"
     appearPower = 2
 
     def __init__(self, pos) -> None:
@@ -106,6 +108,7 @@ class EnhanceAtkItem(BaseItem):
         self.itemName = "EnhanceAtkItem"
         self.appearPower = 2
         self.addAtk = 2
+        self.velocity = [0, 6]
 
 class EnhanceDefenItem(BaseItem):
     """
@@ -116,7 +119,7 @@ class EnhanceDefenItem(BaseItem):
         addDefen : float = 1
     """
 
-    srcImg = "./img/recoverItem.png"
+    srcImg = "./img/enhanceDefenItem.png"
     appearPower = 2
 
     def __init__(self, pos) -> None:
@@ -124,3 +127,4 @@ class EnhanceDefenItem(BaseItem):
         self.itemName = "EnhanceDefenItem"
         self.appearPower = 2
         self.addDefen = 1
+        self.velocity = [0, 5]
