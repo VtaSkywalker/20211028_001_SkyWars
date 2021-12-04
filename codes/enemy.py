@@ -159,3 +159,4 @@ class BulletRainShooter(BaseEnemy):
         self.crashBoxRescale()
         self.firePos = [[0,40]] # 炮口位置
         self.fireInterv = 300
+        self.maxHp = 250 # BOSS特有的血量上限

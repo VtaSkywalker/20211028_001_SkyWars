@@ -119,6 +119,8 @@ class Display:
             self.screen.blit(eachItemImg, eachItemImgRect)
         # 血条显示
         self.showPlayerHp()
+        if(self.stage.isBossOnstage()):
+            self.showBossHp()
         return
 
     def playerMove(self) -> None:
@@ -215,6 +217,26 @@ class Display:
         maskY = [imgY[0], imgY[1]]
         maskRect = pygame.Rect(maskX[0], maskY[0], maskX[1]-maskX[0], maskY[1]-maskY[0])
         pygame.draw.rect(self.screen, (0, 0, 0), maskRect)
+
+    def showBossHp(self):
+        """
+            显示BOSS的血条（如果正在进行BOSS战）
+        """
+        # 搜索BOSS
+        for eachEnemy in self.stage.enemyContainer:
+            if(eachEnemy.__class__.__name__ in self.stage.bossName):
+                boss = eachEnemy
+                break
+        # 血量百分比计算
+        bossHpRatio = boss.hp / boss.maxHp
+        # 血条内容绘制
+        pygame.draw.rect(self.screen, (255, 0, 0), pygame.Rect(0.25 * self.stage.screenSize[0], 15, bossHpRatio * 0.7 * self.stage.screenSize[0], 20), width=0)
+        # 血条边框绘制
+        pygame.draw.rect(self.screen, (255, 255, 255), pygame.Rect(0.25 * self.stage.screenSize[0], 15, 0.7 * self.stage.screenSize[0], 20), width=1)        
+        # BOSS文字显示
+        font = pygame.font.SysFont(None, 32)
+        img = font.render('BOSS', True, (255, 255, 255))
+        self.screen.blit(img, (0.05 * self.stage.screenSize[0], 15))
 
     def showCrashBox(self):
         """

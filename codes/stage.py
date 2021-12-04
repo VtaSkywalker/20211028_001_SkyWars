@@ -36,6 +36,8 @@ class Stage:
             道具容器，当前在屏幕范围内的道具
         itemSpawnTable : int[]
             物品生成表，用于后续随机生成物品
+        bossTS : float
+            最近一次BOSS出现时的时间戳
     """
     def __init__(self) -> None:
         # 初始化屏幕
@@ -62,6 +64,9 @@ class Stage:
         # 物品生成表
         self.itemSpawnTable = None
         self.createItemSpawnTable()
+
+        # 最近一次BOSS出现时的时间戳
+        self.bossTS = 0
 
     def playerMove(self, direction) -> None:
         """
@@ -192,6 +197,10 @@ class Stage:
                     if(eachEnemy.hp <= 0):
                         if(eachEnemy in self.enemyContainer): # 这里不知道为什么会出现删除时不在列表中的错误，先加上if保险（现在知道了，去掉这句话应该没事）
                             removeList.append(eachEnemy)
+                            # 如果死亡的时BOSS，则重设时间戳到打BOSS前的状态
+                            if(eachEnemy.__class__.__name__ in self.bossName):
+                                self.timeStamp = self.bossTS
+                                self.player.lastTimeFired = self.bossTS
                             # 敌人死亡时，道具掉落
                             itemXStd = 17
                             itemYStd = 10
@@ -316,12 +325,19 @@ class Stage:
                 className = eachEnemy["className"]
                 # 间隔固定时间出现的敌人
                 if(eachEnemy["appearBy"] == "time"):
+                    timeCorr = 0
+                    # 对于指定在某个时间段之后才会等间隔出现的敌人，如果时候未到，直接跳过，而如果时间到了，则立刻开始
+                    if("firstTime" in eachEnemy.keys()):
+                        effTime = eachEnemy["firstTime"] - self.timeStamp
+                        if(effTime > 0):
+                            continue
+                        timeCorr = -eachEnemy["firstTime"]
                     mu = eachEnemy["mu"]
                     std = eachEnemy["std"]
                     dtEnemy = random.gauss(mu, std)
                     while(dtEnemy < 0):
                         dtEnemy = random.gauss(mu, std)
-                    if(self.lastTimeStamp % dtEnemy > self.timeStamp % dtEnemy):
+                    if((self.lastTimeStamp + timeCorr) % dtEnemy > (self.timeStamp + timeCorr) % dtEnemy and self.lastTimeStamp < self.timeStamp):
                         # 随机位置生成的敌人
                         if(eachEnemy["appearMode"] == "random"):
                             newEnemy = globals()[className]([random.random()*self.screenSize[0], 0])
@@ -340,6 +356,9 @@ class Stage:
                                 newEnemy = globals()[className]([eachEnemy["posX"], eachEnemy["posY"]])
                 if(newEnemy):
                     self.enemyContainer.append(newEnemy)
+                    # 如果新的敌人是BOSS，则更新BOSS时间戳
+                    if(newEnemy.__class__.__name__ in self.bossName):
+                        self.bossTS = self.timeStamp
         # 用于下一次的判断
         self.lastTimeStamp = self.timeStamp
 
