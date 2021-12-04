@@ -40,6 +40,8 @@ class Display:
         DoubleWarrior.img, DoubleWarrior.imgRect = self.initImgSrc(DoubleWarrior.srcImg, scale=DoubleWarrior.scale) # 双排敌人初始化
         TripleShooter.img, TripleShooter.imgRect = self.initImgSrc(TripleShooter.srcImg, scale=TripleShooter.scale) # 三线敌人初始化
         BulletRainShooter.img, BulletRainShooter.imgRect = self.initImgSrc(BulletRainShooter.srcImg, scale=BulletRainShooter.scale) # 弹幕敌人初始化
+        Sticker.img, Sticker.imgRect = self.initImgSrc(Sticker.srcImg, scale=Sticker.scale) # 冲锋者初始化
+        Tracker.img, Tracker.imgRect = self.initImgSrc(Tracker.srcImg, scale=Tracker.scale) # 跟踪者初始化
         # 进入主循环
         while(True):
             # 事件判定

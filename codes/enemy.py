@@ -160,3 +160,81 @@ class BulletRainShooter(BaseEnemy):
         self.firePos = [[0,40]] # 炮口位置
         self.fireInterv = 300
         self.maxHp = 250 # BOSS特有的血量上限
+
+class Sticker(BaseEnemy):
+    """
+        冲锋者，发射5连并排霰弹，5秒随机横向移动模式+3秒向前突刺模式+2秒复位模式，BOSS
+    """
+
+    srcImg = "img/BulletRainShooter.png"
+    scale = 5
+
+    def __init__(self, pos):
+        hp = 300
+        atk = 5
+        defen = 5
+        crashBox = [8, 2]
+        velocity = [3, 0]
+        BaseEnemy.__init__(self, hp, atk, defen, OneHpEnemy.srcImg, crashBox, velocity, OneHpEnemy.scale, pos=pos)
+        self.crashBoxRescale()
+        self.firePos = [[0,40]] # 炮口位置
+        self.fireInterv = 400
+        self.maxHp = 300 # BOSS特有的血量上限
+
+    def modeSwitch(self, timeStamp):
+        """
+            模式切换，体现为速度更改
+
+            Parameters
+            ----------
+            timeStamp : float
+                时间戳
+        """
+        second = timeStamp / 1e3
+        # 复位后
+        if(0 <= second % 10 < 0.1):
+            self.velocity = [3, 0]
+        # 普通模式
+        elif(0.1 <= second % 10 < 5):
+            pass
+        # 冲刺模式
+        elif(5 <= second % 10 < 8):
+            self.velocity = [0, 2]
+        # 复位模式
+        else:
+            self.velocity = [0, -3]
+
+class Tracker(BaseEnemy):
+    """
+        跟踪者，位置上不断接近玩家，子弹对着玩家射
+    """
+
+    srcImg = "img/BulletRainShooter.png"
+    scale = 5
+
+    def __init__(self, pos):
+        hp = 300
+        atk = 15
+        defen = 5
+        crashBox = [8, 2]
+        velocity = [3, 0]
+        BaseEnemy.__init__(self, hp, atk, defen, OneHpEnemy.srcImg, crashBox, velocity, OneHpEnemy.scale, pos=pos)
+        self.crashBoxRescale()
+        self.firePos = [[0,40]] # 炮口位置
+        self.fireInterv = 200
+        self.maxHp = 300 # BOSS特有的血量上限
+
+    def move(self, playerPos):
+        """
+            移动方法，覆盖本身自带的
+
+            Parameters
+            ----------
+            playerPos : float[2]
+                玩家的位置
+        """
+        dX = playerPos[0] - self.pos[0]
+        dY = playerPos[1] - self.pos[1]
+        L = (dX**2 + dY**2)**0.5
+        self.pos[0] += dX / L * 2
+        self.pos[1] += dY / L * 2

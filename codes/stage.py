@@ -53,7 +53,7 @@ class Stage:
         self.lastTimeStamp = 0 # 最近一次时间戳
 
         # BOSS名单
-        self.bossName = ["BulletRainShooter"]
+        self.bossName = ["BulletRainShooter", "Sticker", "Tracker"]
 
         # 所有可能出现的道具（类名）及其权重
         self.itemDict = {"RecoverItem" : RecoverItem.appearPower, "AddHpLimitItem" : AddHpLimitItem.appearPower, "EnhanceFireItem" : EnhanceFireItem.appearPower, "EnhanceAtkItem" : EnhanceAtkItem.appearPower, "EnhanceDefenItem" : EnhanceDefenItem.appearPower}
@@ -140,6 +140,23 @@ class Stage:
                         newBullet = NormalEnemyBullet(newBulletPos, eachVelocity)
                         newBullet.atk = eachEnemy.atk
                         self.bulletContainer.append(newBullet)
+                # 特殊情形：冲锋者：
+                elif(eachEnemy.__class__.__name__ == "Sticker"):
+                    for eachVelocity in [[-0.67, 5], [-0.33, 5], [0, 5], [0.33, 5], [0.67, 5]]:
+                        newBulletPos = [eachEnemy.pos[0]+eachFirePos[0],eachEnemy.pos[1]+eachFirePos[1]]
+                        newBullet = NormalEnemyBullet(newBulletPos, eachVelocity)
+                        newBullet.atk = eachEnemy.atk
+                        self.bulletContainer.append(newBullet)
+                # 特殊情形：跟踪者：
+                elif(eachEnemy.__class__.__name__ == "Tracker"):
+                    dX = self.player.pos[0] - eachEnemy.pos[0]
+                    dY = self.player.pos[1] - eachEnemy.pos[1]
+                    L = (dX**2 + dY**2)**0.5
+                    bulletVelocity = [dX / L * 5, dY / L * 5]
+                    newBulletPos = [eachEnemy.pos[0]+eachFirePos[0],eachEnemy.pos[1]+eachFirePos[1]]
+                    newBullet = NormalEnemyBullet(newBulletPos, bulletVelocity)
+                    newBullet.atk = eachEnemy.atk
+                    self.bulletContainer.append(newBullet)
                 # 普通情形
                 else:
                     newBulletPos = [eachEnemy.pos[0]+eachFirePos[0],eachEnemy.pos[1]+eachFirePos[1]]
@@ -197,7 +214,7 @@ class Stage:
                     if(eachEnemy.hp <= 0):
                         if(eachEnemy in self.enemyContainer): # 这里不知道为什么会出现删除时不在列表中的错误，先加上if保险（现在知道了，去掉这句话应该没事）
                             removeList.append(eachEnemy)
-                            # 如果死亡的时BOSS，则重设时间戳到打BOSS前的状态
+                            # 如果死亡的是BOSS，则重设时间戳到打BOSS前的状态
                             if(eachEnemy.__class__.__name__ in self.bossName):
                                 self.timeStamp = self.bossTS
                                 self.player.lastTimeFired = self.bossTS
@@ -208,6 +225,9 @@ class Stage:
                             if(eachEnemy.__class__.__name__ == "BulletRainShooter"):
                                 for i in range(3):
                                     self.spawnItem(1, np.array(eachEnemy.pos) + np.array([random.gauss(0, itemXStd), random.gauss(0, itemYStd)]))
+                            elif(eachEnemy.__class__.__name__ == "Sticker"):
+                                for i in range(5):
+                                    self.spawnItem(1, np.array(eachEnemy.pos) + np.array([random.gauss(0, itemXStd), random.gauss(0, itemYStd)]))
                             # 非特殊型，仅一次掉落
                             else:
                                 if(eachEnemy.__class__.__name__ == "OneHpEnemy"):
@@ -216,6 +236,8 @@ class Stage:
                                     prob = 0.1
                                 elif(eachEnemy.__class__.__name__ == "TripleShooter"):
                                     prob = 0.12
+                                else:
+                                    prob = 0
                                 self.spawnItem(prob, np.array(eachEnemy.pos) + np.array([random.gauss(0, itemXStd), random.gauss(0, itemYStd)]))
                     # 命中后设置爆炸状态
                     eachBullet.isExplosion = True
@@ -283,7 +305,15 @@ class Stage:
                 if(newPos[0] < 0 or newPos[0] >= self.screenSize[0]): # 横向出界
                     eachEnemy.velocity[0] = -eachEnemy.velocity[0]
             # 移动
-            eachEnemy.move()
+            # 特殊情形：Tracker
+            if(eachEnemy.__class__.__name__ == "Tracker"):
+                eachEnemy.move(self.player.pos)
+            # 普通情形
+            else:
+                eachEnemy.move()
+            # 特殊情形：冲锋者的运动状态修改
+            if(eachEnemy.__class__.__name__ == "Sticker"):
+                eachEnemy.modeSwitch(self.timeStamp)
 
     def isBulletCrashObj(self, obj, bulletPos) -> bool:
         """
