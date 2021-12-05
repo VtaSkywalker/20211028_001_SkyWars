@@ -321,7 +321,6 @@ class Display:
         # 血量文字显示
         if(DisplayConfig.doShowHpText):
             font = pygame.font.SysFont(None, 32)
-            print(boss.hp, boss.maxHp)
             if(boss.maxHp >= 1e8):
                 img = font.render('%.3e / %.3e' % (boss.hp, boss.maxHp), True, (255, 255, 255))
             else:

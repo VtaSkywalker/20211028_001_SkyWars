@@ -30,6 +30,16 @@
             "firstTime" : 61e3
         },
         {
+            "className" : "Tie",
+            "appearBy" : "time",
+            "appearMode" : "random",
+            "mu" : 10e3,
+            "std" : 0,
+            "posX" : -1,
+            "posY" : -1,
+            "firstTime" : 121e3
+        },
+        {
             "className" : "BulletRainShooter",
             "appearBy" : "time",
             "spawnAt" : [1],
@@ -99,12 +109,12 @@
             "className" : "DeathStar",
             "appearBy" : "time",
             "spawnAt" : [1],
-            "mu" : 3e3,
+            "mu" : 420e3,
             "std" : 0,
             "appearMode" : "fix",
             "posX" : 150,
             "posY" : -150,
-            "firstTime" : 1e1
+            "firstTime" : 420e3
         }
     ]
 }
