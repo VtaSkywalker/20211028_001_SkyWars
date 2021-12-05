@@ -318,13 +318,13 @@ class Stage:
                             # 非特殊型，仅一次掉落
                             else:
                                 if(eachEnemy.__class__.__name__ == "OneHpEnemy"):
-                                    prob = 0.05
+                                    prob = 0.2
                                 elif(eachEnemy.__class__.__name__ == "DoubleWarrior"):
-                                    prob = 0.1
+                                    prob = 0.33
                                 elif(eachEnemy.__class__.__name__ == "TripleShooter"):
-                                    prob = 0.12
+                                    prob = 0.33
                                 elif(eachEnemy.__class__.__name__ == "Tie"):
-                                    prob = 0.24
+                                    prob = 0.45
                                 else:
                                     prob = 0
                                 self.spawnItem(prob, np.array(eachEnemy.pos) + np.array([random.gauss(0, itemXStd), random.gauss(0, itemYStd)]))
@@ -596,9 +596,9 @@ class Stage:
             ----------
             enemy : BaseEnemy
         """
-        enemy.atk *= (1 + 0.2)**self.level
+        enemy.atk *= (1 + 0.5)**self.level
         enemy.defen *= (1 + 0.2)**self.level
-        enemy.hp *= (1 + 0.2)**self.level
+        enemy.hp *= (1 + 0.5)**self.level
         # 非最终BOSS情形
         if(enemy.__class__.__name__  != "DeathStar"):    
             if(enemy.fireInterv >= 50):

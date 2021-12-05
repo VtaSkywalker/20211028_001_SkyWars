@@ -61,7 +61,7 @@ class AddHpLimitItem(BaseItem):
     """
 
     srcImg = "./img/addHpLimitItem.png"
-    appearPower = 20
+    appearPower = 50
     
     def __init__(self, pos) -> None:
         BaseItem.__init__(self, pos)
@@ -150,7 +150,7 @@ class AddFirePosItem(BaseItem):
     """
 
     srcImg = "./img/addFirePosItem.png"
-    appearPower = 5
+    appearPower = 2
 
     def __init__(self, pos) -> None:
         BaseItem.__init__(self, pos)
