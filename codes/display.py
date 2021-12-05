@@ -45,6 +45,8 @@ class Display:
         Tracker.img, Tracker.imgRect = self.initImgSrc(Tracker.srcImg, scale=Tracker.scale) # 跟踪者初始化
         Windmiller.img, Windmiller.imgRect = self.initImgSrc(Windmiller.srcImg, scale=Windmiller.scale) # 风车初始化
         TieVader.img, TieVader.imgRect = self.initImgSrc(TieVader.srcImg, scale=TieVader.scale) # 爵爷初始化
+        StarDestroyer.img, StarDestroyer.imgRect = self.initImgSrc(StarDestroyer.srcImg, scale=StarDestroyer.scale) # 歼星舰初始化
+        Tie.img, Tie.imgRect = self.initImgSrc(Tie.srcImg, scale=Tie.scale) # 钛战机初始化
         # 进入主循环
         while(True):
             # 事件判定

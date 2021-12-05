@@ -110,9 +110,9 @@ class DoubleWarrior(BaseEnemy):
     scale = 5
 
     def __init__(self, pos):
-        hp = 50
+        hp = 25
         atk = 10
-        defen = 0
+        defen = 5
         crashBox = [4, 3]
         velocity = [0, 1.5]
         BaseEnemy.__init__(self, hp, atk, defen, OneHpEnemy.srcImg, crashBox, velocity, OneHpEnemy.scale, pos=pos)
@@ -129,9 +129,9 @@ class TripleShooter(BaseEnemy):
     scale = 5
 
     def __init__(self, pos):
-        hp = 30
+        hp = 15
         atk = 8
-        defen = 0
+        defen = 5
         crashBox = [4, 3]
         velocity = [0, 2]
         BaseEnemy.__init__(self, hp, atk, defen, OneHpEnemy.srcImg, crashBox, velocity, OneHpEnemy.scale, pos=pos)
@@ -342,3 +342,45 @@ class TieVader(BaseEnemy):
             self.velocity = [3, 0]
         else:
             pass
+
+class StarDestroyer(BaseEnemy):
+    """
+        歼星舰，本体只能左右移动，但却可以不断地放出普通钛战机对玩家进行攻击。本体也能发射爆能束，且攻击力极高
+    """
+
+    srcImg = "img/BulletRainShooter.png"
+    scale = 5
+
+    def __init__(self, pos):
+        hp = 600
+        atk = 30
+        defen = 5
+        crashBox = [8, 2]
+        velocity = [3, 0]
+        BaseEnemy.__init__(self, hp, atk, defen, OneHpEnemy.srcImg, crashBox, velocity, OneHpEnemy.scale, pos=pos)
+        self.crashBoxRescale()
+        self.firePos = [[0,40]] # 炮口位置
+        self.fireInterv = 300
+        self.maxHp = 600 # BOSS特有的血量上限
+
+class Tie(BaseEnemy):
+    """
+        普通钛战机，斜着飞行，发射爆能束，攻击力中偏高，血量中，速度快，射速高~~（命中低）~~
+    """
+    
+    srcImg = "img/oneHpEnemy.png"
+    scale = 5
+
+    def __init__(self, pos):
+        hp = 30
+        atk = 15
+        defen = 5
+        crashBox = [4, 3]
+        if(random.random() > 0.5):
+            velocity = [5, 2]
+        else:
+            velocity = [-5, 2]
+        BaseEnemy.__init__(self, hp, atk, defen, OneHpEnemy.srcImg, crashBox, velocity, OneHpEnemy.scale, pos=pos)
+        self.crashBoxRescale()
+        self.firePos = [[0,35]] # 炮口位置
+        self.fireInterv = 200 # 开火间隔

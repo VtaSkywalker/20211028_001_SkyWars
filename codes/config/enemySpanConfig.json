@@ -83,6 +83,17 @@
             "posX" : 200,
             "posY" : 100,
             "firstTime" : 300e3
+        },
+        {
+            "className" : "StarDestroyer",
+            "appearBy" : "time",
+            "spawnAt" : [1],
+            "mu" : 420e3,
+            "std" : 0,
+            "appearMode" : "fix",
+            "posX" : 200,
+            "posY" : 100,
+            "firstTime" : 1e1
         }
     ]
 }

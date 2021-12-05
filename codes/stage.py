@@ -53,7 +53,7 @@ class Stage:
         self.lastTimeStamp = 0 # 最近一次时间戳
 
         # BOSS名单
-        self.bossName = ["BulletRainShooter", "Sticker", "Tracker", "Windmiller", "TieVader"]
+        self.bossName = ["BulletRainShooter", "Sticker", "Tracker", "Windmiller", "TieVader", "StarDestroyer"]
 
         # 所有可能出现的道具（类名）及其权重
         self.itemDict = {"RecoverItem" : RecoverItem.appearPower, "AddHpLimitItem" : AddHpLimitItem.appearPower, "EnhanceFireItem" : EnhanceFireItem.appearPower, "EnhanceAtkItem" : EnhanceAtkItem.appearPower, "EnhanceDefenItem" : EnhanceDefenItem.appearPower}
@@ -166,6 +166,18 @@ class Stage:
                         self.bulletContainer.append(newBullet)
                 # 特殊情形：爵爷
                 elif(eachEnemy.__class__.__name__ == "TieVader"):
+                    newBulletPos = [eachEnemy.pos[0]+eachFirePos[0],eachEnemy.pos[1]+eachFirePos[1]]
+                    newBullet = EnemyBlasterBullet(newBulletPos, [0, 5])
+                    newBullet.atk = eachEnemy.atk
+                    self.bulletContainer.append(newBullet)
+                # 特殊情形：歼星舰
+                elif(eachEnemy.__class__.__name__ == "StarDestroyer"):
+                    newBulletPos = [eachEnemy.pos[0]+eachFirePos[0],eachEnemy.pos[1]+eachFirePos[1]]
+                    newBullet = EnemyBlasterBullet(newBulletPos, [0, 7.5])
+                    newBullet.atk = eachEnemy.atk
+                    self.bulletContainer.append(newBullet)
+                # 特殊情形：钛战机
+                elif(eachEnemy.__class__.__name__ == "Tie"):
                     newBulletPos = [eachEnemy.pos[0]+eachFirePos[0],eachEnemy.pos[1]+eachFirePos[1]]
                     newBullet = EnemyBlasterBullet(newBulletPos, [0, 5])
                     newBullet.atk = eachEnemy.atk
@@ -313,6 +325,7 @@ class Stage:
     def enemyMove(self):
         """
             敌人移动
+            对于特殊的BOSS，还将采取其他的措施
         """
         for eachEnemy in self.enemyContainer:
             # 如果即将越界，则立刻切换方向，切换后再移动
@@ -336,6 +349,11 @@ class Stage:
             # 特殊情形：爵爷的运动状态修改
             if(eachEnemy.__class__.__name__ == "TieVader"):
                 eachEnemy.modeSwitch(self.timeStamp, self.player.pos)
+            # 特殊情形：歼星舰放出钛战机
+            if(eachEnemy.__class__.__name__ == "StarDestroyer"):
+                if(((self.timeStamp - 1e3 / 60) / 1e3) % 3 > (self.timeStamp / 1e3) % 3):
+                    newEnemy = Tie([eachEnemy.pos[0], eachEnemy.pos[1]])
+                    self.enemyContainer.append(newEnemy)
 
     def isBulletCrashObj(self, obj, bulletPos) -> bool:
         """
