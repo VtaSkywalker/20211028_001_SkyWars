@@ -99,7 +99,7 @@
             "className" : "DeathStar",
             "appearBy" : "time",
             "spawnAt" : [1],
-            "mu" : 420e3,
+            "mu" : 3e3,
             "std" : 0,
             "appearMode" : "fix",
             "posX" : 150,

@@ -38,6 +38,8 @@ class Stage:
             物品生成表，用于后续随机生成物品
         bossTS : float
             最近一次BOSS出现时的时间戳
+        level : int
+            每击杀一次BOSS，提升一个level，强化新出现的敌人属性
     """
     def __init__(self) -> None:
         # 初始化屏幕
@@ -67,6 +69,9 @@ class Stage:
 
         # 最近一次BOSS出现时的时间戳
         self.bossTS = 0
+
+        # level
+        self.level = 0
 
     def playerMove(self, direction) -> None:
         """
@@ -270,15 +275,16 @@ class Stage:
             for eachBullet in self.bulletContainer:
                 # 被玩家子弹命中扣血
                 if(eachBullet.bulletOwner == 'P' and self.isBulletCrashObj(eachEnemy, eachBullet.pos) and eachBullet.isExplosion == False):
-                    eachEnemy.hp -= ((eachBullet.atk - eachEnemy.defen) if (eachBullet.atk >= eachEnemy.defen) else 0)
+                    eachEnemy.hp -= ((eachBullet.atk - eachEnemy.defen) if (eachBullet.atk - eachEnemy.defen >= 1) else 1)
                     # 血量为0时，敌人死亡
                     if(eachEnemy.hp <= 0):
                         if(eachEnemy in self.enemyContainer): # 这里不知道为什么会出现删除时不在列表中的错误，先加上if保险（现在知道了，去掉这句话应该没事）
                             removeList.append(eachEnemy)
-                            # 如果死亡的是BOSS，则重设时间戳到打BOSS前的状态
+                            # 如果死亡的是BOSS，则重设时间戳到打BOSS前的状态，并提升level
                             if(eachEnemy.__class__.__name__ in self.bossName):
                                 self.timeStamp = self.bossTS
                                 self.player.lastTimeFired = self.bossTS
+                                self.level += 1
                             # 敌人死亡时，道具掉落
                             itemXStd = 17
                             itemYStd = 10
@@ -339,7 +345,7 @@ class Stage:
         for eachBullet in self.bulletContainer:
             # 命中扣血
             if(self.isBulletCrashObj(self.player, eachBullet.pos) and eachBullet.isExplosion == False):
-                self.player.hp -= (eachBullet.atk - self.player.defen) if (eachBullet.atk - self.player.defen) >= 1 else 1
+                self.player.hp -= (eachBullet.atk - self.player.defen) if (eachBullet.atk - self.player.defen >= 1) else 1
                 # 死亡时触发事件
                 if(self.player.hp <= 0):
                     self.gameover()
@@ -372,6 +378,7 @@ class Stage:
                     self.player.atk *= 2
                 elif(itemName == "AddFirePosItem"):
                     self.player.addFirePos()
+                    self.player.defen *= 2
                 # 吃完道具后，道具消失
                 removeList.append(eachItem)
         for eachRemoveItem in removeList:
@@ -491,6 +498,7 @@ class Stage:
                             if(eachEnemy["appearMode"] == "fix"):
                                 newEnemy = globals()[className]([eachEnemy["posX"], eachEnemy["posY"]])
                 if(newEnemy):
+                    self.resetEnemyPowerByLevel(newEnemy)
                     self.enemyContainer.append(newEnemy)
                     # 如果新的敌人是BOSS，则更新BOSS时间戳
                     if(newEnemy.__class__.__name__ in self.bossName):
@@ -572,3 +580,26 @@ class Stage:
         for (idx, spawnPower) in zip(range(len(self.itemDict.values())), self.itemDict.values()):
             for i in range(spawnPower):
                 self.itemSpawnTable.append(idx)
+
+    def resetEnemyPowerByLevel(self, enemy):
+        """
+            根据level重设敌人属性
+
+            Parameters
+            ----------
+            enemy : BaseEnemy
+        """
+        enemy.atk *= (1 + 0.2)**self.level
+        enemy.defen *= (1 + 0.2)**self.level
+        enemy.hp *= (1 + 0.2)**self.level
+        # 非最终BOSS情形
+        if(enemy.__class__.__name__  != "DeathStar"):    
+            if(enemy.fireInterv >= 50):
+                enemy.fireInterv *= (1 - 0.15)**self.level
+        # 最终BOSS情形
+        else:
+            if(enemy.fireInterv_blaster >= 50):
+                enemy.fireInterv_blaster *= (1 - 0.15)**self.level
+        # 所有BOSS情形
+        if(enemy.__class__.__name__  in self.bossName):    
+            enemy.maxHp = enemy.hp

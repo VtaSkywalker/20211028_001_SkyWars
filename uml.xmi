@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<XMI xmi.version="1.2" timestamp="2021-12-05T16:08:04" verified="false" xmlns:UML="http://schema.omg.org/spec/UML/1.4">
+<XMI xmi.version="1.2" timestamp="2021-12-05T16:23:46" verified="false" xmlns:UML="http://schema.omg.org/spec/UML/1.4">
  <XMI.header>
   <XMI.documentation>
    <XMI.exporter>umbrello uml modeller 2.32.3 http://umbrello.kde.org</XMI.exporter>
@@ -58,6 +58,7 @@
         <UML:Attribute isSpecification="false" xmi.id="u8Vjb8y5e6QE4" name="itemContainer" comment="道具容器，当前在屏幕范围内的道具" visibility="private" type="unMxUUK0p4Lr9"/>
         <UML:Attribute isSpecification="false" xmi.id="uwIh9JpveWWZe" name="itemSpawnTable" comment="物品生成表，用于后续随机生成物品" visibility="private" type="u7TUcsQEaPLBw"/>
         <UML:Attribute isSpecification="false" xmi.id="u6smXToQPsY9s" name="bossTS" comment="最近一次BOSS出现时的时间戳" visibility="private" type="u8wrz4J1pCgHg"/>
+        <UML:Attribute isSpecification="false" xmi.id="uUDYszkTjzN4b" name="level" comment="每击杀一次BOSS，提升一个level，强化新出现的敌人属性" visibility="private" type="udO493WFs8CGq"/>
         <UML:Operation isSpecification="false" isLeaf="false" isRoot="false" isAbstract="false" xmi.id="u4HqrEbpHVEUB" name="playerMove" comment="玩家移动" visibility="public" isQuery="false" isOverride="false" isVirtual="false" isInline="false">
          <UML:BehavioralFeature.parameter>
           <UML:Parameter xmi.id="uzYKoMJI50qnW" type="uW5NDJiYxjQ15" kind="return"/>
@@ -110,6 +111,11 @@
          </UML:BehavioralFeature.parameter>
         </UML:Operation>
         <UML:Operation isSpecification="false" isLeaf="false" isRoot="false" isAbstract="false" xmi.id="uAmXcelIdJy5g" name="createItemSpawnTable" comment="创建物品生成表，用于后续随机生成物品" visibility="public" isQuery="false" isOverride="false" isVirtual="false" isInline="false"/>
+        <UML:Operation isSpecification="false" isLeaf="false" isRoot="false" isAbstract="false" xmi.id="u7w0MMRNUkFCu" name="resetEnemyPowerByLevel" comment="根据level重设敌人属性" visibility="public" isQuery="false" isOverride="false" isVirtual="false" isInline="false">
+         <UML:BehavioralFeature.parameter>
+          <UML:Parameter isSpecification="false" xmi.id="ugwvIeIJDLsP3" name="enemy" visibility="private" type="u5vZ8uOjZKlZI" value=""/>
+         </UML:BehavioralFeature.parameter>
+        </UML:Operation>
        </UML:Classifier.feature>
       </UML:Class>
       <UML:Class isSpecification="false" isLeaf="false" isRoot="false" isAbstract="false" xmi.id="u2oAJzq7QVPRE" name="Player Class" namespace="Logical_View" visibility="public">
@@ -376,7 +382,7 @@
       <diagrams resolution="96">
        <diagram xmi.id="uHzCT3D9Iy5oR" name="类图" type="1" documentation="提升防御物品类" backgroundcolor="#ffffff" fillcolor="#ffff00" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0" griddotcolor="#d3d3d3" linecolor="#ff0000" linewidth="0" textcolor="#000000" usefillcolor="1" showattribassocs="1" showatts="1" showattsig="1" showops="1" showopsig="1" showpackage="1" showpubliconly="0" showscope="1" showstereotype="2" localid="-1" showgrid="0" snapgrid="0" snapcsgrid="0" snapx="25" snapy="25" zoom="107.613" canvasheight="960.294" canvaswidth="919.38" isopen="1">
         <widgets>
-         <classwidget xmi.id="uJdX7FUnO3dXD" localid="uTd0xxUmBdsth" textcolor="#000000" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="0" usesdiagramusefillcolor="0" fillcolor="#ffff00" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0,Regular" autoresize="0" x="-392.325" y="-139.803" width="370" height="420" isinstance="0" showstereotype="2" showoperations="1" showpubliconly="0" showopsigs="601" showpackage="1" showscope="1" showattributes="1" showattsigs="601" showstereotype="2"/>
+         <classwidget xmi.id="uJdX7FUnO3dXD" localid="uTd0xxUmBdsth" textcolor="#000000" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="0" usesdiagramusefillcolor="0" fillcolor="#ffff00" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0,Regular" autoresize="0" x="-378.386" y="-175.115" width="370" height="450" isinstance="0" showstereotype="2" showoperations="1" showpubliconly="0" showopsigs="601" showpackage="1" showscope="1" showattributes="1" showattsigs="601" showstereotype="2"/>
          <classwidget xmi.id="urxYQpW0Joa9X" localid="uCHn9nK1jKp2e" textcolor="#000000" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="0" usesdiagramusefillcolor="0" fillcolor="#ffff00" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0,Regular" autoresize="1" x="-164.034" y="555.131" width="112" height="29" isinstance="0" showstereotype="2" showoperations="1" showpubliconly="0" showopsigs="601" showpackage="1" showscope="1" showattributes="1" showattsigs="601" showstereotype="2"/>
          <classwidget xmi.id="uoAlix3IIL4vr" localid="ukgbatPoiJ96r" textcolor="#000000" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="0" usesdiagramusefillcolor="0" fillcolor="#ffff00" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0,Regular" autoresize="0" x="337.062" y="-351.561" width="114" height="65.7171" isinstance="0" showstereotype="2" showoperations="1" showpubliconly="0" showopsigs="601" showpackage="1" showscope="1" showattributes="1" showattsigs="601" showstereotype="2"/>
          <classwidget xmi.id="udFj84XnpTPUB" localid="uE7fhus0koq9O" textcolor="#000000" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="0" usesdiagramusefillcolor="0" fillcolor="#ffff00" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0,Regular" autoresize="0" x="340.418" y="-191.715" width="158" height="44.9763" isinstance="0" showstereotype="2" showoperations="1" showpubliconly="0" showopsigs="601" showpackage="1" showscope="1" showattributes="1" showattsigs="601" showstereotype="2"/>
@@ -409,14 +415,14 @@
          </assocwidget>
          <assocwidget xmi.id="urnCwHoWU8DON" localid="ujkiiaMhJZw3N" textcolor="none" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="1" usesdiagramusefillcolor="1" fillcolor="none" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0" autoresize="1" seqnum="" xmi.id="urnCwHoWU8DON" type="512" widgetaid="uJdX7FUnO3dXD" widgetbid="u2oAJzq7QVPRE" indexa="1" totalcounta="2" indexb="1" totalcountb="2">
           <linepath layout="Direct">
-           <startpoint startx="-22.325" starty="6.18722"/>
+           <startpoint startx="-8.38612" starty="6.18722"/>
            <endpoint endx="188.928" endy="6.18722"/>
           </linepath>
          </assocwidget>
          <assocwidget xmi.id="uKAvn1H7DGIsk" localid="u9yQYGMUqrgx3" textcolor="none" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="1" usesdiagramusefillcolor="1" fillcolor="none" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0" autoresize="1" seqnum="" xmi.id="uKAvn1H7DGIsk" type="512" widgetaid="uSoWDDhLE8OXE" widgetbid="uJdX7FUnO3dXD" indexa="1" totalcounta="2" indexb="1" totalcountb="2">
           <linepath layout="Direct">
            <startpoint startx="-186.902" starty="-188.543"/>
-           <endpoint endx="-186.902" endy="-139.803"/>
+           <endpoint endx="-186.902" endy="-175.115"/>
           </linepath>
          </assocwidget>
          <assocwidget xmi.id="ugrhB9J14Vn4r" localid="ulheaGNfRNa5n" textcolor="none" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="1" usesdiagramusefillcolor="1" fillcolor="none" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0" autoresize="1" seqnum="" xmi.id="ugrhB9J14Vn4r" type="500" widgetaid="uoAlix3IIL4vr" widgetbid="unrU7OWVqGMRD" indexa="1" totalcounta="2" indexb="1" totalcountb="2">
@@ -427,7 +433,7 @@
          </assocwidget>
          <assocwidget xmi.id="uO94ZUKKpZSL5" localid="urWMF0JWAlxlS" textcolor="none" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="1" usesdiagramusefillcolor="1" fillcolor="none" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0" autoresize="1" seqnum="" xmi.id="uO94ZUKKpZSL5" type="512" widgetaid="uJdX7FUnO3dXD" widgetbid="unrU7OWVqGMRD" indexa="1" totalcounta="2" indexb="1" totalcountb="2">
           <linepath layout="Direct">
-           <startpoint startx="-22.325" starty="-139.803"/>
+           <startpoint startx="-8.38612" starty="-175.115"/>
            <endpoint endx="50.2949" endy="-182.361"/>
           </linepath>
          </assocwidget>
@@ -439,8 +445,8 @@
          </assocwidget>
          <assocwidget xmi.id="upy1UakdSXQdy" localid="ucx5RzNm3epzI" textcolor="none" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="1" usesdiagramusefillcolor="1" fillcolor="none" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0" autoresize="1" seqnum="" xmi.id="upy1UakdSXQdy" type="512" widgetaid="uJdX7FUnO3dXD" widgetbid="ueBR0cVkhvAwg" indexa="1" totalcounta="2" indexb="1" totalcountb="2">
           <linepath layout="Direct">
-           <startpoint startx="-22.325" starty="255.618"/>
-           <endpoint endx="126.409" endy="255.618"/>
+           <startpoint startx="-8.38612" starty="252.451"/>
+           <endpoint endx="126.409" endy="252.451"/>
           </linepath>
          </assocwidget>
          <assocwidget xmi.id="uco89gGqWj2QE" localid="ukGQpETK694n3" textcolor="none" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="1" usesdiagramusefillcolor="1" fillcolor="none" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0" autoresize="1" seqnum="" xmi.id="uco89gGqWj2QE" type="500" widgetaid="uw15lSWrnwLna" widgetbid="unrU7OWVqGMRD" indexa="1" totalcounta="2" indexb="1" totalcountb="2">
@@ -494,7 +500,7 @@
          <assocwidget xmi.id="uNZgsd0atPmVT" localid="uxFndXvTIWG5F" textcolor="none" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="1" usesdiagramusefillcolor="1" fillcolor="none" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0" autoresize="1" seqnum="" xmi.id="uNZgsd0atPmVT" type="512" widgetaid="uaXJDdWtxRQdj" widgetbid="uJdX7FUnO3dXD" indexa="1" totalcounta="2" indexb="1" totalcountb="2">
           <linepath layout="Direct">
            <startpoint startx="-165.453" starty="343.967"/>
-           <endpoint endx="-165.453" endy="280.197"/>
+           <endpoint endx="-165.453" endy="274.885"/>
           </linepath>
          </assocwidget>
          <assocwidget xmi.id="uom4fDxO21I9C" localid="uko8iowykQd9d" textcolor="none" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="1" usesdiagramusefillcolor="1" fillcolor="none" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0" autoresize="1" seqnum="" xmi.id="uom4fDxO21I9C" type="500" widgetaid="uaP7SQoAzA7zi" widgetbid="unrU7OWVqGMRD" indexa="1" totalcounta="2" indexb="1" totalcountb="2">
@@ -548,7 +554,7 @@
   </UML:Model>
  </XMI.content>
  <XMI.extensions xmi.extender="umbrello">
-  <docsettings viewid="uHzCT3D9Iy5oR" documentation="" uniqueid="uFBDDIX8j6Lrs"/>
+  <docsettings viewid="uHzCT3D9Iy5oR" documentation="" uniqueid="ugwvIeIJDLsP3"/>
   <listview>
    <listitem id="Views" type="800" open="1">
     <listitem id="Deployment_View" type="827" open="1"/>
@@ -715,10 +721,12 @@
       <listitem id="ux0guOYcF6uVS" type="814" open="0"/>
       <listitem id="uzyVAULsnFe6W" type="815" open="0"/>
       <listitem id="uwIh9JpveWWZe" type="814" open="0"/>
+      <listitem id="uUDYszkTjzN4b" type="814" open="0"/>
       <listitem id="uDNFaQHKiz3co" type="814" open="0"/>
       <listitem id="uNH9cSP1iywmo" type="815" open="0"/>
       <listitem id="u4HqrEbpHVEUB" type="815" open="0"/>
       <listitem id="uzE6qnecrFHhy" type="815" open="0"/>
+      <listitem id="u7w0MMRNUkFCu" type="815" open="0"/>
       <listitem id="uw7cXdqGoKyil" type="814" open="0"/>
       <listitem id="udFgrUQeybSZf" type="815" open="0"/>
       <listitem id="ubApeHVq7Zf2A" type="814" open="0"/>
