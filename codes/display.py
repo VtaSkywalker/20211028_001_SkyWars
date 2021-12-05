@@ -8,7 +8,8 @@ class DisplayConfig:
     """
         关于显示的一些选项
     """
-    doShowCrashBox = True # 是否显示碰撞箱
+    doShowCrashBox = False # 是否显示碰撞箱
+    doShowHpText = True # 是否显示血量数值
 
 class Display:
     """
@@ -51,12 +52,30 @@ class Display:
         Tie.img, Tie.imgRect = self.initImgSrc(Tie.srcImg, scale=Tie.scale) # 钛战机初始化
         DeathStar.img, DeathStar.imgRect = self.initImgSrc(DeathStar.srcImg, scale=DeathStar.scale) # 死星初始化
         # 进入主循环
+        running = True
         while(True):
             # 事件判定
             for event in pygame.event.get():
                 if(event.type == pygame.QUIT):
                     exit(0)
+                if(event.type == pygame.KEYDOWN):
+                    # 碰撞箱快捷键
+                    if(pygame.key.get_pressed()[pygame.K_b]):
+                        DisplayConfig.doShowCrashBox = not DisplayConfig.doShowCrashBox
+                    # 暂停快捷键
+                    if(pygame.key.get_pressed()[pygame.K_p]):
+                        running = not running
+                        # 暂停文字显示
+                        font = pygame.font.SysFont(None, 32)
+                        img = font.render('PAUSE', True, (255, 0, 0))
+                        self.screen.blit(img, (0.05 * self.stage.screenSize[0], 45))
+                        pygame.display.update()
+                    # 血量数值快捷键
+                    if(pygame.key.get_pressed()[pygame.K_h]):
+                        DisplayConfig.doShowHpText = not DisplayConfig.doShowHpText
 
+            if(not running):
+                continue
             # 根据按键作出响应
             self.playerMove() # 玩家移动
             self.playerFire() # 玩家子弹发射判定
@@ -266,6 +285,19 @@ class Display:
         maskY = [imgY[0], imgY[1]]
         maskRect = pygame.Rect(maskX[0], maskY[0], maskX[1]-maskX[0], maskY[1]-maskY[0])
         pygame.draw.rect(self.screen, (0, 0, 0), maskRect)
+        # 在血条左侧显示玩家的图标
+        playerIcon, playerIconRect = self.initImgSrc(Player.srcImg, scale=2)
+        playerIconRect.centerx = 40
+        playerIconRect.centery = 625
+        self.screen.blit(playerIcon, playerIconRect)
+        # 血量文字显示
+        if(DisplayConfig.doShowHpText):
+            font = pygame.font.SysFont(None, 32)
+            if(self.stage.player.hpMax >= 1e8):
+                img = font.render('%.3e / %.3e' % (self.stage.player.hp, self.stage.player.hpMax), True, (255, 255, 255))
+            else:
+                img = font.render('%d / %d' % (self.stage.player.hp, self.stage.player.hpMax), True, (255, 255, 255))
+            self.screen.blit(img, (0.25 * self.stage.screenSize[0], 615))
 
     def showBossHp(self):
         """
@@ -286,6 +318,15 @@ class Display:
         font = pygame.font.SysFont(None, 32)
         img = font.render('BOSS', True, (255, 255, 255))
         self.screen.blit(img, (0.05 * self.stage.screenSize[0], 15))
+        # 血量文字显示
+        if(DisplayConfig.doShowHpText):
+            font = pygame.font.SysFont(None, 32)
+            print(boss.hp, boss.maxHp)
+            if(boss.maxHp >= 1e8):
+                img = font.render('%.3e / %.3e' % (boss.hp, boss.maxHp), True, (255, 255, 255))
+            else:
+                img = font.render('%d / %d' % (boss.hp, boss.maxHp), True, (255, 255, 255))
+            self.screen.blit(img, (0.3 * self.stage.screenSize[0], 15))
 
     def showCrashBox(self):
         """

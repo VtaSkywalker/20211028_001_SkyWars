@@ -40,6 +40,8 @@ class Stage:
             最近一次BOSS出现时的时间戳
         level : int
             每击杀一次BOSS，提升一个level，强化新出现的敌人属性
+        score : float
+            游戏得分
     """
     def __init__(self) -> None:
         # 初始化屏幕
@@ -72,6 +74,9 @@ class Stage:
 
         # level
         self.level = 0
+
+        # 游戏得分
+        self.score = 0
 
     def playerMove(self, direction) -> None:
         """
@@ -276,6 +281,8 @@ class Stage:
                 # 被玩家子弹命中扣血
                 if(eachBullet.bulletOwner == 'P' and self.isBulletCrashObj(eachEnemy, eachBullet.pos) and eachBullet.isExplosion == False):
                     eachEnemy.hp -= ((eachBullet.atk - eachEnemy.defen) if (eachBullet.atk - eachEnemy.defen >= 1) else 1)
+                    # 游戏得分相应地增加
+                    self.score += ((eachBullet.atk - eachEnemy.defen) if (eachBullet.atk - eachEnemy.defen >= 1) else 1)
                     # 血量为0时，敌人死亡
                     if(eachEnemy.hp <= 0):
                         if(eachEnemy in self.enemyContainer): # 这里不知道为什么会出现删除时不在列表中的错误，先加上if保险（现在知道了，去掉这句话应该没事）
@@ -510,7 +517,7 @@ class Stage:
         """
             游戏结束触发事件
         """
-        print("Game Over!")
+        print("Game Over! Score : %d" % int(self.score))
         self.player.hp = 0
         pass
 
