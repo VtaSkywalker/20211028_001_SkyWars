@@ -82,7 +82,7 @@
             "appearMode" : "fix",
             "posX" : 200,
             "posY" : 100,
-            "firstTime" : 300e3
+            "firstTime" : 1e1
         },
         {
             "className" : "StarDestroyer",
@@ -104,7 +104,7 @@
             "appearMode" : "fix",
             "posX" : 200,
             "posY" : 100,
-            "firstTime" : 1e1
+            "firstTime" : 420e3
         }
     ]
 }

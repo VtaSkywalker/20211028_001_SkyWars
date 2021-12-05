@@ -289,8 +289,14 @@ class Stage:
                             elif(eachEnemy.__class__.__name__ in ["Sticker", "Tracker"]):
                                 for i in range(4):
                                     self.spawnItem(1, np.array(eachEnemy.pos) + np.array([random.gauss(0, itemXStd), random.gauss(0, itemYStd)]))
-                            elif(eachEnemy.__class__.__name__ == "Windmiller"):
+                            elif(eachEnemy.__class__.__name__ in ["Windmiller", "TieVader"]):
                                 for i in range(5):
+                                    self.spawnItem(1, np.array(eachEnemy.pos) + np.array([random.gauss(0, itemXStd), random.gauss(0, itemYStd)]))
+                            elif(eachEnemy.__class__.__name__ == "StarDestroyer"):
+                                for i in range(10):
+                                    self.spawnItem(1, np.array(eachEnemy.pos) + np.array([random.gauss(0, itemXStd), random.gauss(0, itemYStd)]))
+                            elif(eachEnemy.__class__.__name__ == "DeathStar"):
+                                for i in range(20):
                                     self.spawnItem(1, np.array(eachEnemy.pos) + np.array([random.gauss(0, itemXStd), random.gauss(0, itemYStd)]))
                             # 非特殊型，仅一次掉落
                             else:
@@ -300,6 +306,8 @@ class Stage:
                                     prob = 0.1
                                 elif(eachEnemy.__class__.__name__ == "TripleShooter"):
                                     prob = 0.12
+                                elif(eachEnemy.__class__.__name__ == "Tie"):
+                                    prob = 0.24
                                 else:
                                     prob = 0
                                 self.spawnItem(prob, np.array(eachEnemy.pos) + np.array([random.gauss(0, itemXStd), random.gauss(0, itemYStd)]))

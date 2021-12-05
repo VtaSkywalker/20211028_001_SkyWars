@@ -165,14 +165,14 @@ class Sticker(BaseEnemy):
         冲锋者，发射5连并排霰弹，5秒随机横向移动模式+3秒向前突刺模式+2秒复位模式，BOSS
     """
 
-    srcImg = "img/BulletRainShooter.png"
+    srcImg = "img/Sticker.png"
     scale = 5
 
     def __init__(self, pos):
         hp = 300
         atk = 5
         defen = 5
-        crashBox = [8, 2]
+        crashBox = [10, 2]
         velocity = [3, 0]
         BaseEnemy.__init__(self, hp, atk, defen, OneHpEnemy.srcImg, crashBox, velocity, OneHpEnemy.scale, pos=pos)
         self.crashBoxRescale()
@@ -208,18 +208,18 @@ class Tracker(BaseEnemy):
         跟踪者，位置上不断接近玩家，子弹对着玩家射
     """
 
-    srcImg = "img/BulletRainShooter.png"
+    srcImg = "img/Tracker.png"
     scale = 5
 
     def __init__(self, pos):
         hp = 300
         atk = 15
         defen = 5
-        crashBox = [8, 2]
+        crashBox = [8, 8]
         velocity = [3, 0]
         BaseEnemy.__init__(self, hp, atk, defen, OneHpEnemy.srcImg, crashBox, velocity, OneHpEnemy.scale, pos=pos)
         self.crashBoxRescale()
-        self.firePos = [[0,40]] # 炮口位置
+        self.firePos = [[0,0]] # 炮口位置
         self.fireInterv = 200
         self.maxHp = 300 # BOSS特有的血量上限
 
@@ -243,18 +243,18 @@ class Windmiller(BaseEnemy):
         风车，在中心矩形路线移动，并旋转着向四个方向发射子弹
     """
 
-    srcImg = "img/BulletRainShooter.png"
-    scale = 5
+    srcImg = "img/Windmiller.png"
+    scale = 7
 
     def __init__(self, pos):
         hp = 350
         atk = 7
         defen = 5
-        crashBox = [8, 2]
+        crashBox = [10, 10]
         velocity = [0, 0]
         BaseEnemy.__init__(self, hp, atk, defen, OneHpEnemy.srcImg, crashBox, velocity, OneHpEnemy.scale, pos=pos)
         self.crashBoxRescale()
-        self.firePos = [[0,40]] # 炮口位置
+        self.firePos = [[0,0]] # 炮口位置
         self.fireInterv = 100
         self.maxHp = 350 # BOSS特有的血量上限
 
@@ -305,19 +305,19 @@ class TieVader(BaseEnemy):
         钛战机（Vader），8秒横向移动，2秒追踪玩家
     """
 
-    srcImg = "img/BulletRainShooter.png"
+    srcImg = "img/TieVader.png"
     scale = 5
 
     def __init__(self, pos):
         hp = 400
         atk = 20
         defen = 5
-        crashBox = [8, 2]
+        crashBox = [11, 5]
         velocity = [0, 0]
         BaseEnemy.__init__(self, hp, atk, defen, OneHpEnemy.srcImg, crashBox, velocity, OneHpEnemy.scale, pos=pos)
         self.crashBoxRescale()
-        self.firePos = [[-22,40], [22,40], [-28,40], [28,40]] # 炮口位置
-        self.fireInterv = 300
+        self.firePos = [[-37,40], [37,40], [-43,40], [43,40]] # 炮口位置
+        self.fireInterv = 400
         self.maxHp = 400 # BOSS特有的血量上限
 
     def modeSwitch(self, timeStamp, playerPos):
