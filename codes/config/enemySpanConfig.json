@@ -5,7 +5,7 @@
             "appearBy" : "time",
             "appearMode" : "random",
             "mu" : 2e3,
-            "std" : 33,
+            "std" : 0,
             "posX" : -1,
             "posY" : -1
         },
@@ -14,7 +14,7 @@
             "appearBy" : "time",
             "appearMode" : "random",
             "mu" : 4e3,
-            "std" : 33,
+            "std" : 0,
             "posX" : -1,
             "posY" : -1,
             "firstTime" : 30e3
@@ -24,7 +24,7 @@
             "appearBy" : "time",
             "appearMode" : "random",
             "mu" : 5e3,
-            "std" : 33,
+            "std" : 0,
             "posX" : -1,
             "posY" : -1,
             "firstTime" : 61e3
@@ -33,7 +33,7 @@
             "className" : "BulletRainShooter",
             "appearBy" : "time",
             "spawnAt" : [1],
-            "mu" : 600e3,
+            "mu" : 420e3,
             "std" : 0,
             "appearMode" : "fix",
             "posX" : 200,
@@ -44,7 +44,7 @@
             "className" : "Sticker",
             "appearBy" : "time",
             "spawnAt" : [1],
-            "mu" : 600e3,
+            "mu" : 420e3,
             "std" : 0,
             "appearMode" : "fix",
             "posX" : 200,
@@ -55,12 +55,34 @@
             "className" : "Tracker",
             "appearBy" : "time",
             "spawnAt" : [1],
-            "mu" : 600e3,
+            "mu" : 420e3,
             "std" : 0,
             "appearMode" : "fix",
             "posX" : 200,
             "posY" : 100,
             "firstTime" : 180e3
+        },
+        {
+            "className" : "Windmiller",
+            "appearBy" : "time",
+            "spawnAt" : [1],
+            "mu" : 420e3,
+            "std" : 0,
+            "appearMode" : "fix",
+            "posX" : 280,
+            "posY" : 100,
+            "firstTime" : 240e3
+        },
+        {
+            "className" : "TieVader",
+            "appearBy" : "time",
+            "spawnAt" : [1],
+            "mu" : 420e3,
+            "std" : 0,
+            "appearMode" : "fix",
+            "posX" : 200,
+            "posY" : 100,
+            "firstTime" : 300e3
         }
     ]
 }

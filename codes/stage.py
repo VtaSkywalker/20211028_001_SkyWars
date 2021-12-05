@@ -53,7 +53,7 @@ class Stage:
         self.lastTimeStamp = 0 # 最近一次时间戳
 
         # BOSS名单
-        self.bossName = ["BulletRainShooter", "Sticker", "Tracker"]
+        self.bossName = ["BulletRainShooter", "Sticker", "Tracker", "Windmiller", "TieVader"]
 
         # 所有可能出现的道具（类名）及其权重
         self.itemDict = {"RecoverItem" : RecoverItem.appearPower, "AddHpLimitItem" : AddHpLimitItem.appearPower, "EnhanceFireItem" : EnhanceFireItem.appearPower, "EnhanceAtkItem" : EnhanceAtkItem.appearPower, "EnhanceDefenItem" : EnhanceDefenItem.appearPower}
@@ -157,6 +157,19 @@ class Stage:
                     newBullet = NormalEnemyBullet(newBulletPos, bulletVelocity)
                     newBullet.atk = eachEnemy.atk
                     self.bulletContainer.append(newBullet)
+                # 特殊情形：风车
+                elif(eachEnemy.__class__.__name__ == "Windmiller"):
+                    for eachVelocity in eachEnemy.getBulletVelocity(self.timeStamp):
+                        newBulletPos = [eachEnemy.pos[0]+eachFirePos[0],eachEnemy.pos[1]+eachFirePos[1]]
+                        newBullet = NormalEnemyBullet(newBulletPos, eachVelocity)
+                        newBullet.atk = eachEnemy.atk
+                        self.bulletContainer.append(newBullet)
+                # 特殊情形：爵爷
+                elif(eachEnemy.__class__.__name__ == "TieVader"):
+                    newBulletPos = [eachEnemy.pos[0]+eachFirePos[0],eachEnemy.pos[1]+eachFirePos[1]]
+                    newBullet = EnemyBlasterBullet(newBulletPos, [0, 5])
+                    newBullet.atk = eachEnemy.atk
+                    self.bulletContainer.append(newBullet)
                 # 普通情形
                 else:
                     newBulletPos = [eachEnemy.pos[0]+eachFirePos[0],eachEnemy.pos[1]+eachFirePos[1]]
@@ -225,7 +238,10 @@ class Stage:
                             if(eachEnemy.__class__.__name__ == "BulletRainShooter"):
                                 for i in range(3):
                                     self.spawnItem(1, np.array(eachEnemy.pos) + np.array([random.gauss(0, itemXStd), random.gauss(0, itemYStd)]))
-                            elif(eachEnemy.__class__.__name__ == "Sticker"):
+                            elif(eachEnemy.__class__.__name__ in ["Sticker", "Tracker"]):
+                                for i in range(4):
+                                    self.spawnItem(1, np.array(eachEnemy.pos) + np.array([random.gauss(0, itemXStd), random.gauss(0, itemYStd)]))
+                            elif(eachEnemy.__class__.__name__ == "Windmiller"):
                                 for i in range(5):
                                     self.spawnItem(1, np.array(eachEnemy.pos) + np.array([random.gauss(0, itemXStd), random.gauss(0, itemYStd)]))
                             # 非特殊型，仅一次掉落
@@ -314,6 +330,12 @@ class Stage:
             # 特殊情形：冲锋者的运动状态修改
             if(eachEnemy.__class__.__name__ == "Sticker"):
                 eachEnemy.modeSwitch(self.timeStamp)
+            # 特殊情形：风车的运动状态修改
+            if(eachEnemy.__class__.__name__ == "Windmiller"):
+                eachEnemy.modeSwitch(self.timeStamp)
+            # 特殊情形：爵爷的运动状态修改
+            if(eachEnemy.__class__.__name__ == "TieVader"):
+                eachEnemy.modeSwitch(self.timeStamp, self.player.pos)
 
     def isBulletCrashObj(self, obj, bulletPos) -> bool:
         """

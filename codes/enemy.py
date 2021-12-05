@@ -1,7 +1,5 @@
-from random import random
-
-
 import random
+import numpy as np
 
 class BaseEnemy:
 
@@ -238,3 +236,109 @@ class Tracker(BaseEnemy):
         L = (dX**2 + dY**2)**0.5
         self.pos[0] += dX / L * 2
         self.pos[1] += dY / L * 2
+
+class Windmiller(BaseEnemy):
+    """
+        风车，在中心矩形路线移动，并旋转着向四个方向发射子弹
+    """
+
+    srcImg = "img/BulletRainShooter.png"
+    scale = 5
+
+    def __init__(self, pos):
+        hp = 350
+        atk = 7
+        defen = 5
+        crashBox = [8, 2]
+        velocity = [0, 0]
+        BaseEnemy.__init__(self, hp, atk, defen, OneHpEnemy.srcImg, crashBox, velocity, OneHpEnemy.scale, pos=pos)
+        self.crashBoxRescale()
+        self.firePos = [[0,40]] # 炮口位置
+        self.fireInterv = 100
+        self.maxHp = 350 # BOSS特有的血量上限
+
+    def modeSwitch(self, timeStamp):
+        """
+            模式切换，体现为速度更改
+
+            Parameters
+            ----------
+            timeStamp : float
+                时间戳
+        """
+        second = timeStamp / 1e3
+        # 左
+        if(0 <= second % 10 < 2.5):
+            self.velocity = [-1, 0]
+        # 下
+        elif(2.5 <= second % 10 < 5):
+            self.velocity = [0, 1]
+        # 右
+        elif(5 <= second % 10 < 7.5):
+            self.velocity = [1, 0]
+        # 上
+        else:
+            self.velocity = [0, -1]
+
+    def getBulletVelocity(self, timeStamp):
+        """
+            根据时间戳，获取子弹的速度（方向）
+
+            Returns
+            -------
+            vList : list
+                四个方向的子弹的速度
+        """
+        second = timeStamp / 1e3
+        period = 5 # 子弹发射方向旋转一圈所需时间，单位：秒
+        theta = -2 * np.pi * (second % period) / period
+        v1 = [5 * np.cos(theta), 5 * np.sin(theta)]
+        v2 = [5 * -np.sin(theta), 5 * np.cos(theta)]
+        v3 = [5 * -np.cos(theta), 5 * -np.sin(theta)]
+        v4 = [5 * np.sin(theta), 5 * -np.cos(theta)]
+        vList = [v1, v2, v3, v4]
+        return vList
+
+class TieVader(BaseEnemy):
+    """
+        钛战机（Vader），8秒横向移动，2秒追踪玩家
+    """
+
+    srcImg = "img/BulletRainShooter.png"
+    scale = 5
+
+    def __init__(self, pos):
+        hp = 400
+        atk = 20
+        defen = 5
+        crashBox = [8, 2]
+        velocity = [0, 0]
+        BaseEnemy.__init__(self, hp, atk, defen, OneHpEnemy.srcImg, crashBox, velocity, OneHpEnemy.scale, pos=pos)
+        self.crashBoxRescale()
+        self.firePos = [[-22,40], [22,40], [-28,40], [28,40]] # 炮口位置
+        self.fireInterv = 300
+        self.maxHp = 400 # BOSS特有的血量上限
+
+    def modeSwitch(self, timeStamp, playerPos):
+        """
+            模式切换，体现为速度更改
+
+            Parameters
+            ----------
+            timeStamp : float
+                时间戳
+            playerPos : float[2]
+                玩家位置
+        """
+        second = timeStamp / 1e3
+        # 2秒追击
+        if(8 <= second % 10 < 10):
+            dX = playerPos[0] - self.pos[0]
+            dY = playerPos[1] - self.pos[1]
+            L = (dX**2 + dY**2)**0.5
+            self.velocity = [5 * dX / L, 5 * dY / L]
+        # 8秒横向移动
+        elif(0 <= second % 10 < 0.1):
+            self.velocity = [3, 0]
+        else:
+            pass

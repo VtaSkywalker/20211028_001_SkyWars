@@ -1,4 +1,4 @@
-from bullet import NormalEnemyBullet, PlayerBullet
+from bullet import EnemyBlasterBullet, NormalEnemyBullet, PlayerBullet
 from player import Player
 from stage import Stage
 import pygame
@@ -36,12 +36,15 @@ class Display:
         self.playerImg, self.playerImgRect = self.initImgSrc(Player.srcImg, scale=Player.scale) # 玩家信息初始化
         self.playerBulletImg, self.playerBulletImgRect = self.initImgSrc(PlayerBullet.srcImg, scale=PlayerBullet.scale) # 玩家子弹信息初始化
         self.normalEnemyBulletImg, self.normalEnemyBulletImgRect = self.initImgSrc(NormalEnemyBullet.srcImg, scale=NormalEnemyBullet.scale) # 普通敌人子弹初始化
+        self.enemyBlasterBulletImg, self.enemyBlasterBulletImgRect = self.initImgSrc(EnemyBlasterBullet.srcImg, scale=EnemyBlasterBullet.scale) # 敌人爆能束子弹初始化
         OneHpEnemy.img, OneHpEnemy.imgRect = self.initImgSrc(OneHpEnemy.srcImg, scale=OneHpEnemy.scale) # 1血敌人初始化
         DoubleWarrior.img, DoubleWarrior.imgRect = self.initImgSrc(DoubleWarrior.srcImg, scale=DoubleWarrior.scale) # 双排敌人初始化
         TripleShooter.img, TripleShooter.imgRect = self.initImgSrc(TripleShooter.srcImg, scale=TripleShooter.scale) # 三线敌人初始化
         BulletRainShooter.img, BulletRainShooter.imgRect = self.initImgSrc(BulletRainShooter.srcImg, scale=BulletRainShooter.scale) # 弹幕敌人初始化
         Sticker.img, Sticker.imgRect = self.initImgSrc(Sticker.srcImg, scale=Sticker.scale) # 冲锋者初始化
         Tracker.img, Tracker.imgRect = self.initImgSrc(Tracker.srcImg, scale=Tracker.scale) # 跟踪者初始化
+        Windmiller.img, Windmiller.imgRect = self.initImgSrc(Windmiller.srcImg, scale=Windmiller.scale) # 风车初始化
+        TieVader.img, TieVader.imgRect = self.initImgSrc(TieVader.srcImg, scale=TieVader.scale) # 爵爷初始化
         # 进入主循环
         while(True):
             # 事件判定
@@ -110,6 +113,20 @@ class Display:
                 # 爆炸时，每帧都要单独考虑显示爆炸图像
                 else:
                     eachBulletImg, eachBulletImgRect = self.initImgSrc(eachBullet.srcImg, scale=NormalEnemyBullet.scale)
+                    eachBulletImgRect.centerx = eachBullet.pos[0]
+                    eachBulletImgRect.centery = eachBullet.pos[1]
+            # 敌人爆能束子弹情形
+            # 普通敌人子弹情形
+            if(eachBullet.__class__.__name__ == "EnemyBlasterBullet"):
+                # 未爆炸时，显示正常图像
+                if(not eachBullet.isExplosion):
+                    eachBulletImg = self.enemyBlasterBulletImg
+                    eachBulletImgRect = eachBulletImg.get_rect()
+                    eachBulletImgRect.centerx = eachBullet.pos[0]
+                    eachBulletImgRect.centery = eachBullet.pos[1]
+                # 爆炸时，每帧都要单独考虑显示爆炸图像
+                else:
+                    eachBulletImg, eachBulletImgRect = self.initImgSrc(eachBullet.srcImg, scale=EnemyBlasterBullet.scale)
                     eachBulletImgRect.centerx = eachBullet.pos[0]
                     eachBulletImgRect.centery = eachBullet.pos[1]
             self.screen.blit(eachBulletImg, eachBulletImgRect)
