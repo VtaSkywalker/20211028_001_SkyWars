@@ -292,6 +292,10 @@ class Stage:
                             elif(eachEnemy.__class__.__name__ in ["Windmiller", "TieVader"]):
                                 for i in range(5):
                                     self.spawnItem(1, np.array(eachEnemy.pos) + np.array([random.gauss(0, itemXStd), random.gauss(0, itemYStd)]))
+                                # 击败爵爷时必定掉落爆能束装备
+                                if(eachEnemy.__class__.__name__ == "TieVader"):
+                                    newItem = BlasterItem(np.array(eachEnemy.pos) + np.array([random.gauss(0, itemXStd), random.gauss(0, itemYStd)]))
+                                    self.itemContainer.append(newItem)
                             elif(eachEnemy.__class__.__name__ == "StarDestroyer"):
                                 for i in range(10):
                                     self.spawnItem(1, np.array(eachEnemy.pos) + np.array([random.gauss(0, itemXStd), random.gauss(0, itemYStd)]))
@@ -349,7 +353,7 @@ class Stage:
                 # 根据物品的不同，获得不同的效果
                 itemName = eachItem.__class__.__name__
                 if(itemName == "RecoverItem"):
-                    self.player.hp = self.player.hp + eachItem.addHp if(self.player.hp + eachItem.addHp) <= 100 else 100
+                    self.player.hp = self.player.hp + eachItem.addHp if(self.player.hp + eachItem.addHp) <= self.player.hpMax else self.player.hpMax
                 elif(itemName == "AddHpLimitItem"):
                     self.player.hpMax += eachItem.addHpLimit
                 elif(itemName == "EnhanceFireItem"):

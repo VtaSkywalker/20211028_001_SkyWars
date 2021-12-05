@@ -349,14 +349,14 @@ class StarDestroyer(BaseEnemy):
         歼星舰，本体只能左右移动，但却可以不断地放出普通钛战机对玩家进行攻击。本体也能发射爆能束，且攻击力极高
     """
 
-    srcImg = "img/BulletRainShooter.png"
+    srcImg = "img/StarDestroyer.png"
     scale = 5
 
     def __init__(self, pos):
         hp = 600
         atk = 30
         defen = 5
-        crashBox = [8, 2]
+        crashBox = [8, 10]
         velocity = [3, 0]
         BaseEnemy.__init__(self, hp, atk, defen, OneHpEnemy.srcImg, crashBox, velocity, OneHpEnemy.scale, pos=pos)
         self.crashBoxRescale()

@@ -82,7 +82,7 @@
             "appearMode" : "fix",
             "posX" : 200,
             "posY" : 100,
-            "firstTime" : 1e1
+            "firstTime" : 300e3
         },
         {
             "className" : "StarDestroyer",
@@ -92,8 +92,8 @@
             "std" : 0,
             "appearMode" : "fix",
             "posX" : 200,
-            "posY" : 100,
-            "firstTime" : 360e3
+            "posY" : 150,
+            "firstTime" : 1e1
         },
         {
             "className" : "DeathStar",
