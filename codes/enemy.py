@@ -310,7 +310,7 @@ class TieVader(BaseEnemy):
 
     def __init__(self, pos):
         hp = 400
-        atk = 20
+        atk = 10
         defen = 5
         crashBox = [11, 5]
         velocity = [0, 0]
@@ -354,7 +354,7 @@ class StarDestroyer(BaseEnemy):
 
     def __init__(self, pos):
         hp = 600
-        atk = 30
+        atk = 25
         defen = 5
         crashBox = [8, 10]
         velocity = [3, 0]

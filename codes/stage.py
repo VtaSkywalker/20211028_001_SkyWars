@@ -312,6 +312,9 @@ class Stage:
                             elif(eachEnemy.__class__.__name__ == "StarDestroyer"):
                                 for i in range(10):
                                     self.spawnItem(1, np.array(eachEnemy.pos) + np.array([random.gauss(0, itemXStd), random.gauss(0, itemYStd)]))
+                                # 击败歼星舰时必定掉落炮管增加装备
+                                newItem = AddFirePosItem(np.array(eachEnemy.pos) + np.array([random.gauss(0, itemXStd), random.gauss(0, itemYStd)]))
+                                self.itemContainer.append(newItem)
                             elif(eachEnemy.__class__.__name__ == "DeathStar"):
                                 for i in range(20):
                                     self.spawnItem(1, np.array([random.gauss(200, itemXStd), random.gauss(100, itemYStd)]))
@@ -368,18 +371,18 @@ class Stage:
                 # 根据物品的不同，获得不同的效果
                 itemName = eachItem.__class__.__name__
                 if(itemName == "RecoverItem"):
-                    self.player.hp = self.player.hp + eachItem.addHp if(self.player.hp + eachItem.addHp) <= self.player.hpMax else self.player.hpMax
+                    self.player.hp = self.player.hp + (eachItem.addHp * self.player.hpMax) if(self.player.hp + (eachItem.addHp * self.player.hpMax) <= self.player.hpMax) else self.player.hpMax
                 elif(itemName == "AddHpLimitItem"):
-                    self.player.hpMax += eachItem.addHpLimit
+                    self.player.hpMax *= (1 + eachItem.addHpLimit)
                 elif(itemName == "EnhanceFireItem"):
                     currentFireFreq = 1000 / self.player.fireInterv
                     if(currentFireFreq < 20):
                         newFireFreq = currentFireFreq + eachItem.addFireFreq
                         self.player.fireInterv = 1000 / newFireFreq
                 elif(itemName == "EnhanceAtkItem"):
-                    self.player.atk += eachItem.addAtk
+                    self.player.atk *= (1 + eachItem.addAtk)
                 elif(itemName == "EnhanceDefenItem"):
-                    self.player.defen += eachItem.addDefen
+                    self.player.defen *= (1 + eachItem.addDefen)
                 elif(itemName == "BlasterItem"):
                     self.player.hasBlaster = True
                     self.player.atk *= 2
@@ -422,6 +425,7 @@ class Stage:
             if(eachEnemy.__class__.__name__ == "StarDestroyer"):
                 if(((self.timeStamp - 1e3 / 60) / 1e3) % 3 > (self.timeStamp / 1e3) % 3):
                     newEnemy = Tie([eachEnemy.pos[0], eachEnemy.pos[1]])
+                    self.resetEnemyPowerByLevel(newEnemy)
                     self.enemyContainer.append(newEnemy)
             # 特殊情形：最终BOSS
             if(eachEnemy.__class__.__name__ == "DeathStar"):
@@ -433,6 +437,7 @@ class Stage:
                     for i in range(3):
                         enemyName = enemyTable[int(random.random() * len(enemyTable))]
                         newEnemy = globals()[enemyName]([random.random() * 400, 0])
+                        self.resetEnemyPowerByLevel(newEnemy)
                         self.enemyContainer.append(newEnemy)
 
     def isBulletCrashObj(self, obj, bulletPos) -> bool:
@@ -596,13 +601,13 @@ class Stage:
             ----------
             enemy : BaseEnemy
         """
-        enemy.atk *= (1 + 0.5)**self.level
-        enemy.defen *= (1 + 0.2)**self.level
-        enemy.hp *= (1 + 0.5)**self.level
+        enemy.atk *= (1 + 0.44)**self.level
+        enemy.defen *= (1 + 0.15)**self.level
+        enemy.hp *= (1 + 0.67)**self.level
         # 非最终BOSS情形
         if(enemy.__class__.__name__  != "DeathStar"):    
             if(enemy.fireInterv >= 50):
-                enemy.fireInterv *= (1 - 0.15)**self.level
+                enemy.fireInterv *= (1 - 0.1)**self.level
         # 最终BOSS情形
         else:
             if(enemy.fireInterv_blaster >= 50):

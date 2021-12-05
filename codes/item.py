@@ -48,7 +48,7 @@ class RecoverItem(BaseItem):
     def __init__(self, pos) -> None:
         BaseItem.__init__(self, pos)
         self.itemName = "RecoverItem"
-        self.addHp = 50
+        self.addHp = 0.34
 
 class AddHpLimitItem(BaseItem):
     """
@@ -66,7 +66,7 @@ class AddHpLimitItem(BaseItem):
     def __init__(self, pos) -> None:
         BaseItem.__init__(self, pos)
         self.itemName = "AddHpLimitItem"
-        self.addHpLimit = 25
+        self.addHpLimit = 0.22
         self.velocity = [0, 4.5]
 
 class EnhanceFireItem(BaseItem):
@@ -103,7 +103,7 @@ class EnhanceAtkItem(BaseItem):
     def __init__(self, pos) -> None:
         BaseItem.__init__(self, pos)
         self.itemName = "EnhanceAtkItem"
-        self.addAtk = 2
+        self.addAtk = 0.15
         self.velocity = [0, 6]
 
 class EnhanceDefenItem(BaseItem):
@@ -121,7 +121,7 @@ class EnhanceDefenItem(BaseItem):
     def __init__(self, pos) -> None:
         BaseItem.__init__(self, pos)
         self.itemName = "EnhanceDefenItem"
-        self.addDefen = 1
+        self.addDefen = 0.01
         self.velocity = [0, 5]
 
 class BlasterItem(BaseItem):
@@ -138,7 +138,6 @@ class BlasterItem(BaseItem):
     def __init__(self, pos) -> None:
         BaseItem.__init__(self, pos)
         self.itemName = "BlasterItem"
-        self.addDefen = 1
         self.velocity = [0, 1]
 
 class AddFirePosItem(BaseItem):
