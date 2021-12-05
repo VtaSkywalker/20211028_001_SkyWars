@@ -74,3 +74,14 @@ class Player:
         """
         self.crashBox[0] *= self.scale
         self.crashBox[1] *= self.scale
+
+    def addFirePos(self):
+        """
+            添加炮口数量，最多能加到三个
+        """
+        if(len(self.firePos) == 1):
+            self.firePos = [[-6,-35], [6,-35]]
+        elif(len(self.firePos) == 2):
+            self.firePos = [[-12,-35], [0,-35], [12,-35]]
+        else:
+            return

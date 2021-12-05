@@ -104,7 +104,7 @@
             "appearMode" : "fix",
             "posX" : 150,
             "posY" : -150,
-            "firstTime" : 420e3
+            "firstTime" : 1e1
         }
     ]
 }

@@ -48,7 +48,6 @@ class RecoverItem(BaseItem):
     def __init__(self, pos) -> None:
         BaseItem.__init__(self, pos)
         self.itemName = "RecoverItem"
-        self.appearPower = 10
         self.addHp = 50
 
 class AddHpLimitItem(BaseItem):
@@ -67,7 +66,6 @@ class AddHpLimitItem(BaseItem):
     def __init__(self, pos) -> None:
         BaseItem.__init__(self, pos)
         self.itemName = "AddHpLimitItem"
-        self.appearPower = 2
         self.addHpLimit = 25
         self.velocity = [0, 4.5]
 
@@ -87,7 +85,6 @@ class EnhanceFireItem(BaseItem):
     def __init__(self, pos) -> None:
         BaseItem.__init__(self, pos)
         self.itemName = "EnhanceFireItem"
-        self.appearPower = 5
         self.addFireFreq = 1
         self.velocity = [0, 4.5]
 
@@ -106,7 +103,6 @@ class EnhanceAtkItem(BaseItem):
     def __init__(self, pos) -> None:
         BaseItem.__init__(self, pos)
         self.itemName = "EnhanceAtkItem"
-        self.appearPower = 2
         self.addAtk = 2
         self.velocity = [0, 6]
 
@@ -125,7 +121,6 @@ class EnhanceDefenItem(BaseItem):
     def __init__(self, pos) -> None:
         BaseItem.__init__(self, pos)
         self.itemName = "EnhanceDefenItem"
-        self.appearPower = 2
         self.addDefen = 1
         self.velocity = [0, 5]
 
@@ -143,6 +138,21 @@ class BlasterItem(BaseItem):
     def __init__(self, pos) -> None:
         BaseItem.__init__(self, pos)
         self.itemName = "BlasterItem"
-        self.appearPower = 2
         self.addDefen = 1
+        self.velocity = [0, 1]
+
+class AddFirePosItem(BaseItem):
+    """
+        增加玩家的炮口数
+
+        Attributes
+        ----------
+    """
+
+    srcImg = "./img/addFirePosItem.png"
+    appearPower = 5
+
+    def __init__(self, pos) -> None:
+        BaseItem.__init__(self, pos)
+        self.itemName = "AddFirePosItem"
         self.velocity = [0, 1]

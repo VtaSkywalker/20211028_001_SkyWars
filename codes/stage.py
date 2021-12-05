@@ -56,7 +56,7 @@ class Stage:
         self.bossName = ["BulletRainShooter", "Sticker", "Tracker", "Windmiller", "TieVader", "StarDestroyer", "DeathStar"]
 
         # 所有可能出现的道具（类名）及其权重
-        self.itemDict = {"RecoverItem" : RecoverItem.appearPower, "AddHpLimitItem" : AddHpLimitItem.appearPower, "EnhanceFireItem" : EnhanceFireItem.appearPower, "EnhanceAtkItem" : EnhanceAtkItem.appearPower, "EnhanceDefenItem" : EnhanceDefenItem.appearPower, "BlasterItem" : BlasterItem.appearPower}
+        self.itemDict = {"RecoverItem" : RecoverItem.appearPower, "AddHpLimitItem" : AddHpLimitItem.appearPower, "EnhanceFireItem" : EnhanceFireItem.appearPower, "EnhanceAtkItem" : EnhanceAtkItem.appearPower, "EnhanceDefenItem" : EnhanceDefenItem.appearPower, "BlasterItem" : BlasterItem.appearPower, "AddFirePosItem" : AddFirePosItem.appearPower}
 
         # 道具容器
         self.itemContainer = []
@@ -369,6 +369,9 @@ class Stage:
                     self.player.defen += eachItem.addDefen
                 elif(itemName == "BlasterItem"):
                     self.player.hasBlaster = True
+                    self.player.atk *= 2
+                elif(itemName == "AddFirePosItem"):
+                    self.player.addFirePos()
                 # 吃完道具后，道具消失
                 removeList.append(eachItem)
         for eachRemoveItem in removeList:
