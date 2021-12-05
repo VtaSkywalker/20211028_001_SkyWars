@@ -43,7 +43,7 @@ class RecoverItem(BaseItem):
     """
 
     srcImg = "./img/recoverItem.png"
-    appearPower = 10
+    appearPower = 100
 
     def __init__(self, pos) -> None:
         BaseItem.__init__(self, pos)
@@ -62,7 +62,7 @@ class AddHpLimitItem(BaseItem):
     """
 
     srcImg = "./img/addHpLimitItem.png"
-    appearPower = 2
+    appearPower = 20
     
     def __init__(self, pos) -> None:
         BaseItem.__init__(self, pos)
@@ -82,7 +82,7 @@ class EnhanceFireItem(BaseItem):
     """
 
     srcImg = "./img/enhanceFireItem.png"
-    appearPower = 5
+    appearPower = 50
 
     def __init__(self, pos) -> None:
         BaseItem.__init__(self, pos)
@@ -101,7 +101,7 @@ class EnhanceAtkItem(BaseItem):
     """
 
     srcImg = "./img/enhanceAtkItem.png"
-    appearPower = 2
+    appearPower = 20
 
     def __init__(self, pos) -> None:
         BaseItem.__init__(self, pos)
@@ -120,7 +120,7 @@ class EnhanceDefenItem(BaseItem):
     """
 
     srcImg = "./img/enhanceDefenItem.png"
-    appearPower = 2
+    appearPower = 20
 
     def __init__(self, pos) -> None:
         BaseItem.__init__(self, pos)
@@ -128,3 +128,21 @@ class EnhanceDefenItem(BaseItem):
         self.appearPower = 2
         self.addDefen = 1
         self.velocity = [0, 5]
+
+class BlasterItem(BaseItem):
+    """
+        拾取后，玩家获得爆能束
+
+        Attributes
+        ----------
+    """
+
+    srcImg = "./img/blasterItem.png"
+    appearPower = 2
+
+    def __init__(self, pos) -> None:
+        BaseItem.__init__(self, pos)
+        self.itemName = "BlasterItem"
+        self.appearPower = 2
+        self.addDefen = 1
+        self.velocity = [0, 1]

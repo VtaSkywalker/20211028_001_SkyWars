@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<XMI xmi.version="1.2" timestamp="2021-12-05T09:42:04" verified="false" xmlns:UML="http://schema.omg.org/spec/UML/1.4">
+<XMI xmi.version="1.2" timestamp="2021-12-05T11:19:43" verified="false" xmlns:UML="http://schema.omg.org/spec/UML/1.4">
  <XMI.header>
   <XMI.documentation>
    <XMI.exporter>umbrello uml modeller 2.32.3 http://umbrello.kde.org</XMI.exporter>
@@ -119,13 +119,14 @@
         <UML:Attribute isSpecification="false" xmi.id="uxVh9xjCnfqAJ" name="pos" visibility="private" type="uM0D0dCvfwkoW"/>
         <UML:Attribute isSpecification="false" xmi.id="uAH4r8MMCJHXU" name="velocity" comment="移动速度" visibility="private" type="u8wrz4J1pCgHg"/>
         <UML:Attribute isSpecification="false" xmi.id="uGy5foodwinwS" name="crashBox" comment="玩家的碰撞箱" visibility="private" type="uM0D0dCvfwkoW"/>
-        <UML:Attribute isSpecification="false" xmi.id="uMerLrxTK4Iu6" name="firePos" comment="炮口相对于飞机的位置" visibility="private" type="uM0D0dCvfwkoW"/>
+        <UML:Attribute isSpecification="false" xmi.id="uMerLrxTK4Iu6" name="firePos" comment="炮口相对于飞机的位置" visibility="private" type="u8uHFU6nJiEt6"/>
         <UML:Attribute isSpecification="false" xmi.id="uOA6q6DGpvkl3" name="fireInterv" comment="最小发射间隔时间，单位：ms" visibility="private" type="u8wrz4J1pCgHg"/>
         <UML:Attribute isSpecification="false" xmi.id="ugwF5aJVho9py" name="lastTimeFired" comment="最近一次发射的时间戳" visibility="private" type="u8wrz4J1pCgHg"/>
         <UML:Attribute isSpecification="false" xmi.id="uCcMEfuBP7LZh" name="atk" comment="玩家攻击力" visibility="private" type="u8wrz4J1pCgHg"/>
         <UML:Attribute isSpecification="false" xmi.id="uZqwa2sycZMLv" name="hp" comment="玩家血量" visibility="private" type="u8wrz4J1pCgHg"/>
         <UML:Attribute isSpecification="false" xmi.id="uGHsQf4AHwPI2" name="hpMax" comment="血量上限" visibility="private" type="u8wrz4J1pCgHg"/>
         <UML:Attribute isSpecification="false" xmi.id="uQK9vP947oBLE" name="defen" comment="玩家防御力" visibility="private" type="u8wrz4J1pCgHg"/>
+        <UML:Attribute isSpecification="false" xmi.id="uRnbaJqz6pI7a" name="hasBlaster" comment="是否有爆能束" visibility="private" type="uW5NDJiYxjQ15" initialValue="false"/>
         <UML:Operation isSpecification="false" isLeaf="false" isRoot="false" isAbstract="false" xmi.id="uXFFjqqmk1duX" name="move" comment="按指定方向移动&#10;0: up&#10;1: left&#10;2: down&#10;3: right" visibility="public" isQuery="false" isOverride="false" isVirtual="false" isInline="false">
          <UML:BehavioralFeature.parameter>
           <UML:Parameter isSpecification="false" xmi.id="u20aUGGoL8haL" name="direction" comment="0: up&#10;1: left&#10;2: down&#10;3: right" visibility="private" type="udO493WFs8CGq" value=""/>
@@ -339,23 +340,36 @@
         <UML:AssociationEnd isSpecification="false" xmi.id="uL7PMUAOXNqMs" name="" visibility="public" type="uJdX7FUnO3dXD" aggregation="none" isNavigable="true" visibility="public" changeability="changeable"/>
        </UML:Association.connection>
       </UML:Association>
-      <UML:Class isSpecification="false" isLeaf="false" isRoot="false" isAbstract="false" xmi.id="udFj84XnpTPUB" name="EnemyBlasterBullet Class" namespace="Logical_View" visibility="public">
+      <UML:Class isSpecification="false" isLeaf="false" isRoot="false" isAbstract="false" xmi.id="udFj84XnpTPUB" name="EnemyBlasterBullet Class" namespace="Logical_View" comment="敌人发射的爆能束" visibility="public">
        <UML:GeneralizableElement.generalization>
         <UML:Generalization xmi.idref="u5tUQVcoZzBSQ"/>
        </UML:GeneralizableElement.generalization>
       </UML:Class>
       <UML:Generalization isSpecification="false" xmi.id="u5tUQVcoZzBSQ" name="" namespace="Logical_View" visibility="public" discriminator="" child="udFj84XnpTPUB" parent="unrU7OWVqGMRD"/>
+      <UML:Class isSpecification="false" isLeaf="false" isRoot="false" isAbstract="false" xmi.id="uaP7SQoAzA7zi" name="PlayerBlasterBullet Class" namespace="Logical_View" comment="玩家发射的爆能束" visibility="public">
+       <UML:GeneralizableElement.generalization>
+        <UML:Generalization xmi.idref="uom4fDxO21I9C"/>
+       </UML:GeneralizableElement.generalization>
+      </UML:Class>
+      <UML:Generalization isSpecification="false" xmi.id="uom4fDxO21I9C" name="" namespace="Logical_View" visibility="public" discriminator="" child="uaP7SQoAzA7zi" parent="unrU7OWVqGMRD"/>
+      <UML:Class isSpecification="false" isLeaf="false" isRoot="false" isAbstract="false" xmi.id="urxYQpW0Joa9X" name="BlasterItem Class" namespace="Logical_View" comment="拾取后，玩家获得爆能束" visibility="public">
+       <UML:GeneralizableElement.generalization>
+        <UML:Generalization xmi.idref="uHXMTvL3F0nS4"/>
+       </UML:GeneralizableElement.generalization>
+      </UML:Class>
+      <UML:Generalization isSpecification="false" xmi.id="uHXMTvL3F0nS4" name="" namespace="Logical_View" visibility="public" discriminator="" child="urxYQpW0Joa9X" parent="uaXJDdWtxRQdj"/>
      </UML:Namespace.ownedElement>
      <XMI.extension xmi.extender="umbrello">
       <diagrams resolution="96">
-       <diagram xmi.id="uHzCT3D9Iy5oR" name="类图" type="1" documentation="提升防御物品类" backgroundcolor="#ffffff" fillcolor="#ffff00" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0" griddotcolor="#d3d3d3" linecolor="#ff0000" linewidth="0" textcolor="#000000" usefillcolor="1" showattribassocs="1" showatts="1" showattsig="1" showops="1" showopsig="1" showpackage="1" showpubliconly="0" showscope="1" showstereotype="2" localid="-1" showgrid="0" snapgrid="0" snapcsgrid="0" snapx="25" snapy="25" zoom="81.3706" canvasheight="968.622" canvaswidth="919.38" isopen="1">
+       <diagram xmi.id="uHzCT3D9Iy5oR" name="类图" type="1" documentation="提升防御物品类" backgroundcolor="#ffffff" fillcolor="#ffff00" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0" griddotcolor="#d3d3d3" linecolor="#ff0000" linewidth="0" textcolor="#000000" usefillcolor="1" showattribassocs="1" showatts="1" showattsig="1" showops="1" showopsig="1" showpackage="1" showpubliconly="0" showscope="1" showstereotype="2" localid="-1" showgrid="0" snapgrid="0" snapcsgrid="0" snapx="25" snapy="25" zoom="123.755" canvasheight="960.294" canvaswidth="919.38" isopen="1">
         <widgets>
          <classwidget xmi.id="udFj84XnpTPUB" localid="uE7fhus0koq9O" textcolor="#000000" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="0" usesdiagramusefillcolor="0" fillcolor="#ffff00" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0,Regular" autoresize="0" x="340.418" y="-191.715" width="158" height="44.9763" isinstance="0" showstereotype="2" showoperations="1" showpubliconly="0" showopsigs="601" showpackage="1" showscope="1" showattributes="1" showattsigs="601" showstereotype="2"/>
+         <classwidget xmi.id="urxYQpW0Joa9X" localid="uCHn9nK1jKp2e" textcolor="#000000" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="0" usesdiagramusefillcolor="0" fillcolor="#ffff00" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0,Regular" autoresize="1" x="-164.034" y="555.131" width="112" height="29" isinstance="0" showstereotype="2" showoperations="1" showpubliconly="0" showopsigs="601" showpackage="1" showscope="1" showattributes="1" showattsigs="601" showstereotype="2"/>
          <classwidget xmi.id="uoAlix3IIL4vr" localid="ukgbatPoiJ96r" textcolor="#000000" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="0" usesdiagramusefillcolor="0" fillcolor="#ffff00" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0,Regular" autoresize="0" x="337.062" y="-351.561" width="114" height="65.7171" isinstance="0" showstereotype="2" showoperations="1" showpubliconly="0" showopsigs="601" showpackage="1" showscope="1" showattributes="1" showattsigs="601" showstereotype="2"/>
          <classwidget xmi.id="uJdX7FUnO3dXD" localid="uTd0xxUmBdsth" textcolor="#000000" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="0" usesdiagramusefillcolor="0" fillcolor="#ffff00" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0,Regular" autoresize="0" x="-392.325" y="-139.803" width="370" height="420" isinstance="0" showstereotype="2" showoperations="1" showpubliconly="0" showopsigs="601" showpackage="1" showscope="1" showattributes="1" showattsigs="601" showstereotype="2"/>
-         <classwidget xmi.id="u2oAJzq7QVPRE" localid="ukmlyyZvbkkim" textcolor="#000000" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="0" usesdiagramusefillcolor="0" fillcolor="#ffff00" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0,Regular" autoresize="0" x="188.928" y="-59.2303" width="140.59" height="225" isinstance="0" showstereotype="2" showoperations="1" showpubliconly="0" showopsigs="601" showpackage="1" showscope="1" showattributes="1" showattsigs="601" showstereotype="2"/>
+         <classwidget xmi.id="u2oAJzq7QVPRE" localid="ukmlyyZvbkkim" textcolor="#000000" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="0" usesdiagramusefillcolor="0" fillcolor="#ffff00" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0,Regular" autoresize="0" x="188.928" y="-59.2303" width="157" height="240" isinstance="0" showstereotype="2" showoperations="1" showpubliconly="0" showopsigs="601" showpackage="1" showscope="1" showattributes="1" showattsigs="601" showstereotype="2"/>
          <classwidget xmi.id="uSoWDDhLE8OXE" localid="u5jQ1uvAYza3l" textcolor="#000000" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="0" usesdiagramusefillcolor="0" fillcolor="#ffff00" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0,Regular" autoresize="0" x="-328.044" y="-368.543" width="244" height="180" isinstance="0" showstereotype="2" showoperations="1" showpubliconly="0" showopsigs="601" showpackage="1" showscope="1" showattributes="1" showattsigs="601" showstereotype="2"/>
-         <classwidget xmi.id="uaXJDdWtxRQdj" localid="uJEpzlIOBCaiu" textcolor="#000000" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="0" usesdiagramusefillcolor="0" fillcolor="#ffff00" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0,Regular" autoresize="0" x="-165.453" y="343.967" width="141.481" height="256.112" isinstance="0" showstereotype="2" showoperations="1" showpubliconly="0" showopsigs="601" showpackage="1" showscope="1" showattributes="1" showattsigs="601" showstereotype="2"/>
+         <classwidget xmi.id="uaXJDdWtxRQdj" localid="uJEpzlIOBCaiu" textcolor="#000000" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="0" usesdiagramusefillcolor="0" fillcolor="#ffff00" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0,Regular" autoresize="0" x="-165.453" y="343.967" width="134" height="137.328" isinstance="0" showstereotype="2" showoperations="1" showpubliconly="0" showopsigs="601" showpackage="1" showscope="1" showattributes="1" showattsigs="601" showstereotype="2"/>
          <classwidget xmi.id="uTqG1ESWyBqVG" localid="uN5JXzEG1mCvk" textcolor="#000000" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="0" usesdiagramusefillcolor="0" fillcolor="#ffff00" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0,Regular" autoresize="1" x="412.781" y="439.276" width="93" height="29" isinstance="0" showstereotype="2" showoperations="1" showpubliconly="0" showopsigs="601" showpackage="1" showscope="1" showattributes="1" showattsigs="601" showstereotype="2"/>
          <classwidget xmi.id="uJE6zg7h1DVT4" localid="uOGsY2ex165Ln" textcolor="#000000" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="0" usesdiagramusefillcolor="0" fillcolor="#ffff00" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0" autoresize="1" x="403.195" y="389.286" width="122" height="29" isinstance="0" showstereotype="2" showoperations="1" showpubliconly="0" showopsigs="601" showpackage="1" showscope="1" showattributes="1" showattsigs="601" showstereotype="2"/>
          <classwidget xmi.id="uOHqXTWDvBWly" localid="u29txtQC5273c" textcolor="#000000" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="0" usesdiagramusefillcolor="0" fillcolor="#ffff00" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0" autoresize="1" x="396.305" y="326.285" width="130" height="29" isinstance="0" showstereotype="2" showoperations="1" showpubliconly="0" showopsigs="601" showpackage="1" showscope="1" showattributes="1" showattsigs="601" showstereotype="2"/>
@@ -364,10 +378,11 @@
          <classwidget xmi.id="uzBzM2t9z3jmv" localid="u0peByAazBxCN" textcolor="#000000" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="0" usesdiagramusefillcolor="0" fillcolor="#ffff00" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0,Regular" autoresize="0" x="400.554" y="232.485" width="124" height="51.3022" isinstance="0" showstereotype="2" showoperations="1" showpubliconly="0" showopsigs="601" showpackage="1" showscope="1" showattributes="1" showattsigs="601" showstereotype="2"/>
          <classwidget xmi.id="uw15lSWrnwLna" localid="uWpUoDFQ8gSqs" textcolor="#000000" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="0" usesdiagramusefillcolor="0" fillcolor="#ffff00" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0,Regular" autoresize="0" x="337.321" y="-268.586" width="161" height="56.1909" isinstance="0" showstereotype="2" showoperations="1" showpubliconly="0" showopsigs="601" showpackage="1" showscope="1" showattributes="1" showattsigs="601" showstereotype="2"/>
          <classwidget xmi.id="u3bpqAmF9kKGA" localid="uA7k1JiiNZbWe" textcolor="#000000" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="0" usesdiagramusefillcolor="0" fillcolor="#ffff00" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0,Regular" autoresize="1" x="-375.977" y="345.035" width="122" height="37" isinstance="0" showstereotype="2" showoperations="1" showpubliconly="0" showopsigs="601" showpackage="1" showscope="1" showattributes="1" showattsigs="601" showstereotype="2"/>
-         <classwidget xmi.id="uORUq7nTYrFAj" localid="u9D421Og8RyPO" textcolor="#000000" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="0" usesdiagramusefillcolor="0" fillcolor="#ffff00" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0,Regular" autoresize="1" x="-389.869" y="555.559" width="155" height="37" isinstance="0" showstereotype="2" showoperations="1" showpubliconly="0" showopsigs="601" showpackage="1" showscope="1" showattributes="1" showattsigs="601" showstereotype="2"/>
+         <classwidget xmi.id="uORUq7nTYrFAj" localid="u9D421Og8RyPO" textcolor="#000000" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="0" usesdiagramusefillcolor="0" fillcolor="#ffff00" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0,Regular" autoresize="1" x="-355.123" y="554.751" width="155" height="37" isinstance="0" showstereotype="2" showoperations="1" showpubliconly="0" showopsigs="601" showpackage="1" showscope="1" showattributes="1" showattsigs="601" showstereotype="2"/>
          <classwidget xmi.id="umNaTArLDz2i6" localid="u8JYd21zUFd29" textcolor="#000000" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="0" usesdiagramusefillcolor="0" fillcolor="#ffff00" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0,Regular" autoresize="1" x="-393.075" y="405.948" width="151" height="37" isinstance="0" showstereotype="2" showoperations="1" showpubliconly="0" showopsigs="601" showpackage="1" showscope="1" showattributes="1" showattsigs="601" showstereotype="2"/>
          <classwidget xmi.id="uDDPycRjMjh2x" localid="ueTYahrEI9Ydn" textcolor="#000000" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="0" usesdiagramusefillcolor="0" fillcolor="#ffff00" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0,Regular" autoresize="1" x="-380.251" y="510.676" width="139" height="37" isinstance="0" showstereotype="2" showoperations="1" showpubliconly="0" showopsigs="601" showpackage="1" showscope="1" showattributes="1" showattsigs="601" showstereotype="2"/>
          <classwidget xmi.id="uPF6vcFa4hdAq" localid="u93KhDXnpGhjb" textcolor="#000000" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="0" usesdiagramusefillcolor="0" fillcolor="#ffff00" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0,Regular" autoresize="1" x="-379.183" y="457.243" width="143" height="37" isinstance="0" showstereotype="2" showoperations="1" showpubliconly="0" showopsigs="601" showpackage="1" showscope="1" showattributes="1" showattsigs="601" showstereotype="2"/>
+         <classwidget xmi.id="uaP7SQoAzA7zi" localid="uKsza9P2RSG4D" textcolor="#000000" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="0" usesdiagramusefillcolor="0" fillcolor="#ffff00" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0" autoresize="1" x="345.173" y="-126.1" width="154" height="29" isinstance="0" showstereotype="2" showoperations="1" showpubliconly="0" showopsigs="601" showpackage="1" showscope="1" showattributes="1" showattsigs="601" showstereotype="2"/>
         </widgets>
         <messages/>
         <associations>
@@ -451,14 +466,14 @@
          </assocwidget>
          <assocwidget xmi.id="ucXu64fSwHt6O" localid="udOo0ZllVOKdv" textcolor="none" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="1" usesdiagramusefillcolor="1" fillcolor="none" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0" autoresize="1" seqnum="" xmi.id="ucXu64fSwHt6O" type="500" widgetaid="uDDPycRjMjh2x" widgetbid="uaXJDdWtxRQdj" indexa="1" totalcounta="2" indexb="1" totalcountb="2">
           <linepath layout="Direct">
-           <startpoint startx="-241.251" starty="518.156"/>
-           <endpoint endx="-165.453" endy="518.156"/>
+           <startpoint startx="-241.251" starty="510.676"/>
+           <endpoint endx="-165.453" endy="481.295"/>
           </linepath>
          </assocwidget>
          <assocwidget xmi.id="ut300uNiDPWjN" localid="uTGWht3S2i0Z2" textcolor="none" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="1" usesdiagramusefillcolor="1" fillcolor="none" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0" autoresize="1" seqnum="" xmi.id="ut300uNiDPWjN" type="500" widgetaid="uORUq7nTYrFAj" widgetbid="uaXJDdWtxRQdj" indexa="1" totalcounta="2" indexb="1" totalcountb="2">
           <linepath layout="Direct">
-           <startpoint startx="-234.869" starty="566.245"/>
-           <endpoint endx="-165.453" endy="566.245"/>
+           <startpoint startx="-200.123" starty="554.751"/>
+           <endpoint endx="-165.453" endy="481.295"/>
           </linepath>
          </assocwidget>
          <assocwidget xmi.id="uNZgsd0atPmVT" localid="uxFndXvTIWG5F" textcolor="none" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="1" usesdiagramusefillcolor="1" fillcolor="none" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0" autoresize="1" seqnum="" xmi.id="uNZgsd0atPmVT" type="512" widgetaid="uaXJDdWtxRQdj" widgetbid="uJdX7FUnO3dXD" indexa="1" totalcounta="2" indexb="1" totalcountb="2">
@@ -467,10 +482,22 @@
            <endpoint endx="-165.453" endy="280.197"/>
           </linepath>
          </assocwidget>
+         <assocwidget xmi.id="uom4fDxO21I9C" localid="uko8iowykQd9d" textcolor="none" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="1" usesdiagramusefillcolor="1" fillcolor="none" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0" autoresize="1" seqnum="" xmi.id="uom4fDxO21I9C" type="500" widgetaid="uaP7SQoAzA7zi" widgetbid="unrU7OWVqGMRD" indexa="1" totalcounta="2" indexb="1" totalcountb="2">
+          <linepath layout="Direct">
+           <startpoint startx="345.173" starty="-126.1"/>
+           <endpoint endx="220.295" endy="-182.361"/>
+          </linepath>
+         </assocwidget>
          <assocwidget xmi.id="u5tUQVcoZzBSQ" localid="ui90PpeBZFauu" textcolor="none" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="1" usesdiagramusefillcolor="1" fillcolor="none" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0" autoresize="1" seqnum="" xmi.id="u5tUQVcoZzBSQ" type="500" widgetaid="udFj84XnpTPUB" widgetbid="unrU7OWVqGMRD" indexa="1" totalcounta="2" indexb="1" totalcountb="2">
           <linepath layout="Direct">
            <startpoint startx="340.418" starty="-191.715"/>
            <endpoint endx="220.295" endy="-191.715"/>
+          </linepath>
+         </assocwidget>
+         <assocwidget xmi.id="uHXMTvL3F0nS4" localid="uqHCvsW3JuKd1" textcolor="none" linecolor="#ff0000" linewidth="0" usefillcolor="1" usesdiagramfillcolor="1" usesdiagramusefillcolor="1" fillcolor="none" font="文泉驿微米黑,10,-1,5,50,0,0,0,0,0" autoresize="1" seqnum="" xmi.id="uHXMTvL3F0nS4" type="500" widgetaid="urxYQpW0Joa9X" widgetbid="uaXJDdWtxRQdj" indexa="1" totalcounta="2" indexb="1" totalcountb="2">
+          <linepath layout="Direct">
+           <startpoint startx="-111.511" starty="555.131"/>
+           <endpoint endx="-111.511" endy="481.295"/>
           </linepath>
          </assocwidget>
         </associations>
@@ -494,7 +521,7 @@
   </UML:Model>
  </XMI.content>
  <XMI.extensions xmi.extender="umbrello">
-  <docsettings viewid="uHzCT3D9Iy5oR" documentation="" uniqueid="u6Y5CcH7coOl4"/>
+  <docsettings viewid="uHzCT3D9Iy5oR" documentation="" uniqueid="uDkmqDnCJig8t"/>
   <listview>
    <listitem id="Views" type="800" open="1">
     <listitem id="Deployment_View" type="827" open="1"/>
@@ -579,6 +606,7 @@
       <listitem id="uxfDDSSOK7Ek9" type="814" open="0"/>
       <listitem id="u0lk4aXjw4LtI" type="814" open="0"/>
      </listitem>
+     <listitem id="urxYQpW0Joa9X" type="813" open="1"/>
      <listitem id="uBPEpqTCXqKoi" type="813" open="1"/>
      <listitem id="uSoWDDhLE8OXE" type="813" open="1">
       <listitem id="uXJHtwjA7Ztzq" type="815" open="0"/>
@@ -620,6 +648,7 @@
       <listitem id="uQK9vP947oBLE" type="814" open="0"/>
       <listitem id="uOA6q6DGpvkl3" type="814" open="0"/>
       <listitem id="uMerLrxTK4Iu6" type="814" open="0"/>
+      <listitem id="uRnbaJqz6pI7a" type="814" open="0"/>
       <listitem id="uZqwa2sycZMLv" type="814" open="0"/>
       <listitem id="uGHsQf4AHwPI2" type="814" open="0"/>
       <listitem id="ugwF5aJVho9py" type="814" open="0"/>
@@ -629,6 +658,7 @@
       <listitem id="ujLh3XKq4j1XG" type="814" open="0"/>
       <listitem id="uAH4r8MMCJHXU" type="814" open="0"/>
      </listitem>
+     <listitem id="uaP7SQoAzA7zi" type="813" open="1"/>
      <listitem id="uoAlix3IIL4vr" type="813" open="1"/>
      <listitem id="u3bpqAmF9kKGA" type="813" open="1">
       <listitem id="u2EoahR7AKsmT" type="814" open="0"/>

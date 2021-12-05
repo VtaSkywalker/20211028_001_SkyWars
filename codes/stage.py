@@ -56,7 +56,7 @@ class Stage:
         self.bossName = ["BulletRainShooter", "Sticker", "Tracker", "Windmiller", "TieVader", "StarDestroyer"]
 
         # 所有可能出现的道具（类名）及其权重
-        self.itemDict = {"RecoverItem" : RecoverItem.appearPower, "AddHpLimitItem" : AddHpLimitItem.appearPower, "EnhanceFireItem" : EnhanceFireItem.appearPower, "EnhanceAtkItem" : EnhanceAtkItem.appearPower, "EnhanceDefenItem" : EnhanceDefenItem.appearPower}
+        self.itemDict = {"RecoverItem" : RecoverItem.appearPower, "AddHpLimitItem" : AddHpLimitItem.appearPower, "EnhanceFireItem" : EnhanceFireItem.appearPower, "EnhanceAtkItem" : EnhanceAtkItem.appearPower, "EnhanceDefenItem" : EnhanceDefenItem.appearPower, "BlasterItem" : BlasterItem.appearPower}
 
         # 道具容器
         self.itemContainer = []
@@ -108,10 +108,14 @@ class Stage:
         if(self.timeStamp - self.player.lastTimeFired < self.player.fireInterv):
             return
         # 生成子弹后，将其加入到子弹容器中
-        newBulletPos = [self.player.pos[0]+self.player.firePos[0],self.player.pos[1]+self.player.firePos[1]]
-        newBullet = PlayerBullet(newBulletPos, [0, -10])
-        newBullet.atk = self.player.atk
-        self.bulletContainer.append(newBullet)
+        for eachFirePos in self.player.firePos:
+            newBulletPos = [self.player.pos[0]+eachFirePos[0],self.player.pos[1]+eachFirePos[1]]
+            if(self.player.hasBlaster == False):
+                newBullet = PlayerBullet(newBulletPos, [0, -10])
+            else:
+                newBullet = PlayerBlasterBullet(newBulletPos, [0, -10])
+            newBullet.atk = self.player.atk
+            self.bulletContainer.append(newBullet)
         # 发射子弹后，更新玩家最近发射时间
         self.player.lastTimeFired = self.timeStamp
 
@@ -265,7 +269,7 @@ class Stage:
                                 elif(eachEnemy.__class__.__name__ == "TripleShooter"):
                                     prob = 0.12
                                 else:
-                                    prob = 0
+                                    prob = 1
                                 self.spawnItem(prob, np.array(eachEnemy.pos) + np.array([random.gauss(0, itemXStd), random.gauss(0, itemYStd)]))
                     # 命中后设置爆炸状态
                     eachBullet.isExplosion = True
@@ -317,6 +321,8 @@ class Stage:
                     self.player.atk += eachItem.addAtk
                 elif(itemName == "EnhanceDefenItem"):
                     self.player.defen += eachItem.addDefen
+                elif(itemName == "BlasterItem"):
+                    self.player.hasBlaster = True
                 # 吃完道具后，道具消失
                 removeList.append(eachItem)
         for eachRemoveItem in removeList:

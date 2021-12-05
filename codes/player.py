@@ -14,7 +14,7 @@ class Player:
             玩家的移动速度
         crashBox : float[2]
             玩家的碰撞箱
-        firePos : float[2]
+        firePos : float[2][]
             炮口相对于飞机的位置
         fireInterv : float
             最小发射间隔时间，单位：ms
@@ -28,6 +28,8 @@ class Player:
             血量上限
         defen : float
             玩家防御力
+        hasBlaster : bool = false
+            是否有爆能束
     """
 
     srcImg = "img/player.png"
@@ -39,13 +41,14 @@ class Player:
         self.velocity = 5
         self.crashBox = [4, 3]
         self.scale = Player.scale
-        self.firePos = [0,-35]
+        self.firePos = [[0,-35]]
         self.fireInterv = 160
         self.lastTimeFired = 0 # 初始化最近发射时间戳为0
         self.atk = 10 # 攻击力初始化
         self.hp = 100 # 血量初始化
         self.hpMax = 100 # 血量上限初始化
         self.defen = 0 # 防御力初始化
+        self.hasBlaster = False # 是否有爆能束
 
     def move(self, direction):
         """
