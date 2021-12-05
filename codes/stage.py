@@ -204,8 +204,8 @@ class Stage:
                     if(self.timeStamp - eachEnemy.lastTimeFired_blaster < eachEnemy.fireInterv_blaster):
                         break
                     # 随机生成三个位置发射
-                    for eachFirePos in [[random.random() * 400 - 200, 40], [random.random() * 400 - 200, 40], [random.random() * 400 - 200, 40]]:
-                        newBulletPos = [eachEnemy.pos[0]+eachFirePos[0],eachEnemy.pos[1]+eachFirePos[1]]
+                    for eachFirePos in [[random.random() * 400, 40], [random.random() * 400, 40], [random.random() * 400, 40]]:
+                        newBulletPos = [eachFirePos[0],eachFirePos[1]]
                         newBullet = EnemyBlasterBullet(newBulletPos, [0, 10])
                         newBullet.atk = eachEnemy.atk
                         self.bulletContainer.append(newBullet)
@@ -219,7 +219,7 @@ class Stage:
                         break
                     # 对于每个炮口，生成子弹后，将其加入到子弹容器中
                     for eachFirePos in eachEnemy.firePos_beam:
-                        newBulletPos = [eachEnemy.pos[0]+eachFirePos[0],eachEnemy.pos[1]+eachFirePos[1]]
+                        newBulletPos = [293, 87]
                         newBullet = DeathStarBeamBullet(newBulletPos, [0, 5])
                         newBullet.atk = eachEnemy.atk
                         self.bulletContainer.append(newBullet)
@@ -301,7 +301,7 @@ class Stage:
                                     self.spawnItem(1, np.array(eachEnemy.pos) + np.array([random.gauss(0, itemXStd), random.gauss(0, itemYStd)]))
                             elif(eachEnemy.__class__.__name__ == "DeathStar"):
                                 for i in range(20):
-                                    self.spawnItem(1, np.array(eachEnemy.pos) + np.array([random.gauss(0, itemXStd), random.gauss(0, itemYStd)]))
+                                    self.spawnItem(1, np.array([random.gauss(200, itemXStd), random.gauss(100, itemYStd)]))
                             # 非特殊型，仅一次掉落
                             else:
                                 if(eachEnemy.__class__.__name__ == "OneHpEnemy"):
@@ -322,7 +322,9 @@ class Stage:
             # 出界一定范围后移除敌人
             effPos = [eachEnemy.pos[0], eachEnemy.pos[1] * 0.8]
             if(self.isOutside(effPos)):
-                removeList.append(eachEnemy)
+                # BOSS除外
+                if(eachEnemy.__class__.__name__ not in self.bossName):
+                    removeList.append(eachEnemy)
         for eachRemoveEnemy in removeList:
             try:
                 self.enemyContainer.remove(eachRemoveEnemy)

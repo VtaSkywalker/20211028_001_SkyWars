@@ -78,10 +78,6 @@ class Display:
         """
         # 初始化-黑屏
         self.screen.fill((0,0,0))
-        # 玩家飞机显示
-        self.playerImgRect.centerx = self.stage.player.pos[0]
-        self.playerImgRect.centery = self.stage.player.pos[1]
-        self.screen.blit(self.playerImg, self.playerImgRect)
         # 敌人飞机显示
         for eachEnemy in self.stage.enemyContainer:
             eachEnemyImg = eachEnemy.img
@@ -89,6 +85,10 @@ class Display:
             eachEnemyImgRect.centerx = eachEnemy.pos[0]
             eachEnemyImgRect.centery = eachEnemy.pos[1]
             self.screen.blit(eachEnemyImg, eachEnemyImgRect)
+        # 玩家飞机显示
+        self.playerImgRect.centerx = self.stage.player.pos[0]
+        self.playerImgRect.centery = self.stage.player.pos[1]
+        self.screen.blit(self.playerImg, self.playerImgRect)
         # 碰撞箱显示
         if(DisplayConfig.doShowCrashBox):
             self.showCrashBox()

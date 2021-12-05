@@ -93,7 +93,7 @@
             "appearMode" : "fix",
             "posX" : 200,
             "posY" : 150,
-            "firstTime" : 1e1
+            "firstTime" : 360e3
         },
         {
             "className" : "DeathStar",
@@ -102,8 +102,8 @@
             "mu" : 420e3,
             "std" : 0,
             "appearMode" : "fix",
-            "posX" : 200,
-            "posY" : 100,
+            "posX" : 150,
+            "posY" : -150,
             "firstTime" : 420e3
         }
     ]

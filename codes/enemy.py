@@ -392,14 +392,14 @@ class DeathStar(BaseEnemy):
         有两种爆能束可以发射，一种是普通的红色，另一种是能够摧毁行星的绿色
     """
 
-    srcImg = "img/BulletRainShooter.png"
-    scale = 5
+    srcImg = "img/DeathStar.png"
+    scale = 1
 
     def __init__(self, pos):
         hp = 2000
         atk = 30
         defen = 5
-        crashBox = [8, 2]
+        crashBox = [55, 55]
         velocity = [0, 0]
         BaseEnemy.__init__(self, hp, atk, defen, OneHpEnemy.srcImg, crashBox, velocity, OneHpEnemy.scale, pos=pos)
         self.crashBoxRescale()
