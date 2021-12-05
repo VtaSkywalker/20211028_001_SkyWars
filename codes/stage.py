@@ -53,7 +53,7 @@ class Stage:
         self.lastTimeStamp = 0 # 最近一次时间戳
 
         # BOSS名单
-        self.bossName = ["BulletRainShooter", "Sticker", "Tracker", "Windmiller", "TieVader", "StarDestroyer"]
+        self.bossName = ["BulletRainShooter", "Sticker", "Tracker", "Windmiller", "TieVader", "StarDestroyer", "DeathStar"]
 
         # 所有可能出现的道具（类名）及其权重
         self.itemDict = {"RecoverItem" : RecoverItem.appearPower, "AddHpLimitItem" : AddHpLimitItem.appearPower, "EnhanceFireItem" : EnhanceFireItem.appearPower, "EnhanceAtkItem" : EnhanceAtkItem.appearPower, "EnhanceDefenItem" : EnhanceDefenItem.appearPower, "BlasterItem" : BlasterItem.appearPower}
@@ -125,75 +125,107 @@ class Stage:
         """
         # 对于每个敌人
         for eachEnemy in self.enemyContainer:
-            # 如果间隔时间不够，则不发射子弹
-            if(self.timeStamp - eachEnemy.lastTimeFired < eachEnemy.fireInterv):
-                continue
-            # 对于每个炮口，生成子弹后，将其加入到子弹容器中
-            for eachFirePos in eachEnemy.firePos:
-                # 特殊情形：三线射手：
-                if(eachEnemy.__class__.__name__ == "TripleShooter"):
-                    for eachVelocity in [[0, 5], [-1, 5], [1, 5]]:
+            # 非最终BOSS情形
+            if(eachEnemy.__class__.__name__ != "DeathStar"):
+                # 如果间隔时间不够，则不发射子弹
+                if(self.timeStamp - eachEnemy.lastTimeFired < eachEnemy.fireInterv):
+                    continue
+                # 对于每个炮口，生成子弹后，将其加入到子弹容器中
+                for eachFirePos in eachEnemy.firePos:
+                    # 特殊情形：三线射手：
+                    if(eachEnemy.__class__.__name__ == "TripleShooter"):
+                        for eachVelocity in [[0, 5], [-1, 5], [1, 5]]:
+                            newBulletPos = [eachEnemy.pos[0]+eachFirePos[0],eachEnemy.pos[1]+eachFirePos[1]]
+                            newBullet = NormalEnemyBullet(newBulletPos, eachVelocity)
+                            newBullet.atk = eachEnemy.atk
+                            self.bulletContainer.append(newBullet)
+                    # 特殊情形：弹幕敌人：
+                    elif(eachEnemy.__class__.__name__ == "BulletRainShooter"):
+                        for eachVelocity in [[5, 0], [3.5355, 3.5355], [0, 5], [-3.5355, 3.5355], [-5, 0], [-3.5355, -3.5355], [0, -5], [3.5355, -3.5355]]:
+                            newBulletPos = [eachEnemy.pos[0]+eachFirePos[0],eachEnemy.pos[1]+eachFirePos[1]]
+                            newBullet = NormalEnemyBullet(newBulletPos, eachVelocity)
+                            newBullet.atk = eachEnemy.atk
+                            self.bulletContainer.append(newBullet)
+                    # 特殊情形：冲锋者：
+                    elif(eachEnemy.__class__.__name__ == "Sticker"):
+                        for eachVelocity in [[-0.67, 5], [-0.33, 5], [0, 5], [0.33, 5], [0.67, 5]]:
+                            newBulletPos = [eachEnemy.pos[0]+eachFirePos[0],eachEnemy.pos[1]+eachFirePos[1]]
+                            newBullet = NormalEnemyBullet(newBulletPos, eachVelocity)
+                            newBullet.atk = eachEnemy.atk
+                            self.bulletContainer.append(newBullet)
+                    # 特殊情形：跟踪者：
+                    elif(eachEnemy.__class__.__name__ == "Tracker"):
+                        dX = self.player.pos[0] - eachEnemy.pos[0]
+                        dY = self.player.pos[1] - eachEnemy.pos[1]
+                        L = (dX**2 + dY**2)**0.5
+                        bulletVelocity = [dX / L * 5, dY / L * 5]
                         newBulletPos = [eachEnemy.pos[0]+eachFirePos[0],eachEnemy.pos[1]+eachFirePos[1]]
-                        newBullet = NormalEnemyBullet(newBulletPos, eachVelocity)
+                        newBullet = NormalEnemyBullet(newBulletPos, bulletVelocity)
                         newBullet.atk = eachEnemy.atk
                         self.bulletContainer.append(newBullet)
-                # 特殊情形：弹幕敌人：
-                elif(eachEnemy.__class__.__name__ == "BulletRainShooter"):
-                    for eachVelocity in [[5, 0], [3.5355, 3.5355], [0, 5], [-3.5355, 3.5355], [-5, 0], [-3.5355, -3.5355], [0, -5], [3.5355, -3.5355]]:
+                    # 特殊情形：风车
+                    elif(eachEnemy.__class__.__name__ == "Windmiller"):
+                        for eachVelocity in eachEnemy.getBulletVelocity(self.timeStamp):
+                            newBulletPos = [eachEnemy.pos[0]+eachFirePos[0],eachEnemy.pos[1]+eachFirePos[1]]
+                            newBullet = NormalEnemyBullet(newBulletPos, eachVelocity)
+                            newBullet.atk = eachEnemy.atk
+                            self.bulletContainer.append(newBullet)
+                    # 特殊情形：爵爷
+                    elif(eachEnemy.__class__.__name__ == "TieVader"):
                         newBulletPos = [eachEnemy.pos[0]+eachFirePos[0],eachEnemy.pos[1]+eachFirePos[1]]
-                        newBullet = NormalEnemyBullet(newBulletPos, eachVelocity)
+                        newBullet = EnemyBlasterBullet(newBulletPos, [0, 5])
                         newBullet.atk = eachEnemy.atk
                         self.bulletContainer.append(newBullet)
-                # 特殊情形：冲锋者：
-                elif(eachEnemy.__class__.__name__ == "Sticker"):
-                    for eachVelocity in [[-0.67, 5], [-0.33, 5], [0, 5], [0.33, 5], [0.67, 5]]:
+                    # 特殊情形：歼星舰
+                    elif(eachEnemy.__class__.__name__ == "StarDestroyer"):
                         newBulletPos = [eachEnemy.pos[0]+eachFirePos[0],eachEnemy.pos[1]+eachFirePos[1]]
-                        newBullet = NormalEnemyBullet(newBulletPos, eachVelocity)
+                        newBullet = EnemyBlasterBullet(newBulletPos, [0, 7.5])
                         newBullet.atk = eachEnemy.atk
                         self.bulletContainer.append(newBullet)
-                # 特殊情形：跟踪者：
-                elif(eachEnemy.__class__.__name__ == "Tracker"):
-                    dX = self.player.pos[0] - eachEnemy.pos[0]
-                    dY = self.player.pos[1] - eachEnemy.pos[1]
-                    L = (dX**2 + dY**2)**0.5
-                    bulletVelocity = [dX / L * 5, dY / L * 5]
-                    newBulletPos = [eachEnemy.pos[0]+eachFirePos[0],eachEnemy.pos[1]+eachFirePos[1]]
-                    newBullet = NormalEnemyBullet(newBulletPos, bulletVelocity)
-                    newBullet.atk = eachEnemy.atk
-                    self.bulletContainer.append(newBullet)
-                # 特殊情形：风车
-                elif(eachEnemy.__class__.__name__ == "Windmiller"):
-                    for eachVelocity in eachEnemy.getBulletVelocity(self.timeStamp):
+                    # 特殊情形：钛战机
+                    elif(eachEnemy.__class__.__name__ == "Tie"):
                         newBulletPos = [eachEnemy.pos[0]+eachFirePos[0],eachEnemy.pos[1]+eachFirePos[1]]
-                        newBullet = NormalEnemyBullet(newBulletPos, eachVelocity)
+                        newBullet = EnemyBlasterBullet(newBulletPos, [0, 5])
                         newBullet.atk = eachEnemy.atk
                         self.bulletContainer.append(newBullet)
-                # 特殊情形：爵爷
-                elif(eachEnemy.__class__.__name__ == "TieVader"):
-                    newBulletPos = [eachEnemy.pos[0]+eachFirePos[0],eachEnemy.pos[1]+eachFirePos[1]]
-                    newBullet = EnemyBlasterBullet(newBulletPos, [0, 5])
-                    newBullet.atk = eachEnemy.atk
-                    self.bulletContainer.append(newBullet)
-                # 特殊情形：歼星舰
-                elif(eachEnemy.__class__.__name__ == "StarDestroyer"):
-                    newBulletPos = [eachEnemy.pos[0]+eachFirePos[0],eachEnemy.pos[1]+eachFirePos[1]]
-                    newBullet = EnemyBlasterBullet(newBulletPos, [0, 7.5])
-                    newBullet.atk = eachEnemy.atk
-                    self.bulletContainer.append(newBullet)
-                # 特殊情形：钛战机
-                elif(eachEnemy.__class__.__name__ == "Tie"):
-                    newBulletPos = [eachEnemy.pos[0]+eachFirePos[0],eachEnemy.pos[1]+eachFirePos[1]]
-                    newBullet = EnemyBlasterBullet(newBulletPos, [0, 5])
-                    newBullet.atk = eachEnemy.atk
-                    self.bulletContainer.append(newBullet)
-                # 普通情形
-                else:
-                    newBulletPos = [eachEnemy.pos[0]+eachFirePos[0],eachEnemy.pos[1]+eachFirePos[1]]
-                    newBullet = NormalEnemyBullet(newBulletPos, [0, 5])
-                    newBullet.atk = eachEnemy.atk
-                    self.bulletContainer.append(newBullet)
-            # 发射子弹后，更新敌人最近发射时间
-            eachEnemy.lastTimeFired = self.timeStamp
+                    # 普通情形
+                    else:
+                        newBulletPos = [eachEnemy.pos[0]+eachFirePos[0],eachEnemy.pos[1]+eachFirePos[1]]
+                        newBullet = NormalEnemyBullet(newBulletPos, [0, 5])
+                        newBullet.atk = eachEnemy.atk
+                        self.bulletContainer.append(newBullet)
+                # 发射子弹后，更新敌人最近发射时间
+                eachEnemy.lastTimeFired = self.timeStamp
+            # 最终BOSS单独考虑，因为有两种子弹
+            else:
+                # 普通爆能束
+                # 如果间隔时间不够，则不发射子弹
+                while True:
+                    if(self.timeStamp - eachEnemy.lastTimeFired_blaster < eachEnemy.fireInterv_blaster):
+                        break
+                    # 随机生成三个位置发射
+                    for eachFirePos in [[random.random() * 400 - 200, 40], [random.random() * 400 - 200, 40], [random.random() * 400 - 200, 40]]:
+                        newBulletPos = [eachEnemy.pos[0]+eachFirePos[0],eachEnemy.pos[1]+eachFirePos[1]]
+                        newBullet = EnemyBlasterBullet(newBulletPos, [0, 10])
+                        newBullet.atk = eachEnemy.atk
+                        self.bulletContainer.append(newBullet)
+                    # 发射子弹后，更新敌人最近发射时间
+                    eachEnemy.lastTimeFired_blaster = self.timeStamp
+                    break
+                # 光束
+                # 如果间隔时间不够，则不发射子弹
+                while True:
+                    if(self.timeStamp - eachEnemy.lastTimeFired_beam < eachEnemy.fireInterv_beam):
+                        break
+                    # 对于每个炮口，生成子弹后，将其加入到子弹容器中
+                    for eachFirePos in eachEnemy.firePos_beam:
+                        newBulletPos = [eachEnemy.pos[0]+eachFirePos[0],eachEnemy.pos[1]+eachFirePos[1]]
+                        newBullet = DeathStarBeamBullet(newBulletPos, [0, 5])
+                        newBullet.atk = eachEnemy.atk
+                        self.bulletContainer.append(newBullet)
+                    # 发射子弹后，更新敌人最近发射时间
+                    eachEnemy.lastTimeFired_beam = self.timeStamp
+                    break
 
     def updateFire(self):
         """
@@ -269,7 +301,7 @@ class Stage:
                                 elif(eachEnemy.__class__.__name__ == "TripleShooter"):
                                     prob = 0.12
                                 else:
-                                    prob = 1
+                                    prob = 0
                                 self.spawnItem(prob, np.array(eachEnemy.pos) + np.array([random.gauss(0, itemXStd), random.gauss(0, itemYStd)]))
                     # 命中后设置爆炸状态
                     eachBullet.isExplosion = True
@@ -360,6 +392,17 @@ class Stage:
                 if(((self.timeStamp - 1e3 / 60) / 1e3) % 3 > (self.timeStamp / 1e3) % 3):
                     newEnemy = Tie([eachEnemy.pos[0], eachEnemy.pos[1]])
                     self.enemyContainer.append(newEnemy)
+            # 特殊情形：最终BOSS
+            if(eachEnemy.__class__.__name__ == "DeathStar"):
+                # 炮弹位置切换
+                eachEnemy.modeSwitch(self.timeStamp)
+                # 放出敌人
+                enemyTable = ["OneHpEnemy", "DoubleWarrior", "TripleShooter", "Tie"]
+                if(((self.timeStamp - 1e3 / 60) / 1e3) % 3 > (self.timeStamp / 1e3) % 3):
+                    for i in range(3):
+                        enemyName = enemyTable[int(random.random() * len(enemyTable))]
+                        newEnemy = globals()[enemyName]([random.random() * 400, 0])
+                        self.enemyContainer.append(newEnemy)
 
     def isBulletCrashObj(self, obj, bulletPos) -> bool:
         """

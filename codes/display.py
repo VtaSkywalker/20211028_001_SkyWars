@@ -1,4 +1,4 @@
-from bullet import EnemyBlasterBullet, NormalEnemyBullet, PlayerBlasterBullet, PlayerBullet
+from bullet import DeathStarBeamBullet, EnemyBlasterBullet, NormalEnemyBullet, PlayerBlasterBullet, PlayerBullet
 from player import Player
 from stage import Stage
 import pygame
@@ -38,6 +38,7 @@ class Display:
         self.normalEnemyBulletImg, self.normalEnemyBulletImgRect = self.initImgSrc(NormalEnemyBullet.srcImg, scale=NormalEnemyBullet.scale) # 普通敌人子弹初始化
         self.enemyBlasterBulletImg, self.enemyBlasterBulletImgRect = self.initImgSrc(EnemyBlasterBullet.srcImg, scale=EnemyBlasterBullet.scale) # 敌人爆能束子弹初始化
         self.playerBlasterBulletImg, self.playerBlasterBulletImgRect = self.initImgSrc(PlayerBlasterBullet.srcImg, scale=PlayerBlasterBullet.scale) # 玩家爆能束子弹初始化
+        self.deathStarBeamBulletImg, self.deathStarBeamBulletImgRect = self.initImgSrc(DeathStarBeamBullet.srcImg, scale=DeathStarBeamBullet.scale) # 死星光束初始化
         OneHpEnemy.img, OneHpEnemy.imgRect = self.initImgSrc(OneHpEnemy.srcImg, scale=OneHpEnemy.scale) # 1血敌人初始化
         DoubleWarrior.img, DoubleWarrior.imgRect = self.initImgSrc(DoubleWarrior.srcImg, scale=DoubleWarrior.scale) # 双排敌人初始化
         TripleShooter.img, TripleShooter.imgRect = self.initImgSrc(TripleShooter.srcImg, scale=TripleShooter.scale) # 三线敌人初始化
@@ -48,6 +49,7 @@ class Display:
         TieVader.img, TieVader.imgRect = self.initImgSrc(TieVader.srcImg, scale=TieVader.scale) # 爵爷初始化
         StarDestroyer.img, StarDestroyer.imgRect = self.initImgSrc(StarDestroyer.srcImg, scale=StarDestroyer.scale) # 歼星舰初始化
         Tie.img, Tie.imgRect = self.initImgSrc(Tie.srcImg, scale=Tie.scale) # 钛战机初始化
+        DeathStar.img, DeathStar.imgRect = self.initImgSrc(DeathStar.srcImg, scale=DeathStar.scale) # 死星初始化
         # 进入主循环
         while(True):
             # 事件判定
@@ -142,6 +144,19 @@ class Display:
                 # 爆炸时，每帧都要单独考虑显示爆炸图像
                 else:
                     eachBulletImg, eachBulletImgRect = self.initImgSrc(eachBullet.srcImg, scale=EnemyBlasterBullet.scale)
+                    eachBulletImgRect.centerx = eachBullet.pos[0]
+                    eachBulletImgRect.centery = eachBullet.pos[1]
+            # 死星光束情形
+            elif(eachBullet.__class__.__name__ == "DeathStarBeamBullet"):
+                # 未爆炸时，显示正常图像
+                if(not eachBullet.isExplosion):
+                    eachBulletImg = self.deathStarBeamBulletImg
+                    eachBulletImgRect = eachBulletImg.get_rect()
+                    eachBulletImgRect.centerx = eachBullet.pos[0]
+                    eachBulletImgRect.centery = eachBullet.pos[1]
+                # 爆炸时，每帧都要单独考虑显示爆炸图像
+                else:
+                    eachBulletImg, eachBulletImgRect = self.initImgSrc(eachBullet.srcImg, scale=DeathStarBeamBullet.scale)
                     eachBulletImgRect.centerx = eachBullet.pos[0]
                     eachBulletImgRect.centery = eachBullet.pos[1]
             self.screen.blit(eachBulletImg, eachBulletImgRect)

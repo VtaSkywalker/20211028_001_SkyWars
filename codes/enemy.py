@@ -1,5 +1,6 @@
 import random
 import numpy as np
+from pygame.constants import SYSTEM_CURSOR_HAND
 
 class BaseEnemy:
 
@@ -384,3 +385,46 @@ class Tie(BaseEnemy):
         self.crashBoxRescale()
         self.firePos = [[0,35]] # 炮口位置
         self.fireInterv = 200 # 开火间隔
+
+class DeathStar(BaseEnemy):
+    """
+        死星，最终BOSS，爆能束的发射位置是随机的，并且可以随时放出各种类型的敌机，一次放出1——3架
+        有两种爆能束可以发射，一种是普通的红色，另一种是能够摧毁行星的绿色
+    """
+
+    srcImg = "img/BulletRainShooter.png"
+    scale = 5
+
+    def __init__(self, pos):
+        hp = 2000
+        atk = 30
+        defen = 5
+        crashBox = [8, 2]
+        velocity = [0, 0]
+        BaseEnemy.__init__(self, hp, atk, defen, OneHpEnemy.srcImg, crashBox, velocity, OneHpEnemy.scale, pos=pos)
+        self.crashBoxRescale()
+        self.firePos = [[0,40]] # 炮口位置
+        self.fireInterv_beam = 30
+        self.fireInterv_blaster = 500
+        self.lastTimeFired_beam = 0
+        self.lastTimeFired_blaster = 0
+        self.firePos_beam = [[0,40]]
+        self.firePos_blaster = [[-50,40], [50, 40], [100, 40]]
+        self.maxHp = 2000 # BOSS特有的血量上限
+
+    def modeSwitch(self, timeStamp):
+        """
+            子弹模式的切换
+
+            Parameters
+            ----------
+            timeStamp : float
+                时间戳
+        """
+        second = timeStamp / 1e3
+        # 10秒发射一次光束，一次持续2秒
+        if(0 < second % 10 <= 2):
+            self.fireInterv_beam = 30
+        elif(2 < second % 10 <= 2.1):
+            self.fireInterv_beam = 1e4
+            self.firePos_beam = [[random.random() * 400 - 200, 40]]
