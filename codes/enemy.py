@@ -404,7 +404,7 @@ class DeathStar(BaseEnemy):
         BaseEnemy.__init__(self, hp, atk, defen, OneHpEnemy.srcImg, crashBox, velocity, OneHpEnemy.scale, pos=pos)
         self.crashBoxRescale()
         self.firePos = [[0,40]] # 炮口位置
-        self.fireInterv_beam = 30
+        self.fireInterv_beam = 20
         self.fireInterv_blaster = 500
         self.lastTimeFired_beam = 0
         self.lastTimeFired_blaster = 0

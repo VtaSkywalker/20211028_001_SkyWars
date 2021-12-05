@@ -204,7 +204,7 @@ class Stage:
                     if(self.timeStamp - eachEnemy.lastTimeFired_blaster < eachEnemy.fireInterv_blaster):
                         break
                     # 随机生成三个位置发射
-                    for eachFirePos in [[random.random() * 400, 40], [random.random() * 400, 40], [random.random() * 400, 40]]:
+                    for eachFirePos in [[random.random() * 400, 0], [random.random() * 400, 0], [random.random() * 400, 0]]:
                         newBulletPos = [eachFirePos[0],eachFirePos[1]]
                         newBullet = EnemyBlasterBullet(newBulletPos, [0, 10])
                         newBullet.atk = eachEnemy.atk
@@ -220,7 +220,7 @@ class Stage:
                     # 对于每个炮口，生成子弹后，将其加入到子弹容器中
                     for eachFirePos in eachEnemy.firePos_beam:
                         newBulletPos = [293, 87]
-                        newBullet = DeathStarBeamBullet(newBulletPos, [0, 5])
+                        newBullet = DeathStarBeamBullet(newBulletPos, [0, 10])
                         newBullet.atk = eachEnemy.atk
                         self.bulletContainer.append(newBullet)
                     # 发射子弹后，更新敌人最近发射时间
