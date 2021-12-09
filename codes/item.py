@@ -66,7 +66,7 @@ class AddHpLimitItem(BaseItem):
     def __init__(self, pos) -> None:
         BaseItem.__init__(self, pos)
         self.itemName = "AddHpLimitItem"
-        self.addHpLimit = 0.22
+        self.addHpLimit = 0.15
         self.velocity = [0, 4.5]
 
 class EnhanceFireItem(BaseItem):
@@ -85,7 +85,7 @@ class EnhanceFireItem(BaseItem):
     def __init__(self, pos) -> None:
         BaseItem.__init__(self, pos)
         self.itemName = "EnhanceFireItem"
-        self.addFireFreq = 1
+        self.addFireFreq = 0.33
         self.velocity = [0, 4.5]
 
 class EnhanceAtkItem(BaseItem):

@@ -291,7 +291,10 @@ class Stage:
                             if(eachEnemy.__class__.__name__ in self.bossName):
                                 self.timeStamp = self.bossTS
                                 self.player.lastTimeFired = self.bossTS
-                                self.level += 1
+                                if(eachEnemy.__class__.__name__ == "DeathStar"):
+                                    self.level += 3
+                                else:
+                                    self.level += 1
                             # 敌人死亡时，道具掉落
                             itemXStd = 17
                             itemYStd = 10
